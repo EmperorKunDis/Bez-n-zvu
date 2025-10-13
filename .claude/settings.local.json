@@ -23,7 +23,11 @@
       "Bash(chmod:*)",
       "Bash(git add:*)",
       "Bash(git reset:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(./build-all.sh:*)",
+      "Bash(for dir in pavel_jaros_rekonstrukce pavel_jaros_reality pavel_jaros_sprava)",
+      "Bash(do)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
