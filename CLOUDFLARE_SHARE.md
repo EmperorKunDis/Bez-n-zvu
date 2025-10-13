@@ -4,9 +4,10 @@ Tento návod vám ukáže, jak sdílet všechny 4 weby přímo z vašeho lokáln
 
 ## Výhody
 - Zcela zdarma
-- Žádná registrace na GitHubu
+- Žádná registrace potřebná
 - Bezpečné HTTPS spojení
 - Sdílení během pár sekund
+- Plně funkční weby s API routes
 
 ## Nevýhody
 - Váš počítač musí běžet, aby byly weby dostupné
@@ -15,8 +16,8 @@ Tento návod vám ukáže, jak sdílet všechny 4 weby přímo z vašeho lokáln
 
 ## Jak to funguje
 
-1. Buildne všechny 4 weby do adresáře `dist/`
-2. Spustí lokální web server na portu 8080
+1. Spustí všechny 4 weby na dev serverech (porty 3001-3004)
+2. Spustí reverse proxy server na portu 8000
 3. Vytvoří Cloudflare Tunnel, který zpřístupní server na veřejné URL
 
 ## Použití
@@ -24,12 +25,12 @@ Tento návod vám ukáže, jak sdílet všechny 4 weby přímo z vašeho lokáln
 ### Jednoduchý způsob (vše najednou):
 
 ```bash
-./cloudflare-share.sh
+./cloudflare-full.sh
 ```
 
 Tento script:
-1. Buildne všechny weby
-2. Spustí lokální server
+1. Spustí všechny 4 development servery
+2. Spustí reverse proxy server
 3. Vytvoří Cloudflare Tunnel
 4. Zobrazí veřejnou URL, na které jsou weby dostupné
 
@@ -38,11 +39,26 @@ Tento script:
 Pokud například Cloudflare vygeneruje URL: `https://example-abc123.trycloudflare.com`
 
 Pak budete mít:
-- **Hlavní stránka**: `https://example-abc123.trycloudflare.com/`
+- **Hlavní stránka**: `https://example-abc123.trycloudflare.com/` (výběr webů)
 - **Design**: `https://example-abc123.trycloudflare.com/design`
 - **Rekonstrukce**: `https://example-abc123.trycloudflare.com/rekonstrukce`
 - **Reality**: `https://example-abc123.trycloudflare.com/reality`
 - **Správa**: `https://example-abc123.trycloudflare.com/sprava`
+
+### Lokální přístup:
+
+Můžete také přistupovat k webům lokálně:
+- http://localhost:8000 (hlavní stránka s odkazy)
+- http://localhost:8000/design
+- http://localhost:8000/rekonstrukce
+- http://localhost:8000/reality
+- http://localhost:8000/sprava
+
+Nebo přímo k jednotlivým serverům:
+- http://localhost:3001 (design)
+- http://localhost:3002 (rekonstrukce)
+- http://localhost:3003 (reality)
+- http://localhost:3004 (správa)
 
 ### Ukončení:
 
