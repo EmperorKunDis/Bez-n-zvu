@@ -1,0 +1,180 @@
+{
+  "cookie": {
+    "message": "Tento web používá cookies pro zlepšení uživatelské zkušenosti. Používáním tohoto webu souhlasíte s našimi zásadami cookies.",
+    "accept": "Přijmout vše",
+    "reject": "Odmítnout vše",
+    "preferences": "Zobrazit předvolby"
+  },
+  "nav": {
+    "home": "Domů",
+    "services": "Služby",
+    "portfolio": "Portfolio",
+    "discoverStyle": "Objevte svůj styl",
+    "about": "O mně",
+    "contact": "Kontakt",
+    "cta": "Domluvit si konzultaci"
+  },
+  "hero": {
+    "title": "Vytváříme interiéry s duší a příběhem.",
+    "subtitle": "Od prvního nápadu po poslední polštář. Navrhuji funkční a krásné prostory, které jsou dokonalým odrazem vaší osobnosti.",
+    "ctaPrimary": "Prohlédnout portfolio",
+    "ctaSecondary": "Domluvit si konzultaci"
+  },
+  "portfolio": {
+    "title": "Prostory, které vyprávějí příběh",
+    "viewAll": "Zobrazit všechny projekty",
+    "project1": {
+      "name": "Harmonie dřeva a betonu",
+      "location": "Cheb"
+    },
+    "project2": {
+      "name": "Prvorepubliková elegance",
+      "location": "Karlovy Vary"
+    },
+    "project3": {
+      "name": "Skandinávská čistota v rodinném domě",
+      "location": "Sokolov"
+    }
+  },
+  "services": {
+    "title": "Cesta za vaším vysněným domovem",
+    "design": {
+      "title": "Návrh interiéru",
+      "text": "Vytvořím kompletní designový koncept vašeho prostoru, včetně realistických 3D vizualizací, aby byl nejen krásný, ale i dokonale funkční."
+    },
+    "turnkey": {
+      "title": "Realizace na klíč",
+      "text": "Převezmu za vás veškeré starosti. Od stavebních úprav ve spolupráci s PJ-Rekonstrukce až po dodání nábytku a finálních dekorací."
+    },
+    "consultation": {
+      "title": "Osobní konzultace",
+      "text": "Potřebujete jen poradit s barvami, dispozicí nebo výběrem doplňků? Jsem tu pro vás, abych vás nasměroval správným směrem."
+    }
+  },
+  "philosophy": {
+    "title": "Design, který vám rozumí",
+    "text": "Věřím, že dobrý design je dokonalým spojením estetiky, funkčnosti a především osobnosti klienta. Nejsem tu proto, abych vám vnucoval svůj styl, ale abych naslouchal vašim potřebám a přáním. Společně vytvoříme prostor, který bude jedinečný – stejně jako vy."
+  },
+  "process": {
+    "title": "Společně krok za krokem",
+    "step1": {
+      "title": "Úvodní schůzka a analýza potřeb",
+      "text": "Poznáme se, probereme vaše sny, životní styl a rozpočet."
+    },
+    "step2": {
+      "title": "Tvorba konceptu a dispozičního řešení",
+      "text": "Připravím náladovou nástěnku (moodboard) a několik variant uspořádání prostoru."
+    },
+    "step3": {
+      "title": "3D vizualizace a výběr materiálů",
+      "text": "Váš budoucí interiér uvidíte v realistické podobě a společně vybereme konkrétní materiály, barvy a zařizovací předměty."
+    },
+    "step4": {
+      "title": "Technická dokumentace",
+      "text": "Vypracuji detailní plány pro řemeslníky, aby realizace proběhla hladce a přesně."
+    },
+    "step5": {
+      "title": "Autorský dozor nebo kompletní realizace",
+      "text": "Dohlédnu na průběh prací nebo vše zařídím kompletně na klíč."
+    }
+  },
+  "discoverStyle": {
+    "title": "Najděte inspiraci pro svůj domov",
+    "subtitle": "Každý styl má své jedinečné kouzlo. Najeďte myší (nebo klikněte na mobilu) na jednotlivé názvy a sledujte, jak se prázdný prostor okamžitě promění.",
+    "cta": {
+      "title": "Našli jste styl, který rezonuje s vaší duší?",
+      "text": "Pojďme ho společně přizpůsobit přesně pro vás a váš domov.",
+      "button": "Domluvit si konzultaci"
+    },
+    "styles": {
+      "rustic": {
+        "name": "Rustikální",
+        "description": "Masivní dřevo, přírodní kámen a útulná atmosféra venkovského sídla."
+      },
+      "artdeco": {
+        "name": "Art Deco",
+        "description": "Elegance, geometrické tvary, lesklé kovy a luxusní samet."
+      },
+      "boho": {
+        "name": "Boho",
+        "description": "Nespoutanost, přírodní materiály, etnické vzory a spousta rostlin."
+      },
+      "glamour": {
+        "name": "Glamour",
+        "description": "Lesk, luxusní materiály, zrcadlové povrchy a dramatické prvky."
+      },
+      "industrial": {
+        "name": "Industriální",
+        "description": "Přiznané cihly, beton, kov a syrová krása továrních hal."
+      },
+      "minimalism": {
+        "name": "Minimalismus",
+        "description": "\"Méně je více.\" Čisté linie, neutrální barvy a funkčnost bez zbytečností."
+      },
+      "provencal": {
+        "name": "Provensálský",
+        "description": "Vůně levandule, patina starého dřeva a romantika francouzského venkova."
+      },
+      "scandinavian": {
+        "name": "Skandinávský",
+        "description": "Světlé dřevo, jednoduchost, funkčnost a severský koncept pohody \"hygge\"."
+      },
+      "country": {
+        "name": "Venkovský",
+        "description": "Tradiční vzory, pohodlí, teplo domova a poctivé materiály."
+      },
+      "vintage": {
+        "name": "Vintage",
+        "description": "Nostalgie, kousky s příběhem a elegance starých časů v moderním pojetí."
+      }
+    }
+  },
+  "contact": {
+    "title": "Pojďme společně vytvořit váš vysněný prostor",
+    "subtitle": "Napište nám o svém projektu. Ozveme se vám do 48 hodin a domluvíme si první kroky.",
+    "phone": "+420 777 558 730",
+    "email": "pavel.jaros@kwcz.cz",
+    "address": "Karlovarský kraj",
+    "ico": "IČO: [Doplnit IČO]",
+    "form": {
+      "name": "Jméno a Příjmení*",
+      "email": "E-mail*",
+      "phone": "Telefonní číslo*",
+      "service": "O jakou službu máte zájem?",
+      "serviceOnline": "Online konzultace (120 min)",
+      "serviceDesign": "Návrh interiéru",
+      "serviceTurnkey": "Realizace na klíč",
+      "propertyType": "Typ nemovitosti (Byt, Dům, Kancelář...)",
+      "budget": "Předpokládaný rozpočet (orientačně)",
+      "message": "Vaše zpráva a přání*",
+      "gdpr": "Souhlasím se zpracováním osobních údajů.*",
+      "submit": "Odeslat poptávku",
+      "sending": "Odesílání...",
+      "success": "Děkujeme za vaši zprávu! Ozveme se vám co nejdříve.",
+      "error": "Nastala chyba při odesílání formuláře. Zkuste to prosím znovu."
+    }
+  },
+  "footer": {
+    "contact": {
+      "title": "Spojte se se mnou",
+      "name": "Pavel Jaroš, Interiérový designér",
+      "phone": "+420 777 558 730",
+      "email": "pavel.jaros@kwcz.cz",
+      "ico": "IČO: [Doplnit IČO]",
+      "address": "[Adresa ateliéru/kanceláře]"
+    },
+    "services": {
+      "title": "Komplexní služby pro váš domov",
+      "reconstruction": "PJ-Rekonstrukce",
+      "management": "PJ-Správa",
+      "reality": "PJ-Reality"
+    },
+    "social": {
+      "title": "Sledujte mě",
+      "instagram": "Instagram (denní inspirace)",
+      "pinterest": "Pinterest (trendy a nástěnky)"
+    },
+    "copyright": "© 2025 PJ-Design. Tvoříme interiéry s duší.",
+    "privacy": "Zásady ochrany osobních údajů"
+  }
+}

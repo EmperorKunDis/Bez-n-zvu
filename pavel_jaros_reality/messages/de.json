@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "properties": "Immobilien",
+    "services": "Dienstleistungen",
+    "references": "Referenzen",
+    "about": "Über mich",
+    "contact": "Kontakt",
+    "contactMe": "KONTAKTIEREN SIE MICH"
+  },
+  "cookie": {
+    "message": "Um die bestmöglichen Dienste bereitzustellen, verwenden wir Technologien wie Cookies zum Speichern und/oder Zugreifen auf Geräteinformationen.",
+    "reject": "Ablehnen",
+    "accept": "Akzeptieren",
+    "preferences": "Einstellungen anzeigen"
+  },
+  "hero": {
+    "title": "Maximieren Sie den Gewinn aus Ihrer Immobilie",
+    "cta": "MEINE ANGEBOTENEN DIENSTLEISTUNGEN"
+  },
+  "properties": {
+    "viewProperty": "IMMOBILIE ANSEHEN",
+    "moreProperties": "MEHR IMMOBILIEN"
+  },
+  "services": {
+    "title": "DIENSTLEISTUNGEN",
+    "bookMeeting": "TERMIN VEREINBAREN",
+    "sale": {
+      "title": "VERKAUF",
+      "description": "Mein Ziel ist es, Ihre Immobilie zum höchstmöglichen Preis auf dem Markt zu verkaufen und sicherzustellen, dass der gesamte Prozess reibungslos und effizient abläuft."
+    },
+    "rent": {
+      "title": "VERMIETUNG",
+      "description": "Ich strebe immer danach, den höchstmöglichen Mietpreis zu erzielen und gleichzeitig zahlungskräftige Mieter zu finden, die an einer langfristigen Miete interessiert sind."
+    },
+    "marketing": {
+      "title": "MARKETING & STRATEGIE",
+      "description": "Marketing und Werbung sind ein wesentlicher Bestandteil meiner Arbeit. Ich lege Wert auf die Wahl der richtigen Strategie mit maximalem Engagement."
+    },
+    "presentation": {
+      "title": "IMMOBILIENPRÄSENTATION",
+      "description": "Bei der Präsentation einer Immobilie lege ich immer Wert auf Details unter Verwendung der neuesten Technologien, einschließlich hochwertiger Fotografie und 3D-Visualisierungen."
+    },
+    "reconstruction": {
+      "title": "IMMOBILIENREKONSTRUKTION",
+      "description": "Dank der Erfahrung aus mehreren vollständigen Rekonstruktionen kann ich geeignete Lösungen empfehlen und bei Bedarf Fachleute organisieren."
+    },
+    "valuation": {
+      "title": "IMMOBILIENBEWERTUNG",
+      "description": "Für die Immobilienbewertung verwende ich bewährte Werkzeuge wie Preiskarten zusammen mit dem Grundbuch."
+    },
+    "activities": {
+      "subtitle": "WOBEI ICH MEINEN KUNDEN AM HÄUFIGSTEN HELFE",
+      "title": "MEINE ARBEIT UMFASST FOLGENDE TÄTIGKEITEN",
+      "list": {
+        "communication": "Geschäftskommunikation mit Interessenten",
+        "targeting": "Identifizierung und Spezifikation der Zielgruppe",
+        "negotiation": "Verhandlung der besten Verkaufsbedingungen",
+        "documentation": "Dokumentationsvorbereitung",
+        "supervision": "Überwachung des Geschäftsfalls von Anfang bis Ende",
+        "strategy": "Festlegung der Marketingstrategie und Förderung",
+        "socialMedia": "Bezahlte Werbung in sozialen Medien",
+        "materials": "Vorbereitung und Erstellung von Werbematerialien",
+        "flyers": "Flyer-Verteilung",
+        "print": "Platzierung von Anzeigen in Printmedien",
+        "portals": "Veröffentlichung von Inseraten auf allen Immobilienportalen",
+        "websites": "Erstellung von Websites für Immobilien"
+      }
+    }
+  },
+  "about": {
+    "subtitle": "ÜBER MICH",
+    "title": "PAVEL JAROŠ",
+    "intro": "Ich heiße Pavel Jaroš und bin ein Immobilienmakler, der ständig nach beruflichem Wachstum und Verbesserung in diesem Bereich strebt.",
+    "origin": "Ich komme aus Cheb und bin seit vier Jahren als Investor im Immobilienbereich tätig (Kauf - Rekonstruktion - Verkauf). Ich beschäftige mich mit dem sehr beliebten sogenannten Immobilien-Flipping.",
+    "motivation": "Da ich mich in diesem Bereich verbessern möchte, habe ich mich für den Weg eines Immobilienmaklers entschieden. Diese Arbeit macht mir vor allem wegen ihrer Vielfalt Spaß. Ich beschäftige mich nicht nur mit Geschäften, sondern auch mit rechtlichen Fragen und dem Bau selbst. Jeder Tag ist anders, was mich erfüllt.",
+    "passion": "Ich finde gerne geeignete Lösungen, kommuniziere, verbinde Lieferanten, Investoren und alles andere, was mit Immobilien zu tun hat. Ich treffe gerne neue Menschen und löse Fälle, die andere nicht bewältigen können. Kundenzufriedenheit ist für mich die höchste Belohnung.",
+    "values": "Ich zeichne mich durch Empathie aus und verstehe vollkommen, dass jeder Kunde einen individuellen und flexiblen Ansatz erfordert. Ich lege Wert auf einen guten Ruf und Namen.",
+    "hobby": "In meiner Freizeit treibe ich gerne Sport, ich kann mir einen gut verbrachten Tag ohne Fitnessstudio nicht mehr vorstellen. Als richtiger Enthusiast liebe ich auch Adrenalin - Fallschirmsprünge und alle Adrenalin-Attraktionen, ich gehe voll rein. Das Leben muss gelebt werden.",
+    "location": {
+      "title": "STANDORT",
+      "text": "Ich bin hauptsächlich in Prag, in der mittelböhmischen und westböhmischen Region tätig, bin aber offen für eine Zusammenarbeit in der gesamten Tschechischen Republik."
+    },
+    "experience": {
+      "title": "WIE LANGE?",
+      "text1": "Als Immobilieninvestor habe ich vier Jahre erfolgreicher Projekte hinter mir, darunter mehrere erfolgreiche Immobilien-Flips.",
+      "text2": "Bis vor kurzem habe ich komplette Wohnungsrenovierungen in ihrem ursprünglichen Zustand selbst organisiert, jetzt habe ich eine kleine Baufirma und es ist daher kein Problem für mich, einem Kunden bei allem zu helfen und die Immobilie so zu modifizieren, dass das Ergebnis ein einfacher Verkauf und höherer Gewinn ist."
+    },
+    "commission": {
+      "title": "PROVISION",
+      "text": "Beim Verkauf einer Immobilie wird die als Provision bekannte Gebühr vom Verkäufer bezahlt. Letztendlich ist dies logisch, weil der Verkäufer derjenige ist, der den Makler auswählt und dessen Interessen der Makler verteidigt. Die Provisionshöhe ist nicht festgelegt und kann je nach einer Reihe von Faktoren wie Verkaufsstrategie, Marketingbudget, Standort und Immobilienpreis variieren. In der Regel liegt die Provision jedoch zwischen 3 - 5% des Kaufpreises der Immobilie."
+    },
+    "why": {
+      "title": "WARUM MIT MIR ARBEITEN?",
+      "individual": "Individueller kundenorientierter Ansatz",
+      "professional": "Professionelle Immobilienpräsentation",
+      "efficiency": "Effizienz",
+      "experience": "Langjährige Erfahrung im Immobilienbereich",
+      "flexibility": "Flexibilität"
+    }
+  },
+  "references": {
+    "subtitle": "WAS MEINE KUNDEN ÜBER MICH SAGEN",
+    "title": "REFERENZEN",
+    "client1": {
+      "name": "Daniela Baudýsová",
+      "text": "Vielen Dank für den schnellen und problemlosen Verkauf des Ferienhauses. Herr Jaroš ist hilfsbereit, entgegenkommend und sehr professionell. Er versteht seine Arbeit. Wir empfehlen ihn auf jeden Fall weiter."
+    },
+    "client2": {
+      "name": "David",
+      "text": "Herr Jaroš war großartig - professionell, schnell und immer verfügbar. Manchmal hatte ich das Gefühl, dass er bei Bedarf seine eigene Großmutter verkaufen würde - und trotzdem einen besseren Preis aushandeln würde. Danke für den problemlosen Verkauf und die menschliche Herangehensweise."
+    },
+    "client3": {
+      "name": "Josef Neumann",
+      "text": "Proaktiver Ansatz und perfekte Kommunikation. Maximale Zufriedenheit!"
+    }
+  },
+  "contact": {
+    "subtitle": "IN KONTAKT BLEIBEN",
+    "title": "KONTAKT",
+    "address": {
+      "title": "ADRESSE",
+      "text": "Kaprova 52/6, Prag 1"
+    },
+    "phone": {
+      "title": "TELEFON",
+      "text": "+420 777 558 730"
+    },
+    "email": {
+      "title": "E-MAIL",
+      "text": "pavel.jaros@kwcz.cz"
+    },
+    "form": {
+      "name": "Name und Nachname",
+      "email": "E-Mail",
+      "phone": "Telefonnummer",
+      "message": "Ihre Nachricht",
+      "weekend": "Können wir Sie am Wochenende kontaktieren?",
+      "gdpr": "Stimmen Sie der Verarbeitung personenbezogener Daten gemäß Gesetz Nr. 101/2000 Slg. über den Schutz personenbezogener Daten zu",
+      "submit": "SENDEN"
+    }
+  },
+  "footer": {
+    "gdpr": "Durch das Durchsuchen der Website stimmen Sie der Verarbeitung personenbezogener Daten und Cookies zu.",
+    "business": "Einzelunternehmer, der auf der Grundlage einer Gewerbeerlaubnis tätig ist, ID: 10846671, bevollmächtigt, im Namen von Keller Williams Metropolitan zu handeln, einer Niederlassung der MC Metropolitan s.r.o., ID: 07796340.",
+    "ethics": "Ethikkodex",
+    "consumer": "Verbraucherinformation",
+    "whistleblow": "Internes Meldesystem"
+  }
+}

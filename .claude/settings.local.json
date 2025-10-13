@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/martinsvanda/Prace/PavelJaros/Web/ClaudeReality/Bez názvu/pavel_jaros_reality/src/app/**)",
+      "Read(//Users/martinsvanda/Prace/PavelJaros/Web/ClaudeReality/Bez názvu/pavel_jaros_reality/**)",
+      "Read(//Users/martinsvanda/Prace/PavelJaros/Web/ClaudeReality/**)",
+      "Bash(tree:*)",
+      "Bash(bun run:*)",
+      "Bash(bun install:*)",
+      "Bash(bun add:*)",
+      "Bash(wc:*)",
+      "Bash(bun test:*)",
+      "Bash(bunx jest:*)",
+      "Bash(bunx prisma:*)",
+      "Bash(rsync:*)",
+      "Bash(PORT=3001 bun run:*)",
+      "Bash(PORT=3002 bun run:*)",
+      "Bash(PORT=3003 bun run:*)",
+      "Bash(PORT=3004 bun run:*)",
+      "Bash(cd:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

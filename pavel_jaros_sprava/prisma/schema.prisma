@@ -1,0 +1,53 @@
+// Prisma schema for Property Management System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../data/properties.db"
+}
+
+model Property {
+  id           String   @id @default(uuid())
+  folderId     String   @unique // Název složky (unikátní identifikátor)
+  status       Status   // PRODEJ, PRONAJEM, HOTOVO
+
+  // Základní informace
+  title        String   // "U Přehrady, Cheb"
+  subtitle     String   // "Prodej rodinného domu 520 m²"
+  address      String   // "U Přehrady, Cheb"
+  price        String?  // "3 500 000 Kč" nebo null
+
+  // Popis
+  description  String   // Celý popisný text
+
+  // Parametry
+  disposition  String?  // "5+1"
+  area         Int?     // 520 (m²)
+  floors       Int?     // 2 (počet podlaží)
+
+  // Detaily (JSON tabulka z data.md)
+  details      String   // JSON string
+
+  // Media
+  mainImage    String   // "img00.jpg"
+  images       String   // JSON array ["img01.jpg", "img02.jpg", ...]
+  youtubeUrl   String?  // "https://youtu.be/..."
+  googleMapUrl String?  // Google Maps iframe embed
+
+  // Metadata
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status])
+  @@index([folderId])
+  @@index([createdAt])
+}
+
+enum Status {
+  PRODEJ
+  PRONAJEM
+  HOTOVO
+}

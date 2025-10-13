@@ -1,0 +1,167 @@
+{
+  "cookie": {
+    "message": "Tento web používá cookies pro zlepšení uživatelské zkušenosti. Používáním tohoto webu souhlasíte s našimi zásadami cookies.",
+    "accept": "Přijmout vše",
+    "reject": "Odmítnout vše",
+    "preferences": "Zobrazit předvolby"
+  },
+  "nav": {
+    "home": "Domů",
+    "services": "Služby",
+    "projects": "Realizace",
+    "about": "O nás",
+    "contact": "Kontakt",
+    "cta": "Nezávazná poptávka"
+  },
+  "hero": {
+    "title": "Proměníme vaše sny v realitu.",
+    "subtitle": "Provádíme kompletní rekonstrukce bytů a domů v Karlovarském kraji. Od prvotního návrhu až po finální úklid – spolehlivě, kvalitně a v termínu.",
+    "ctaPrimary": "Spočítat cenu rekonstrukce",
+    "ctaSecondary": "Prohlédnout realizace"
+  },
+  "services": {
+    "title": "Od dílčích úprav po kompletní proměnu",
+    "cores": {
+      "title": "Rekonstrukce bytových jader",
+      "text": "Modernizujeme a přestavujeme umakartová i zděná jádra. Zvyšte komfort a hodnotu svého bytu."
+    },
+    "apartments": {
+      "title": "Kompletní rekonstrukce bytů",
+      "text": "Zajistíme vše od bouracích prací přes nové rozvody až po finální povrchy a montáž kuchyně."
+    },
+    "houses": {
+      "title": "Rekonstrukce rodinných domů",
+      "text": "Realizujeme vnitřní i vnější rekonstrukce domů, včetně zateplení, fasád a úprav dispozic."
+    },
+    "crafts": {
+      "title": "Řemeslné práce",
+      "text": "Nabízíme i samostatné zednické, obkladačské, podlahářské, instalatérské a elektrikářské práce."
+    }
+  },
+  "why": {
+    "title": "Vaše rekonstrukce bez stresu a kompromisů",
+    "one": {
+      "title": "Jedna firma, všechny práce",
+      "text": "Nemusíte shánět a koordinovat různá řemesla. Postaráme se o kompletní projektový management a ušetříme vám čas i starosti."
+    },
+    "two": {
+      "title": "Dodržujeme termíny a rozpočty",
+      "text": "Na začátku stanovíme pevný rozpočet a harmonogram prací, který je pro nás závazný. S námi vás nečekají žádná nepříjemná překvapení."
+    },
+    "three": {
+      "title": "Důraz na kvalitu a detail",
+      "text": "Používáme certifikované materiály a ověřené postupy. Zakládáme si na precizním provedení každého detailu, protože na něm záleží."
+    },
+    "four": {
+      "title": "Osobní přístup a poradenství",
+      "text": "Jsme vaším partnerem po celou dobu projektu. Nasloucháme vašim přáním a rádi vám odborně poradíme s výběrem materiálů i s technickým řešením."
+    }
+  },
+  "projects": {
+    "title": "Podívejte se, jak pracujeme",
+    "subtitle": "Naše práce mluví za nás",
+    "project1": {
+      "name": "Proměna bytu 3+1",
+      "location": "Karlovy Vary"
+    },
+    "project2": {
+      "name": "Nová koupelna a jádro",
+      "location": "Cheb"
+    },
+    "project3": {
+      "name": "Rekonstrukce přízemí rodinného domu",
+      "location": "Sokolov"
+    },
+    "viewAll": "Zobrazit všechny projekty",
+    "before": "PŘED",
+    "after": "PO"
+  },
+  "process": {
+    "title": "Vaše cesta k novému bydlení v 5 krocích",
+    "step1": {
+      "title": "Kontakt a úvodní konzultace",
+      "text": "Zavoláte nám nebo napíšete. Probereme vaše představy a domluvíme si osobní schůzku na místě realizace. Vše zdarma."
+    },
+    "step2": {
+      "title": "Zaměření a cenová nabídka",
+      "text": "Provedeme přesné zaměření, prodiskutujeme materiály a do týdne vám připravíme detailní a transparentní cenovou nabídku."
+    },
+    "step3": {
+      "title": "Smlouva a harmonogram",
+      "text": "Po odsouhlasení nabídky podepíšeme smlouvu o dílo, která obsahuje pevný rozpočet, rozsah prací a závazný harmonogram."
+    },
+    "step4": {
+      "title": "Realizace rekonstrukce",
+      "text": "Náš tým se pustí do práce. V průběhu stavby s vámi pravidelně komunikujeme a provádíme kontrolní dny."
+    },
+    "step5": {
+      "title": "Předání a záruka",
+      "text": "Po dokončení prací a finálním úklidu vám dílo protokolárně předáme. Na naši práci samozřejmě poskytujeme plnou záruku."
+    }
+  },
+  "references": {
+    "title": "Stovky spokojených zákazníků v regionu",
+    "client1": {
+      "name": "Rodina Nováková",
+      "location": "Mariánské Lázně",
+      "text": "Firma PJ-Rekonstrukce nám kompletně předělávala byt. Oceňuji skvělou komunikaci pana Jaroše a dodržení ceny i termínu. Vše proběhlo naprosto hladce."
+    },
+    "client2": {
+      "name": "Petr S.",
+      "location": "Cheb",
+      "text": "Potřeboval jsem rychle zrekonstruovat byt po nájemnících před dalším pronájmem. Vše zvládli v rekordním čase a ve skvělé kvalitě. Mohu jen doporučit."
+    }
+  },
+  "contact": {
+    "title": "Napište si o nezávaznou cenovou nabídku",
+    "subtitle": "Máte projekt, se kterým vám můžeme pomoci? Vyplňte formulář níže nebo nám zavolejte. Ozveme se vám do 48 hodin a domluvíme si první kroky.",
+    "phone": "+420 777 558 730",
+    "email": "pavel.jaros@kwcz.cz",
+    "address": "Karlovarský kraj",
+    "hours": "Po - Pá: 8:00 - 16:00",
+    "ico": "IČO: [Doplnit IČO]",
+    "form": {
+      "name": "Vaše jméno a příjmení*",
+      "email": "Váš e-mail*",
+      "phone": "Váš telefon*",
+      "service": "O jakou službu máte zájem?",
+      "serviceOptions": {
+        "apartment": "Kompletní rekonstrukce bytu",
+        "core": "Rekonstrukce jádra",
+        "house": "Rekonstrukce domu",
+        "other": "Jiné..."
+      },
+      "message": "Stručně popište vaši představu*",
+      "files": "Přiložit soubory (půdorys, fotografie - nepovinné)",
+      "gdpr": "Souhlasím se zpracováním osobních údajů.*",
+      "submit": "Odeslat poptávku",
+      "sending": "Odesílání...",
+      "success": "Děkujeme za vaši zprávu! Ozveme se vám co nejdříve.",
+      "error": "Nastala chyba při odesílání formuláře. Zkuste to prosím znovu."
+    }
+  },
+  "footer": {
+    "contact": {
+      "title": "Kontakt",
+      "name": "Pavel Jaroš",
+      "phone": "+420 777 558 730",
+      "email": "pavel.jaros@kwcz.cz",
+      "ico": "IČO: [Doplnit IČO]",
+      "address": "[Doplnit adresu sídla]"
+    },
+    "services": {
+      "title": "Naše další služby",
+      "reality": "PJ-Reality",
+      "management": "PJ-Správa",
+      "design": "PJ-Design"
+    },
+    "info": {
+      "title": "Navigace",
+      "services": "Naše služby",
+      "projects": "Ukázky naší práce",
+      "process": "Jak probíhá spolupráce"
+    },
+    "copyright": "© 2025 PJ-Rekonstrukce. Všechna práva vyhrazena.",
+    "privacy": "Zásady ochrany osobních údajů"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "properties": "Nehnuteľnosti",
+    "services": "Služby",
+    "references": "Referencie",
+    "about": "O mne",
+    "contact": "Kontakt",
+    "contactMe": "KONTAKTUJTE MA"
+  },
+  "cookie": {
+    "message": "Aby sme poskytli čo najlepšie služby, používame technológie ako sú súbory cookies na ukladanie a/alebo prístup k informáciám o zariadení.",
+    "reject": "Odmietnuť",
+    "accept": "Prijať",
+    "preferences": "Zobraziť predvoľby"
+  },
+  "hero": {
+    "title": "Maximalizujte zisk z vašej nehnuteľnosti",
+    "cta": "MNOU PONÚKANÉ SLUŽBY"
+  },
+  "properties": {
+    "viewProperty": "PREZRIEŤ NEHNUTEĽNOSŤ",
+    "moreProperties": "VIAC NEHNUTEĽNOSTÍ"
+  },
+  "services": {
+    "title": "SLUŽBY",
+    "bookMeeting": "CHCEM SI DOHODNÚŤ STRETNUTIE",
+    "sale": {
+      "title": "PREDAJ",
+      "description": "Mojím cieľom je predať vašu nehnuteľnosť za najvyššiu možnú cenu na trhu a zabezpečiť, aby celý proces prebehol hladko a efektívne."
+    },
+    "rent": {
+      "title": "PRENÁJOM",
+      "description": "Vždy sa snažím dosiahnuť čo najvyššiu cenu prenájmu a zároveň nájsť solventných nájomcov, ktorí budú mať záujem o dlhodobý prenájom."
+    },
+    "marketing": {
+      "title": "MARKETING A STRATÉGIA",
+      "description": "Marketing a reklama tvoria neoddeliteľnú časť mojej práce. Dávam si záležať na zvolení vhodnej stratégie s maximálnym nasadením."
+    },
+    "presentation": {
+      "title": "PREZENTÁCIA NEHNUTEĽNOSTI",
+      "description": "Pri prezentácii nehnuteľnosti vždy kladiem dôraz na detail s využitím najnovších technológií, vrátane kvalitných fotografií a 3D vizualizácií."
+    },
+    "reconstruction": {
+      "title": "REKONŠTRUKCIA NEHNUTEĽNOSTI",
+      "description": "Vďaka skúsenostiam z niekoľkých kompletných rekonštrukcií vám môžem odporučiť vhodné riešenie a prípadne zabezpečiť profesionálov."
+    },
+    "valuation": {
+      "title": "ODHAD CENY NEHNUTEĽNOSTI",
+      "description": "K oceneniu nehnuteľnosti využívam overené nástroje, ako sú napríklad cenové mapy, spoločne s katastrom nehnuteľností."
+    },
+    "activities": {
+      "subtitle": "S ČÍM NAJČASTEJŠIE POMÁHAM SVOJIM KLIENTOM",
+      "title": "MOJA PRÁCA ZAHŔŇA NASLEDUJÚCE ČINNOSTI",
+      "list": {
+        "communication": "Obchodná komunikácia so záujemcami",
+        "targeting": "Identifikácia a špecifikácia cieľovej skupiny",
+        "negotiation": "Vyjednanie najlepších podmienok predaja",
+        "documentation": "Príprava dokumentácie",
+        "supervision": "Dohľad nad obchodným prípadom od začiatku do konca",
+        "strategy": "Nastavenie marketingovej stratégie a propagácie",
+        "socialMedia": "Platená propagácia na sociálnych sieťach",
+        "materials": "Príprava a tvorba reklamných materiálov",
+        "flyers": "Distribúcia letákov",
+        "print": "Umiestnenie inzercie v tlačených médiách",
+        "portals": "Zverejnenie inzerátov na všetkých realitných portáloch",
+        "websites": "Vytváranie webových stránok pre nehnuteľnosti"
+      }
+    }
+  },
+  "about": {
+    "subtitle": "O MNE",
+    "title": "PAVEL JAROŠ",
+    "intro": "Volám sa Pavel Jaroš a som realitný maklér, ktorý sa neustále snaží o profesný rast a zdokonaľovanie v odbore.",
+    "origin": "Pochádzam z Chebu a v realitách sa pohybujem štvrtým rokom ako investor (nákup - rekonštrukcia - predaj). Zaoberám sa v dnešnej dobe veľmi populárnym tzv. flipovaním nehnuteľností.",
+    "motivation": "Keďže by som sa rád v tomto odbore zdokonalil, rozhodol som sa pre cestu realitného makléra. Táto práca ma baví predovšetkým kvôli svojej rôznorodosti. Riešim nielen obchod, ale aj právnu problematiku a samotnú stavbu. Každý deň je tak úplne iný, čo ma napĺňa.",
+    "passion": "Baví ma hľadať vhodné riešenia, komunikovať, prepájať dodávateľov, investorov a všetko ostatné, čo s nehnuteľnosťami súvisí. Rád sa stretávam s novými ľuďmi a riešim prípady, s ktorými si iní nevedia rady. Spokojnosť klientov je pre mňa najvyššou odmenou.",
+    "values": "Vyznačujem sa empatiou a plne chápem, že každý klient vyžaduje individuálny a flexibilný prístup. Na dobrej povesti a mene si zakladám.",
+    "hobby": "Vo voľnom čase rád športujem, bez návštevy fitka si už neviem predstaviť dobre strávený deň. Ako správny blázon mám rád aj adrenalín – zoskoky padákom a akékoľvek adrenalínové atrakcie, do všetkého idem naplno. Život sa musí žiť.",
+    "location": {
+      "title": "LOKALITA",
+      "text": "Pôsobím prevažne v Prahe, v Stredočeskom a Západočeskom kraji, avšak som otvorený spolupráci po celej ČR."
+    },
+    "experience": {
+      "title": "AKO DLHO?",
+      "text1": "Ako investor v nehnuteľnostiach mám za sebou štyri roky plné úspešných projektov, medzi ktoré sa radia aj niekoľko zdařilých flipov nehnuteľností.",
+      "text2": "Donedávna som kompletné rekonštrukcie bytov v pôvodnom stave zarizoval sám, teraz už mám malú stavebnú firmu a nie je pre mňa teda problém klientovi s čímkoľvek pomôcť a nehnuteľnosť upraviť tak, aby bol výsledkom ľahký predaj a vyšší zisk."
+    },
+    "commission": {
+      "title": "PROVÍZIA",
+      "text": "Pri predaji nehnuteľnosti, poplatok známy ako provízia, hradí predávajúci. V konečnom dôsledku je to logické, pretože predávajúci je ten, kto si vyberá makléra a koho záujmy maklér háji. Výška provízie nie je pevne stanovená a môže sa líšiť v závislosti na rade faktorov, ako je predajná stratégia, marketingový rozpočet, umiestnenie a cena nehnuteľnosti. Obvykle sa však provízia pohybuje v rozmedzí 3 - 5 % z kúpnej ceny nehnuteľnosti."
+    },
+    "why": {
+      "title": "PREČO SPOLUPRACOVAŤ SO MNOU?",
+      "individual": "Individuálny proklientský prístup",
+      "professional": "Profesionálna prezentácia nehnuteľnosti",
+      "efficiency": "Efektivita",
+      "experience": "Mnohoročné skúsenosti v odbore realít",
+      "flexibility": "Flexibilita"
+    }
+  },
+  "references": {
+    "subtitle": "ČO O MNE HOVORIA MOJI KLIENTI",
+    "title": "REFERENCIE",
+    "client1": {
+      "name": "Daniela Baudýsová",
+      "text": "Ďakujeme za rýchly a bezproblémový predaj chaty. Pán Jaroš je ochotný, vstřícny a veľmi profesionálny. Svojej práci rozumie. Určite odporúčame."
+    },
+    "client2": {
+      "name": "David",
+      "text": "Pán Jaroš bol skvelý – profesionálny, rýchly a vždy k dispozícii. Občas som mal pocit, že keby to bolo treba, predal by aj vlastnú babičku – a ešte by vyjednal lepšiu cenu. Vďaka za bezproblémový predaj a ľudský prístup."
+    },
+    "client3": {
+      "name": "Josef Neumann",
+      "text": "Proaktívny prístup a perfektná komunikácia. Maximálna spokojnosť!"
+    }
+  },
+  "contact": {
+    "subtitle": "ZOSTANEME V SPOJENÍ",
+    "title": "KONTAKT",
+    "address": {
+      "title": "ADRESA",
+      "text": "Kaprova 52/6, Praha 1"
+    },
+    "phone": {
+      "title": "TELEFÓN",
+      "text": "+420 777 558 730"
+    },
+    "email": {
+      "title": "E-MAIL",
+      "text": "pavel.jaros@kwcz.cz"
+    },
+    "form": {
+      "name": "Meno a priezvisko",
+      "email": "E-mail",
+      "phone": "Telefónne číslo",
+      "message": "Vaša správa",
+      "weekend": "Môžeme vás kontaktovať aj cez víkend?",
+      "gdpr": "Súhlasíte so spracovaním osobných údajov podľa zákona č. 101/2000 Zb. O ochrane osobných údajov",
+      "submit": "ODOSLAŤ"
+    }
+  },
+  "footer": {
+    "gdpr": "Prehliadaním webu súhlasíte so spracovaním osobných údajov a súborov cookies.",
+    "business": "Samostatný podnikateľ, podnikajúci na základe živnostenského listu, IČ: 10846671, zmocnený konať menom Keller Williams Metropolitan, ktorá je prevádzka spoločnosti MC Metropolitan s.r.o., IČ: 07796340.",
+    "ethics": "Etický kódex",
+    "consumer": "Poučenie pre spotrebiteľov",
+    "whistleblow": "Vnútorný oznamovací systém"
+  }
+}

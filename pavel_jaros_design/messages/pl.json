@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "properties": "Nieruchomości",
+    "services": "Usługi",
+    "references": "Referencje",
+    "about": "O mnie",
+    "contact": "Kontakt",
+    "contactMe": "SKONTAKTUJ SIĘ ZE MNĄ"
+  },
+  "cookie": {
+    "message": "Aby zapewnić najlepsze usługi, używamy technologii takich jak pliki cookie do przechowywania i/lub uzyskiwania dostępu do informacji o urządzeniu.",
+    "reject": "Odrzuć",
+    "accept": "Akceptuj",
+    "preferences": "Pokaż preferencje"
+  },
+  "hero": {
+    "title": "Zmaksymalizuj zysk z Twojej nieruchomości",
+    "cta": "MOJE OFEROWANE USŁUGI"
+  },
+  "properties": {
+    "viewProperty": "ZOBACZ NIERUCHOMOŚĆ",
+    "moreProperties": "WIĘCEJ NIERUCHOMOŚCI"
+  },
+  "services": {
+    "title": "USŁUGI",
+    "bookMeeting": "UMÓW SPOTKANIE",
+    "sale": {
+      "title": "SPRZEDAŻ",
+      "description": "Moim celem jest sprzedaż Twojej nieruchomości za najwyższą możliwą cenę na rynku i zapewnienie, że cały proces przebiegnie płynnie i efektywnie."
+    },
+    "rent": {
+      "title": "WYNAJEM",
+      "description": "Zawsze staram się osiągnąć najwyższą cenę wynajmu, jednocześnie znajdując wypłacalnych najemców zainteresowanych długoterminowym wynajmem."
+    },
+    "marketing": {
+      "title": "MARKETING I STRATEGIA",
+      "description": "Marketing i reklama są integralną częścią mojej pracy. Dbam o wybór odpowiedniej strategii z maksymalnym zaangażowaniem."
+    },
+    "presentation": {
+      "title": "PREZENTACJA NIERUCHOMOŚCI",
+      "description": "Prezentując nieruchomość, zawsze kładę nacisk na szczegóły, wykorzystując najnowsze technologie, w tym wysokiej jakości fotografię i wizualizacje 3D."
+    },
+    "reconstruction": {
+      "title": "RENOWACJA NIERUCHOMOŚCI",
+      "description": "Dzięki doświadczeniu z kilku kompletnych renowacji mogę polecić odpowiednie rozwiązania i w razie potrzeby zorganizować specjalistów."
+    },
+    "valuation": {
+      "title": "WYCENA NIERUCHOMOŚCI",
+      "description": "Do wyceny nieruchomości używam sprawdzonych narzędzi, takich jak mapy cen wraz z księgą wieczystą."
+    },
+    "activities": {
+      "subtitle": "W CZYM NAJCZĘŚCIEJ POMAGAM MOIM KLIENTOM",
+      "title": "MOJA PRACA OBEJMUJE NASTĘPUJĄCE DZIAŁANIA",
+      "list": {
+        "communication": "Komunikacja biznesowa z potencjalnymi klientami",
+        "targeting": "Identyfikacja i specyfikacja grupy docelowej",
+        "negotiation": "Negocjowanie najlepszych warunków sprzedaży",
+        "documentation": "Przygotowanie dokumentacji",
+        "supervision": "Nadzór nad sprawą biznesową od początku do końca",
+        "strategy": "Ustalanie strategii marketingowej i promocji",
+        "socialMedia": "Płatna promocja w mediach społecznościowych",
+        "materials": "Przygotowanie i tworzenie materiałów reklamowych",
+        "flyers": "Dystrybucja ulotek",
+        "print": "Umieszczanie ogłoszeń w mediach drukowanych",
+        "portals": "Publikowanie ofert na wszystkich portalach nieruchomości",
+        "websites": "Tworzenie stron internetowych dla nieruchomości"
+      }
+    }
+  },
+  "about": {
+    "subtitle": "O MNIE",
+    "title": "PAVEL JAROŠ",
+    "intro": "Nazywam się Pavel Jaroš i jestem agentem nieruchomości, który nieustannie dąży do rozwoju zawodowego i doskonalenia w tej dziedzinie.",
+    "origin": "Pochodzę z Chebu i od czterech lat działam w nieruchomościach jako inwestor (zakup - renowacja - sprzedaż). Zajmuję się bardzo popularnym tzw. flippingiem nieruchomości.",
+    "motivation": "Ponieważ chciałbym się doskonalić w tej dziedzinie, zdecydowałem się na ścieżkę agenta nieruchomości. Ta praca sprawia mi przyjemność głównie ze względu na jej różnorodność. Zajmuję się nie tylko biznesem, ale także kwestiami prawnymi i samą budową. Każdy dzień jest inny, co mnie wypełnia.",
+    "passion": "Lubię znajdować odpowiednie rozwiązania, komunikować się, łączyć dostawców, inwestorów i wszystko inne związane z nieruchomościami. Lubię spotykać nowych ludzi i rozwiązywać sprawy, z którymi inni sobie nie radzą. Zadowolenie klientów jest dla mnie najwyższą nagrodą.",
+    "values": "Charakteryzuję się empatią i w pełni rozumiem, że każdy klient wymaga indywidualnego i elastycznego podejścia. Cenię dobrą reputację i imię.",
+    "hobby": "W wolnym czasie lubię uprawiać sport, nie wyobrażam już sobie dobrze spędzonego dnia bez wizyty na siłowni. Jako prawdziwy entuzjasta kocham też adrenalinę - skoki spadochronowe i wszelkie atrakcje adrenalinowe, idę na całość. Życie trzeba żyć.",
+    "location": {
+      "title": "LOKALIZACJA",
+      "text": "Działam głównie w Pradze, w regionach środkowoczeskim i zachodnioczeski, ale jestem otwarty na współpracę w całej Republice Czeskiej."
+    },
+    "experience": {
+      "title": "JAK DŁUGO?",
+      "text1": "Jako inwestor nieruchomości mam za sobą cztery lata udanych projektów, w tym kilka udanych flippingów nieruchomości.",
+      "text2": "Do niedawna sam organizowałem kompletne remonty mieszkań w ich pierwotnym stanie, teraz mam małą firmę budowlaną i nie stanowi dla mnie problemu pomoc klientowi w czymkolwiek i modyfikacja nieruchomości tak, aby rezultatem była łatwa sprzedaż i wyższy zysk."
+    },
+    "commission": {
+      "title": "PROWIZJA",
+      "text": "Przy sprzedaży nieruchomości opłata znana jako prowizja jest płacona przez sprzedającego. Ostatecznie jest to logiczne, ponieważ sprzedający jest tym, kto wybiera agenta i którego interesy agent broni. Kwota prowizji nie jest stała i może się różnić w zależności od wielu czynników, takich jak strategia sprzedaży, budżet marketingowy, lokalizacja i cena nieruchomości. Jednak prowizja zazwyczaj mieści się w przedziale 3 - 5% ceny zakupu nieruchomości."
+    },
+    "why": {
+      "title": "DLACZEGO WARTO ZE MNĄ WSPÓŁPRACOWAĆ?",
+      "individual": "Indywidualne podejście zorientowane na klienta",
+      "professional": "Profesjonalna prezentacja nieruchomości",
+      "efficiency": "Efektywność",
+      "experience": "Wieloletnie doświadczenie w nieruchomościach",
+      "flexibility": "Elastyczność"
+    }
+  },
+  "references": {
+    "subtitle": "CO MÓWIĄ O MNIE MOJE KLIENCI",
+    "title": "REFERENCJE",
+    "client1": {
+      "name": "Daniela Baudýsová",
+      "text": "Dziękujemy za szybką i bezproblemową sprzedaż domku. Pan Jaroš jest pomocny, uczynny i bardzo profesjonalny. Rozumie swoją pracę. Zdecydowanie polecamy."
+    },
+    "client2": {
+      "name": "David",
+      "text": "Pan Jaroš był świetny - profesjonalny, szybki i zawsze dostępny. Czasami miałem wrażenie, że gdyby było trzeba, sprzedałby własną babcię - a mimo to wynegocjowałby lepszą cenę. Dzięki za bezproblemową sprzedaż i ludzkie podejście."
+    },
+    "client3": {
+      "name": "Josef Neumann",
+      "text": "Proaktywne podejście i doskonała komunikacja. Maksymalna satysfakcja!"
+    }
+  },
+  "contact": {
+    "subtitle": "POZOSTAŃMY W KONTAKCIE",
+    "title": "KONTAKT",
+    "address": {
+      "title": "ADRES",
+      "text": "Kaprova 52/6, Praga 1"
+    },
+    "phone": {
+      "title": "TELEFON",
+      "text": "+420 777 558 730"
+    },
+    "email": {
+      "title": "E-MAIL",
+      "text": "pavel.jaros@kwcz.cz"
+    },
+    "form": {
+      "name": "Imię i nazwisko",
+      "email": "E-mail",
+      "phone": "Numer telefonu",
+      "message": "Twoja wiadomość",
+      "weekend": "Czy możemy skontaktować się z Tobą w weekendy?",
+      "gdpr": "Czy zgadzasz się na przetwarzanie danych osobowych zgodnie z ustawą nr 101/2000 Dz.U. o ochronie danych osobowych",
+      "submit": "WYŚLIJ"
+    }
+  },
+  "footer": {
+    "gdpr": "Przeglądając stronę, zgadzasz się na przetwarzanie danych osobowych i plików cookie.",
+    "business": "Jednoosobowy przedsiębiorca, prowadzący działalność na podstawie licencji handlowej, ID: 10846671, upoważniony do działania w imieniu Keller Williams Metropolitan, będącego placówką MC Metropolitan s.r.o., ID: 07796340.",
+    "ethics": "Kodeks etyczny",
+    "consumer": "Informacje dla konsumentów",
+    "whistleblow": "Wewnętrzny system zgłaszania"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "properties": "Properties",
+    "services": "Services",
+    "references": "References",
+    "about": "About Me",
+    "contact": "Contact",
+    "contactMe": "CONTACT ME"
+  },
+  "cookie": {
+    "message": "To provide the best services, we use technologies such as cookies to store and/or access device information.",
+    "reject": "Reject",
+    "accept": "Accept",
+    "preferences": "View Preferences"
+  },
+  "hero": {
+    "title": "Maximize the profit from your property",
+    "cta": "MY OFFERED SERVICES"
+  },
+  "properties": {
+    "viewProperty": "VIEW PROPERTY",
+    "moreProperties": "MORE PROPERTIES"
+  },
+  "services": {
+    "title": "SERVICES",
+    "bookMeeting": "BOOK A MEETING",
+    "sale": {
+      "title": "SALES",
+      "description": "My goal is to sell your property for the highest possible price on the market and ensure the entire process runs smoothly and efficiently."
+    },
+    "rent": {
+      "title": "RENTAL",
+      "description": "I always strive to achieve the highest rental price while finding solvent tenants interested in long-term rental."
+    },
+    "marketing": {
+      "title": "MARKETING & STRATEGY",
+      "description": "Marketing and advertising are an integral part of my work. I take care in choosing the right strategy with maximum commitment."
+    },
+    "presentation": {
+      "title": "PROPERTY PRESENTATION",
+      "description": "When presenting a property, I always emphasize detail using the latest technologies, including quality photography and 3D visualizations."
+    },
+    "reconstruction": {
+      "title": "PROPERTY RECONSTRUCTION",
+      "description": "Thanks to experience from several complete reconstructions, I can recommend suitable solutions and arrange professionals if needed."
+    },
+    "valuation": {
+      "title": "PROPERTY VALUATION",
+      "description": "For property valuation, I use proven tools such as price maps together with the land registry."
+    },
+    "activities": {
+      "subtitle": "WHAT I MOST OFTEN HELP MY CLIENTS WITH",
+      "title": "MY WORK INCLUDES THE FOLLOWING ACTIVITIES",
+      "list": {
+        "communication": "Business communication with prospects",
+        "targeting": "Identification and specification of target group",
+        "negotiation": "Negotiating the best sales conditions",
+        "documentation": "Documentation preparation",
+        "supervision": "Supervision of the business case from start to finish",
+        "strategy": "Setting marketing strategy and promotion",
+        "socialMedia": "Paid promotion on social media",
+        "materials": "Preparation and creation of advertising materials",
+        "flyers": "Flyer distribution",
+        "print": "Placement of advertisements in print media",
+        "portals": "Publishing listings on all real estate portals",
+        "websites": "Creating websites for properties"
+      }
+    }
+  },
+  "about": {
+    "subtitle": "ABOUT ME",
+    "title": "PAVEL JAROŠ",
+    "intro": "My name is Pavel Jaroš and I am a real estate agent who constantly strives for professional growth and improvement in the field.",
+    "origin": "I come from Cheb and have been in real estate for four years as an investor (purchase - reconstruction - sale). I deal with the very popular so-called property flipping.",
+    "motivation": "Since I would like to improve in this field, I decided to pursue the path of a real estate agent. I enjoy this work mainly because of its diversity. I deal not only with business, but also with legal issues and construction itself. Every day is different, which fulfills me.",
+    "passion": "I enjoy finding suitable solutions, communicating, connecting suppliers, investors and everything else related to real estate. I like meeting new people and solving cases that others don't know how to handle. Client satisfaction is the highest reward for me.",
+    "values": "I am characterized by empathy and fully understand that each client requires an individual and flexible approach. I value good reputation and name.",
+    "hobby": "In my free time, I enjoy sports, I can no longer imagine a well-spent day without visiting the gym. As a proper enthusiast, I also love adrenaline - parachute jumps and any adrenaline attractions, I go all in. Life must be lived.",
+    "location": {
+      "title": "LOCATION",
+      "text": "I operate mainly in Prague, in the Central Bohemian and West Bohemian regions, but I am open to cooperation throughout the Czech Republic."
+    },
+    "experience": {
+      "title": "HOW LONG?",
+      "text1": "As a real estate investor, I have four years of successful projects behind me, including several successful property flips.",
+      "text2": "Until recently, I arranged complete apartment renovations in their original state myself, now I have a small construction company and it is therefore no problem for me to help a client with anything and modify the property so that the result is easy sale and higher profit."
+    },
+    "commission": {
+      "title": "COMMISSION",
+      "text": "When selling a property, the fee known as commission is paid by the seller. Ultimately, this is logical because the seller is the one who chooses the agent and whose interests the agent defends. The commission amount is not fixed and may vary depending on a number of factors, such as sales strategy, marketing budget, location and property price. However, the commission usually ranges between 3 - 5% of the purchase price of the property."
+    },
+    "why": {
+      "title": "WHY WORK WITH ME?",
+      "individual": "Individual client-focused approach",
+      "professional": "Professional property presentation",
+      "efficiency": "Efficiency",
+      "experience": "Many years of experience in real estate",
+      "flexibility": "Flexibility"
+    }
+  },
+  "references": {
+    "subtitle": "WHAT MY CLIENTS SAY ABOUT ME",
+    "title": "REFERENCES",
+    "client1": {
+      "name": "Daniela Baudýsová",
+      "text": "Thank you for the quick and trouble-free sale of the cottage. Mr. Jaroš is helpful, accommodating and very professional. He understands his work. We definitely recommend."
+    },
+    "client2": {
+      "name": "David",
+      "text": "Mr. Jaroš was great - professional, fast and always available. Sometimes I felt that if needed, he would sell his own grandmother - and still negotiate a better price. Thanks for the trouble-free sale and human approach."
+    },
+    "client3": {
+      "name": "Josef Neumann",
+      "text": "Proactive approach and perfect communication. Maximum satisfaction!"
+    }
+  },
+  "contact": {
+    "subtitle": "STAY IN TOUCH",
+    "title": "CONTACT",
+    "address": {
+      "title": "ADDRESS",
+      "text": "Kaprova 52/6, Prague 1"
+    },
+    "phone": {
+      "title": "PHONE",
+      "text": "+420 777 558 730"
+    },
+    "email": {
+      "title": "E-MAIL",
+      "text": "pavel.jaros@kwcz.cz"
+    },
+    "form": {
+      "name": "Name and Surname",
+      "email": "E-mail",
+      "phone": "Phone Number",
+      "message": "Your Message",
+      "weekend": "Can we contact you on weekends?",
+      "gdpr": "Do you agree to the processing of personal data according to Act No. 101/2000 Coll. On the protection of personal data",
+      "submit": "SEND"
+    }
+  },
+  "footer": {
+    "gdpr": "By browsing the website, you agree to the processing of personal data and cookies.",
+    "business": "Sole proprietor, doing business on the basis of a trade license, ID: 10846671, authorized to act on behalf of Keller Williams Metropolitan, which is an establishment of MC Metropolitan s.r.o., ID: 07796340.",
+    "ethics": "Code of Ethics",
+    "consumer": "Consumer Information",
+    "whistleblow": "Internal Reporting System"
+  }
+}
