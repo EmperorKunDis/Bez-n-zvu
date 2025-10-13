@@ -4,6 +4,8 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  basePath: '/Bez-n-zvu/design',
   allowedDevOrigins: ["*.preview.same-app.com"],
   images: {
     unoptimized: true,

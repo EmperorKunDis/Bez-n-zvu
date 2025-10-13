@@ -115,8 +115,13 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <HomeIcon className="h-8 w-8 text-green-700 mr-2" />
-              <span className="text-xl font-bold text-green-700">PJ-Správa</span>
+              <Image
+                src="/logo/PJSpravaLogo.png"
+                alt="PJ Správa"
+                width={150}
+                height={50}
+                className="h-12 w-auto"
+              />
             </div>
 
             {/* Navigation */}
@@ -394,10 +399,10 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div className="relative aspect-[4/5] lg:aspect-[3/4]">
               <Image
-                src="https://ext.same-assets.com/2530056946/2707997203.png"
+                src="/images/PajaSpravaBezPozadi.png"
                 alt="Pavel Jaroš"
                 fill
-                className="object-cover rounded-lg shadow-xl"
+                className="object-contain rounded-lg shadow-xl"
               />
             </div>
 

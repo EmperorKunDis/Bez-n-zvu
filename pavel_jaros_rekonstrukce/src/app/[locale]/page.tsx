@@ -114,8 +114,13 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <Hammer className="h-8 w-8 text-blue-600 mr-2" />
-              <span className="text-xl font-bold text-blue-600">PJ-Rekonstrukce</span>
+              <Image
+                src="/logo/PJRekoLogo.png"
+                alt="PJ Rekonstrukce"
+                width={150}
+                height={50}
+                className="h-12 w-auto"
+              />
             </div>
 
             {/* Navigation */}
@@ -430,6 +435,30 @@ export default function Home() {
                 <p className="font-semibold">{t('references.client2.name')}</p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="o-nas" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative aspect-[4/5] lg:aspect-[3/4]">
+              <Image
+                src="/images/PajaBezPrdeleReko.png"
+                alt="Pavel Jaroš"
+                fill
+                className="object-contain rounded-lg shadow-xl"
+              />
+            </div>
+
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">O nás</h2>
+              <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+                <p>Jsem Pavel Jaroš a specializuji se na kompletní rekonstrukce bytů a domů. S mnohaletými zkušenostmi v oboru vám pomohu proměnit váš prostor v místo, kde budete rádi trávit čas.</p>
+                <p>Mým cílem je poskytnout vám kvalitní služby za férové ceny a dodržet všechny dohodnuté termíny. Každý projekt je pro mě jedinečný a přistupuji k němu s maximální pečlivostí.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

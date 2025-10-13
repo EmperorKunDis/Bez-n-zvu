@@ -115,13 +115,13 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="flex items-center">
-                <HomeIcon className="h-8 w-8 text-red-700 mr-3" />
-                <div className="text-red-700 font-bold">
-                  <span className="text-xl">kw</span>
-                  <div className="text-xs tracking-wider">KELLER WILLIAMS</div>
-                </div>
-              </div>
+              <Image
+                src="/logo/PJRealityLogo.png"
+                alt="Pavel Jaroš Reality"
+                width={150}
+                height={50}
+                className="h-12 w-auto"
+              />
             </div>
 
             {/* Navigation */}
@@ -499,7 +499,7 @@ export default function Home() {
             <div className="relative lg:order-last">
               <div className="relative aspect-[3/4] max-w-md mx-auto lg:max-w-none">
                 <Image
-                  src="https://ext.same-assets.com/2530056946/2707997203.png"
+                  src="/images/PavelFotka.png"
                   alt="Pavel Jaroš"
                   fill
                   className="object-cover rounded-lg shadow-xl"

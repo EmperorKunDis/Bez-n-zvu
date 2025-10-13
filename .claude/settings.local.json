@@ -19,7 +19,8 @@
       "Bash(PORT=3004 bun run:*)",
       "Bash(cd:*)",
       "Bash(lsof:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(chmod:*)"
     ],
     "deny": [],
     "ask": []

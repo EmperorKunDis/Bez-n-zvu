@@ -1,0 +1,128 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build Design
+        run: |
+          cd pavel_jaros_design
+          bun install
+          bun run build
+          cd ..
+
+      - name: Build Rekonstrukce
+        run: |
+          cd pavel_jaros_rekonstrukce
+          bun install
+          bun run build
+          cd ..
+
+      - name: Build Reality
+        run: |
+          cd pavel_jaros_reality
+          bun install
+          bun run build
+          cd ..
+
+      - name: Build Sprava
+        run: |
+          cd pavel_jaros_sprava
+          bun install
+          bun run build
+          cd ..
+
+      - name: Prepare deployment directory
+        run: |
+          mkdir -p dist
+          cp -r pavel_jaros_design/out dist/design
+          cp -r pavel_jaros_rekonstrukce/out dist/rekonstrukce
+          cp -r pavel_jaros_reality/out dist/reality
+          cp -r pavel_jaros_sprava/out dist/sprava
+
+      - name: Create index.html
+        run: |
+          cat > dist/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="cs">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Pavel Jaros - Portfolio</title>
+              <style>
+                  body {
+                      font-family: Arial, sans-serif;
+                      max-width: 800px;
+                      margin: 50px auto;
+                      padding: 20px;
+                      line-height: 1.6;
+                  }
+                  h1 { color: #333; }
+                  ul { list-style: none; padding: 0; }
+                  li { margin: 15px 0; }
+                  a {
+                      display: block;
+                      padding: 15px;
+                      background: #f4f4f4;
+                      color: #333;
+                      text-decoration: none;
+                      border-radius: 5px;
+                      transition: background 0.3s;
+                  }
+                  a:hover { background: #ddd; }
+              </style>
+          </head>
+          <body>
+              <h1>Pavel Jaros - Portfolio</h1>
+              <p>Vítejte na mém portfoliu. Vyberte si sekci:</p>
+              <ul>
+                  <li><a href="design/">Design</a></li>
+                  <li><a href="rekonstrukce/">Rekonstrukce</a></li>
+                  <li><a href="reality/">Reality</a></li>
+                  <li><a href="sprava/">Správa</a></li>
+              </ul>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

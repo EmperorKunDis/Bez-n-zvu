@@ -119,8 +119,13 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <Palette className="h-8 w-8 text-white mr-2" />
-              <span className="text-xl font-bold text-white">PJ-Design</span>
+              <Image
+                src="/logo/PJGroupLogo.png"
+                alt="PJ Group Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+              />
             </div>
 
             {/* Navigation */}
@@ -323,11 +328,24 @@ export default function Home() {
       </section>
 
       {/* Philosophy Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">{t('philosophy.title')}</h2>
-            <p className="text-xl text-gray-300 leading-relaxed">{t('philosophy.text')}</p>
+      <section id="o-me" className="py-20 bg-gradient-to-b from-black to-gray-900">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left side - Image */}
+            <div className="relative h-[500px] rounded-lg overflow-hidden">
+              <Image
+                src="/images/PavelDesignBezPozadi.png"
+                alt="Pavel Jaroš - Interiérový designér"
+                fill
+                className="object-contain object-center"
+              />
+            </div>
+
+            {/* Right side - Text */}
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-8">{t('philosophy.title')}</h2>
+              <p className="text-xl text-gray-300 leading-relaxed">{t('philosophy.text')}</p>
+            </div>
           </div>
         </div>
       </section>
