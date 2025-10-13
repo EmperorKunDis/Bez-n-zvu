@@ -20,7 +20,10 @@
       "Bash(cd:*)",
       "Bash(lsof:*)",
       "Bash(xargs kill:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
