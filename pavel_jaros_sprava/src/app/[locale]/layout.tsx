@@ -95,6 +95,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
 
+export const dynamic = 'force-static';
+
 export default async function RootLayout({
   children,
   params
