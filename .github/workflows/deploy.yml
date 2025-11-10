@@ -60,11 +60,28 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir -p dist
-          cp -r pavel_jaros_design/out dist/design
-          cp -r pavel_jaros_rekonstrukce/out dist/rekonstrukce
-          cp -r pavel_jaros_reality/out dist/reality
-          cp -r pavel_jaros_sprava/out dist/sprava
+          mkdir -p dist/design dist/rekonstrukce dist/reality dist/sprava
+          # Next.js with basePath creates nested folders, so we copy the content correctly
+          if [ -d "pavel_jaros_design/out/design" ]; then
+            cp -r pavel_jaros_design/out/design/* dist/design/
+          else
+            cp -r pavel_jaros_design/out/* dist/design/
+          fi
+          if [ -d "pavel_jaros_rekonstrukce/out/rekonstrukce" ]; then
+            cp -r pavel_jaros_rekonstrukce/out/rekonstrukce/* dist/rekonstrukce/
+          else
+            cp -r pavel_jaros_rekonstrukce/out/* dist/rekonstrukce/
+          fi
+          if [ -d "pavel_jaros_reality/out/reality" ]; then
+            cp -r pavel_jaros_reality/out/reality/* dist/reality/
+          else
+            cp -r pavel_jaros_reality/out/* dist/reality/
+          fi
+          if [ -d "pavel_jaros_sprava/out/sprava" ]; then
+            cp -r pavel_jaros_sprava/out/sprava/* dist/sprava/
+          else
+            cp -r pavel_jaros_sprava/out/* dist/sprava/
+          fi
 
       - name: Create index.html
         run: |

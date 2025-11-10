@@ -5,14 +5,14 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/Bez-n-zvu/design',
+  basePath: '/design',
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  allowedDevOrigins: ["*.preview.same-app.com"],
+  allowedDevOrigins: ["*.preview.same-app.com", "*.trycloudflare.com"],
   images: {
     unoptimized: true,
     domains: [
