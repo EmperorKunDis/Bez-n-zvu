@@ -60,16 +60,13 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          # Create directory structure for each project
-          mkdir -p dist/design
-          mkdir -p dist/rekonstrukce
-          mkdir -p dist/reality
-          mkdir -p dist/sprava
+          mkdir -p dist/design dist/rekonstrukce dist/reality dist/sprava
 
           # Create .nojekyll to prevent GitHub Pages from ignoring _next folders
           touch dist/.nojekyll
 
-          # Copy Next.js output - files have basePath baked in
+          # basePath is '/Bez-n-zvu/design', files go to dist/design/
+          # GitHub Pages serves dist/ at /Bez-n-zvu/, so dist/design/ = /Bez-n-zvu/design/
           cp -r pavel_jaros_design/out/* dist/design/
           cp -r pavel_jaros_rekonstrukce/out/* dist/rekonstrukce/
           cp -r pavel_jaros_reality/out/* dist/reality/
@@ -111,10 +108,10 @@ jobs:
               <h1>Pavel Jaros - Portfolio</h1>
               <p>Vítejte na mém portfoliu. Vyberte si sekci:</p>
               <ul>
-                  <li><a href="design/">Design</a></li>
-                  <li><a href="rekonstrukce/">Rekonstrukce</a></li>
-                  <li><a href="reality/">Reality</a></li>
-                  <li><a href="sprava/">Správa</a></li>
+                  <li><a href="Bez-n-zvu/design/">Design</a></li>
+                  <li><a href="Bez-n-zvu/rekonstrukce/">Rekonstrukce</a></li>
+                  <li><a href="Bez-n-zvu/reality/">Reality</a></li>
+                  <li><a href="Bez-n-zvu/sprava/">Správa</a></li>
               </ul>
           </body>
           </html>
