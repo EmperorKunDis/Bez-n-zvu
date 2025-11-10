@@ -60,16 +60,20 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir -p dist
+          # Create directory structure matching basePath
+          mkdir -p dist/Bez-n-zvu/design
+          mkdir -p dist/Bez-n-zvu/rekonstrukce
+          mkdir -p dist/Bez-n-zvu/reality
+          mkdir -p dist/Bez-n-zvu/sprava
+
           # Create .nojekyll to prevent GitHub Pages from ignoring _next folders
           touch dist/.nojekyll
 
-          # Next.js with basePath '/Bez-n-zvu/xxx' creates nested folders
-          # Copy the entire output which includes the basePath structure
-          cp -r pavel_jaros_design/out/* dist/
-          cp -r pavel_jaros_rekonstrukce/out/* dist/
-          cp -r pavel_jaros_reality/out/* dist/
-          cp -r pavel_jaros_sprava/out/* dist/
+          # Copy Next.js output to correct basePath locations
+          cp -r pavel_jaros_design/out/* dist/Bez-n-zvu/design/
+          cp -r pavel_jaros_rekonstrukce/out/* dist/Bez-n-zvu/rekonstrukce/
+          cp -r pavel_jaros_reality/out/* dist/Bez-n-zvu/reality/
+          cp -r pavel_jaros_sprava/out/* dist/Bez-n-zvu/sprava/
 
       - name: Create index.html at root
         run: |
