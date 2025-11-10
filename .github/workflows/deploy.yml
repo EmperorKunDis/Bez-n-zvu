@@ -60,20 +60,20 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          # Create directory structure matching basePath
-          mkdir -p dist/Bez-n-zvu/design
-          mkdir -p dist/Bez-n-zvu/rekonstrukce
-          mkdir -p dist/Bez-n-zvu/reality
-          mkdir -p dist/Bez-n-zvu/sprava
+          # Create directory structure for each project
+          mkdir -p dist/design
+          mkdir -p dist/rekonstrukce
+          mkdir -p dist/reality
+          mkdir -p dist/sprava
 
           # Create .nojekyll to prevent GitHub Pages from ignoring _next folders
           touch dist/.nojekyll
 
-          # Copy Next.js output to correct basePath locations
-          cp -r pavel_jaros_design/out/* dist/Bez-n-zvu/design/
-          cp -r pavel_jaros_rekonstrukce/out/* dist/Bez-n-zvu/rekonstrukce/
-          cp -r pavel_jaros_reality/out/* dist/Bez-n-zvu/reality/
-          cp -r pavel_jaros_sprava/out/* dist/Bez-n-zvu/sprava/
+          # Copy Next.js output - files have basePath baked in
+          cp -r pavel_jaros_design/out/* dist/design/
+          cp -r pavel_jaros_rekonstrukce/out/* dist/rekonstrukce/
+          cp -r pavel_jaros_reality/out/* dist/reality/
+          cp -r pavel_jaros_sprava/out/* dist/sprava/
 
       - name: Create index.html at root
         run: |
@@ -111,10 +111,10 @@ jobs:
               <h1>Pavel Jaros - Portfolio</h1>
               <p>Vítejte na mém portfoliu. Vyberte si sekci:</p>
               <ul>
-                  <li><a href="Bez-n-zvu/design/">Design</a></li>
-                  <li><a href="Bez-n-zvu/rekonstrukce/">Rekonstrukce</a></li>
-                  <li><a href="Bez-n-zvu/reality/">Reality</a></li>
-                  <li><a href="Bez-n-zvu/sprava/">Správa</a></li>
+                  <li><a href="design/">Design</a></li>
+                  <li><a href="rekonstrukce/">Rekonstrukce</a></li>
+                  <li><a href="reality/">Reality</a></li>
+                  <li><a href="sprava/">Správa</a></li>
               </ul>
           </body>
           </html>
