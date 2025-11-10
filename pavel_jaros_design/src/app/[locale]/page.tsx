@@ -120,7 +120,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center">
               <Image
-                src="/logo/PJGroupLogo.png"
+                src="/logo/PJ_Group_logo.svg"
                 alt="PJ Group Logo"
                 width={120}
                 height={40}

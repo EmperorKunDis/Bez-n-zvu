@@ -30,7 +30,11 @@
       "Bash(done)",
       "Bash(./cloudflare-full.sh:*)",
       "Bash(pkill:*)",
-      "Bash(./stop-all.sh:*)"
+      "Bash(./stop-all.sh:*)",
+      "Skill(research)",
+      "SlashCommand(/conduct-research)",
+      "WebFetch(domain:emperorkundis.github.io)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []

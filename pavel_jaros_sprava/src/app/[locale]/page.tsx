@@ -116,7 +116,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center">
               <Image
-                src="/logo/PJSpravaLogo.png"
+                src="/logo/PJ_Sprava_logo.svg"
                 alt="PJ Správa"
                 width={150}
                 height={50}
