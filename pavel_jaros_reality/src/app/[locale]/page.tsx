@@ -116,7 +116,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center">
               <Image
-                src="/logo/PJRealityLogo.png"
+                src="/logo/PJ_Reality_logo.svg"
                 alt="Pavel Jaroš Reality"
                 width={150}
                 height={50}
