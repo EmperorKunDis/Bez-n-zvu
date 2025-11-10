@@ -60,30 +60,18 @@ jobs:
 
       - name: Prepare deployment directory
         run: |
-          mkdir -p dist/design dist/rekonstrukce dist/reality dist/sprava
-          # Next.js with basePath creates nested folders, so we copy the content correctly
-          if [ -d "pavel_jaros_design/out/design" ]; then
-            cp -r pavel_jaros_design/out/design/* dist/design/
-          else
-            cp -r pavel_jaros_design/out/* dist/design/
-          fi
-          if [ -d "pavel_jaros_rekonstrukce/out/rekonstrukce" ]; then
-            cp -r pavel_jaros_rekonstrukce/out/rekonstrukce/* dist/rekonstrukce/
-          else
-            cp -r pavel_jaros_rekonstrukce/out/* dist/rekonstrukce/
-          fi
-          if [ -d "pavel_jaros_reality/out/reality" ]; then
-            cp -r pavel_jaros_reality/out/reality/* dist/reality/
-          else
-            cp -r pavel_jaros_reality/out/* dist/reality/
-          fi
-          if [ -d "pavel_jaros_sprava/out/sprava" ]; then
-            cp -r pavel_jaros_sprava/out/sprava/* dist/sprava/
-          else
-            cp -r pavel_jaros_sprava/out/* dist/sprava/
-          fi
+          mkdir -p dist
+          # Create .nojekyll to prevent GitHub Pages from ignoring _next folders
+          touch dist/.nojekyll
 
-      - name: Create index.html
+          # Next.js with basePath '/Bez-n-zvu/xxx' creates nested folders
+          # Copy the entire output which includes the basePath structure
+          cp -r pavel_jaros_design/out/* dist/
+          cp -r pavel_jaros_rekonstrukce/out/* dist/
+          cp -r pavel_jaros_reality/out/* dist/
+          cp -r pavel_jaros_sprava/out/* dist/
+
+      - name: Create index.html at root
         run: |
           cat > dist/index.html << 'EOF'
           <!DOCTYPE html>
@@ -119,10 +107,10 @@ jobs:
               <h1>Pavel Jaros - Portfolio</h1>
               <p>Vítejte na mém portfoliu. Vyberte si sekci:</p>
               <ul>
-                  <li><a href="design/">Design</a></li>
-                  <li><a href="rekonstrukce/">Rekonstrukce</a></li>
-                  <li><a href="reality/">Reality</a></li>
-                  <li><a href="sprava/">Správa</a></li>
+                  <li><a href="Bez-n-zvu/design/">Design</a></li>
+                  <li><a href="Bez-n-zvu/rekonstrukce/">Rekonstrukce</a></li>
+                  <li><a href="Bez-n-zvu/reality/">Reality</a></li>
+                  <li><a href="Bez-n-zvu/sprava/">Správa</a></li>
               </ul>
           </body>
           </html>

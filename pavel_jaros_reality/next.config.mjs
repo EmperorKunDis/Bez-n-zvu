@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/reality',
+  basePath: '/Bez-n-zvu/reality',
   eslint: {
     ignoreDuringBuilds: true,
   },
