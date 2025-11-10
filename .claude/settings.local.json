@@ -27,7 +27,10 @@
       "Bash(./build-all.sh:*)",
       "Bash(for dir in pavel_jaros_rekonstrukce pavel_jaros_reality pavel_jaros_sprava)",
       "Bash(do)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(./cloudflare-full.sh:*)",
+      "Bash(pkill:*)",
+      "Bash(./stop-all.sh:*)"
     ],
     "deny": [],
     "ask": []

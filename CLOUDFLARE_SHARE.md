@@ -1,13 +1,15 @@
-# Cloudflare Tunnel - Sdílení z lokálního PC
+# Cloudflare Tunnel - 4 samostatné weby
 
-Tento návod vám ukáže, jak sdílet všechny 4 weby přímo z vašeho lokálního počítače pomocí Cloudflare Tunnel.
+Tento návod vám ukáže, jak sdílet všechny 4 weby přímo z vašeho lokálního počítače pomocí Cloudflare Tunnel. **Každý web bude mít vlastní veřejnou URL!**
 
 ## Výhody
 - Zcela zdarma
 - Žádná registrace potřebná
 - Bezpečné HTTPS spojení
 - Sdílení během pár sekund
+- **4 samostatné URL pro každý web**
 - Plně funkční weby s API routes
+- Každý web běží nezávisle
 
 ## Nevýhody
 - Váš počítač musí běžet, aby byly weby dostupné
@@ -17,44 +19,48 @@ Tento návod vám ukáže, jak sdílet všechny 4 weby přímo z vašeho lokáln
 ## Jak to funguje
 
 1. Spustí všechny 4 weby na dev serverech (porty 3001-3004)
-2. Spustí reverse proxy server na portu 8000
-3. Vytvoří Cloudflare Tunnel, který zpřístupní server na veřejné URL
+2. Pro každý web vytvoří **samostatný Cloudflare Tunnel**
+3. Každý tunel běží ve svém terminálovém okně
+4. Každý web má **vlastní veřejnou URL**
 
 ## Použití
 
-### Jednoduchý způsob (vše najednou):
+### Spustit všechny 4 weby najednou:
 
 ```bash
 ./cloudflare-full.sh
 ```
 
-Tento script:
-1. Spustí všechny 4 development servery
-2. Spustí reverse proxy server
-3. Vytvoří Cloudflare Tunnel
-4. Zobrazí veřejnou URL, na které jsou weby dostupné
+Tento příkaz:
+1. Otevře **4 nové terminály**
+2. Každý terminál spustí jeden web + Cloudflare Tunnel
+3. Zobrazí logy a URL pro každý web
 
-### Vaše weby budou dostupné na:
+### Po spuštění uvidíte:
 
-Pokud například Cloudflare vygeneruje URL: `https://example-abc123.trycloudflare.com`
+**4 terminálová okna**, každé s vlastním tunnelem:
 
-Pak budete mít:
-- **Hlavní stránka**: `https://example-abc123.trycloudflare.com/` (výběr webů)
-- **Design**: `https://example-abc123.trycloudflare.com/design`
-- **Rekonstrukce**: `https://example-abc123.trycloudflare.com/rekonstrukce`
-- **Reality**: `https://example-abc123.trycloudflare.com/reality`
-- **Správa**: `https://example-abc123.trycloudflare.com/sprava`
+1. **PJ-Design Cloudflare Tunnel**
+   - Port: 3001
+   - URL: `https://xxx-xxx-xxx.trycloudflare.com`
+
+2. **PJ-Reality Cloudflare Tunnel**
+   - Port: 3003
+   - URL: `https://yyy-yyy-yyy.trycloudflare.com`
+
+3. **PJ-Rekonstrukce Cloudflare Tunnel**
+   - Port: 3002
+   - URL: `https://zzz-zzz-zzz.trycloudflare.com`
+
+4. **PJ-Správa Cloudflare Tunnel**
+   - Port: 3004
+   - URL: `https://www-www-www.trycloudflare.com`
+
+Každá URL je **plně funkční web** s API routes!
 
 ### Lokální přístup:
 
 Můžete také přistupovat k webům lokálně:
-- http://localhost:8000 (hlavní stránka s odkazy)
-- http://localhost:8000/design
-- http://localhost:8000/rekonstrukce
-- http://localhost:8000/reality
-- http://localhost:8000/sprava
-
-Nebo přímo k jednotlivým serverům:
 - http://localhost:3001 (design)
 - http://localhost:3002 (rekonstrukce)
 - http://localhost:3003 (reality)
@@ -62,92 +68,59 @@ Nebo přímo k jednotlivým serverům:
 
 ### Ukončení:
 
-Pro ukončení sdílení stiskněte `Ctrl+C` v terminálu.
-
-## Alternativní způsob (krok po kroku):
-
-### 1. Buildnout weby:
+**Způsob 1: Jeden příkaz pro všechny**
 ```bash
-./build-all.sh
+./stop-all.sh
 ```
 
-### 2. Spustit lokální server (v jednom terminálu):
+**Způsob 2: Jednotlivé terminály**
+Stiskněte `Ctrl+C` v každém terminálovém okně.
+
+## Alternativní způsob (jednotlivé weby):
+
+Pokud chcete spustit pouze jeden web:
+
+### Design:
 ```bash
-cd dist
-python3 -m http.server 8080
+./cloudflare-design.sh
 ```
 
-### 3. Spustit Cloudflare Tunnel (v druhém terminálu):
+### Reality:
 ```bash
-cloudflared tunnel --url http://localhost:8080
+./cloudflare-reality.sh
 ```
 
-Cloudflare vám zobrazí veřejnou URL, na které jsou vaše weby dostupné.
-
-## Trvalé řešení (doporučeno)
-
-Pro trvalé řešení doporučuji použít **Cloudflare Pages** (zdarma):
-
-### Cloudflare Pages nasazení:
-
-1. Vytvořte účet na [Cloudflare](https://dash.cloudflare.com/sign-up)
-
-2. Buildněte všechny weby:
+### Rekonstrukce:
 ```bash
-./build-all.sh
+./cloudflare-rekonstrukce.sh
 ```
 
-3. Nainstalujte Wrangler (Cloudflare CLI):
+### Správa:
 ```bash
-bun add -g wrangler
+./cloudflare-sprava.sh
 ```
 
-4. Přihlaste se:
+Každý script spustí dev server a Cloudflare Tunnel pro daný web.
+
+## Spustit dev servery bez Cloudflare Tunnel
+
+Pokud chcete pouze lokální přístup bez veřejné URL:
+
 ```bash
-wrangler login
-```
+# Design
+cd pavel_jaros_design && PORT=3001 bun run dev
 
-5. Deployujte:
-```bash
-wrangler pages deploy dist --project-name=pavel-jaros-portfolio
-```
+# Reality
+cd pavel_jaros_reality && PORT=3003 bun run dev
 
-Vaše weby pak budou trvale dostupné na: `https://pavel-jaros-portfolio.pages.dev`
+# Rekonstrukce
+cd pavel_jaros_rekonstrukce && PORT=3002 bun run dev
 
-## Další bezplatné alternativy
-
-### 1. Netlify
-```bash
-# Nainstalujte Netlify CLI
-bun add -g netlify-cli
-
-# Buildněte
-./build-all.sh
-
-# Deployujte
-netlify deploy --dir=dist --prod
-```
-
-### 2. Vercel
-```bash
-# Nainstalujte Vercel CLI
-bun add -g vercel
-
-# Buildněte
-./build-all.sh
-
-# Deployujte
-vercel deploy dist --prod
+# Správa
+cd pavel_jaros_sprava && PORT=3004 bun run dev
 ```
 
 ## Troubleshooting
-
-### Python není nainstalován
-Pokud nemáte Python, můžete použít Bun server:
-```bash
-cd dist
-bunx serve
-```
 
 ### Cloudflared není nainstalován
 Nainstalujte cloudflared:
@@ -155,5 +128,23 @@ Nainstalujte cloudflared:
 brew install cloudflared
 ```
 
-### Port 8080 je již používán
-Změňte port v scriptech na jiný (např. 8081, 3000, atd.)
+### Porty jsou již používány
+Ukončete existující procesy:
+```bash
+./stop-all.sh
+```
+
+Nebo manuálně:
+```bash
+lsof -ti:3001,3002,3003,3004 | xargs kill -9
+pkill -f cloudflared
+```
+
+### Terminály se neotevírají
+Ujistěte se, že používáte macOS s Terminal.app. Na jiných systémech upravte `cloudflare-full.sh` pro váš terminál.
+
+### Server se nespustil
+Zkontrolujte, že:
+- Máte nainstalovaný Bun (`brew install bun`)
+- Všechny dependencies jsou nainstalovány (`bun install` v každém projektu)
+- Porty 3001-3004 jsou volné
