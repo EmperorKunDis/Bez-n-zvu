@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { LucideIcon } from "lucide-react";
-import { Instagram, Menu, Phone, MapPin, Mail, Globe, AlertCircle, CheckCircle2, Loader2, Lightbulb, Key, MessageSquare, Palette } from "lucide-react";
+import { Instagram, Menu, Phone, MapPin, Mail, Globe, AlertCircle, CheckCircle2, Loader2, Lightbulb, Key, MessageSquare, Palette, Sparkles, HomeIcon } from "lucide-react";
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, usePathname } from '../../../i18n/routing';
 import { useState } from 'react';
@@ -62,9 +62,9 @@ export default function Home() {
         description: 'Realistické pohledy vám umožní doladit každý detail dříve, než začneme.',
       },
       {
-        icon: MessageSquare,
-        title: 'Kompletní servis pod jednou střechou',
-        description: 'Spolupráce s PJ-Rekonstrukce a PJ-Správa zaručí hladký průběh každého projektu.',
+        icon: Sparkles,
+        title: 'Styl, který vydrží',
+        description: 'Pracujeme s nadčasovou estetikou a prvky, které budou dobře vypadat i za několik let.',
       },
     ],
     en: [
@@ -79,9 +79,9 @@ export default function Home() {
         description: 'Photorealistic renders let you fine-tune every detail ahead of time.',
       },
       {
-        icon: MessageSquare,
-        title: 'Full-service delivery',
-        description: 'Seamless cooperation with PJ-Rekonstrukce and PJ-Správa keeps the process smooth.',
+        icon: Sparkles,
+        title: 'Lasting interior statement',
+        description: 'We focus on timeless aesthetics that stay relevant and beautiful for years.',
       },
     ],
   };
@@ -252,6 +252,16 @@ export default function Home() {
               <p className="text-lg md:text-2xl text-white/85 leading-relaxed md:max-w-3xl">
                 {t('hero.subtitle')}
               </p>
+              <div className="flex flex-wrap gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white/90">
+                  <HomeIcon className="h-4 w-4" />
+                  Karlovarský kraj i celá ČR
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white/90">
+                  <Sparkles className="h-4 w-4" />
+                  Prémiové materiály a lokální výroba
+                </span>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   className="bg-red-700 hover:bg-red-800 text-white text-lg px-8 py-6 font-semibold"

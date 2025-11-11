@@ -79,8 +79,31 @@
     }
   },
   "discoverStyle": {
+    "back": "Zpět na hlavní stránku",
     "title": "Najděte inspiraci pro svůj domov",
     "subtitle": "Každý styl má své jedinečné kouzlo. Najeďte myší (nebo klikněte na mobilu) na jednotlivé názvy a sledujte, jak se prázdný prostor okamžitě promění.",
+    "hint": "Vyberte styl pro zobrazení popisu nebo se vraťte k výchozí inspiraci.",
+    "reset": "Zobrazit výchozí inspiraci",
+    "highlights": {
+      "personal": {
+        "title": "Styl na míru vaší osobnosti",
+        "description": "Každý návrh vzniká po osobním setkání a pochopení vašeho životního stylu, aby interiér odrážel právě vás."
+      },
+      "visual": {
+        "title": "Fotorealistické vizualizace",
+        "description": "Než začneme realizovat, uvidíte svůj budoucí domov v dokonale věrném zobrazení včetně světla, textur a materiálů."
+      },
+      "execution": {
+        "title": "Bezchybná realizace",
+        "description": "Společně s PJ-Rekonstrukce zajistíme nákup materiálů, koordinaci řemesel i dohled nad provedením do posledního detailu."
+      }
+    },
+    "showcase": {
+      "title": "Silná značka, osobní přístup",
+      "description": "Logo PJ Group je zárukou profesionálního zázemí. Jako osobní průvodce vám budu stát po boku od první konzultace až po finální styling interiéru.",
+      "badge": "Interiéry s podpisem Pavla Jaroše",
+      "alt": "Pavel Jaroš, interiérový designér"
+    },
     "cta": {
       "title": "Našli jste styl, který rezonuje s vaší duší?",
       "text": "Pojďme ho společně přizpůsobit přesně pro vás a váš domov.",

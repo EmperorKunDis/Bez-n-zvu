@@ -145,5 +145,79 @@
     "ethics": "Ethikkodex",
     "consumer": "Verbraucherinformation",
     "whistleblow": "Internes Meldesystem"
+  },
+  "discoverStyle": {
+    "back": "Zurück zur Startseite",
+    "title": "Finden Sie Inspiration für Ihr Zuhause",
+    "subtitle": "Jeder Stil hat seinen eigenen Zauber. Bewegen Sie die Maus (oder tippen Sie auf dem Handy), um zu sehen, wie sich der Raum sofort verändert.",
+    "hint": "Wählen Sie einen Stil, um seine Beschreibung zu sehen, oder kehren Sie zur Standard-Inspiration zurück.",
+    "reset": "Standard-Inspiration anzeigen",
+    "highlights": {
+      "personal": {
+        "title": "Stil maßgeschneidert auf Ihre Persönlichkeit",
+        "description": "Jeder Entwurf entsteht nach einem persönlichen Kennenlernen, damit das Interieur genau zu Ihnen passt."
+      },
+      "visual": {
+        "title": "Fotorealistische Visualisierungen",
+        "description": "Bevor wir starten, sehen Sie Ihr zukünftiges Zuhause in detailgetreuen Visualisierungen mit Licht, Texturen und Materialien."
+      },
+      "execution": {
+        "title": "Makellose Umsetzung",
+        "description": "Gemeinsam mit PJ-Rekonstrukce koordinieren wir Materialien, Handwerker und die Bauüberwachung bis zum letzten Detail."
+      }
+    },
+    "showcase": {
+      "title": "Starke Marke, persönlicher Ansatz",
+      "description": "Die Marke PJ Group steht für professionellen Hintergrund. Pavel begleitet Sie persönlich von der ersten Beratung bis zur finalen Gestaltung Ihres Interieurs.",
+      "badge": "Interieurs mit der Handschrift von Pavel Jaroš",
+      "alt": "Pavel Jaroš, Interior Designer"
+    },
+    "cta": {
+      "title": "Haben Sie einen Stil gefunden, der zu Ihnen passt?",
+      "text": "Lassen Sie uns ihn so anpassen, dass er perfekt in Ihr Zuhause passt.",
+      "button": "Beratung vereinbaren"
+    },
+    "styles": {
+      "rustic": {
+        "name": "Rustikal",
+        "description": "Massives Holz, Naturstein und die gemütliche Atmosphäre eines Landhauses."
+      },
+      "artdeco": {
+        "name": "Art Deco",
+        "description": "Eleganz, geometrische Formen, glänzende Metalle und luxuriöser Samt."
+      },
+      "boho": {
+        "name": "Boho",
+        "description": "Ungezwungen, natürliche Materialien, ethnische Muster und viele Pflanzen."
+      },
+      "glamour": {
+        "name": "Glamour",
+        "description": "Glanz, edle Materialien, Spiegeloberflächen und dramatische Akzente."
+      },
+      "industrial": {
+        "name": "Industrial",
+        "description": "Sichtziegel, Beton, Metall und die rohe Schönheit alter Fabrikhallen."
+      },
+      "minimalism": {
+        "name": "Minimalismus",
+        "description": "\"Weniger ist mehr.\" Klare Linien, neutrale Farben und Funktionalität ohne Überflüssiges."
+      },
+      "provencal": {
+        "name": "Provenzalisch",
+        "description": "Lavendelduft, patiniertes Holz und die Romantik der französischen Provence."
+      },
+      "scandinavian": {
+        "name": "Skandinavisch",
+        "description": "Helles Holz, Schlichtheit, Funktionalität und das Hygge-Gefühl von Geborgenheit."
+      },
+      "country": {
+        "name": "Country",
+        "description": "Traditionelle Muster, Wohnlichkeit, Wärme und ehrliche Materialien."
+      },
+      "vintage": {
+        "name": "Vintage",
+        "description": "Nostalgie, Stücke mit Geschichte und zeitlose Eleganz in modernem Gewand."
+      }
+    }
   }
 }

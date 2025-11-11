@@ -145,5 +145,79 @@
     "ethics": "Kodeks etyczny",
     "consumer": "Informacje dla konsumentów",
     "whistleblow": "Wewnętrzny system zgłaszania"
+  },
+  "discoverStyle": {
+    "back": "Powrót na stronę główną",
+    "title": "Znajdź inspirację dla swojego domu",
+    "subtitle": "Każdy styl ma swój urok. Najedź kursorem (lub stuknij na telefonie), aby zobaczyć, jak przestrzeń natychmiast się zmienia.",
+    "hint": "Wybierz styl, aby zobaczyć opis, albo wróć do domyślnej inspiracji.",
+    "reset": "Pokaż domyślną inspirację",
+    "highlights": {
+      "personal": {
+        "title": "Styl dopasowany do Twojej osobowości",
+        "description": "Każdy projekt powstaje po poznaniu Ciebie, aby wnętrze odzwierciedlało Twój sposób życia."
+      },
+      "visual": {
+        "title": "Fotorealistyczne wizualizacje",
+        "description": "Zanim zaczniemy realizację, zobaczysz swój przyszły dom w najdrobniejszych detalach – światło, faktury i materiały."
+      },
+      "execution": {
+        "title": "Bezproblemowa realizacja",
+        "description": "Wraz z PJ-Rekonstrukce koordynujemy materiały, rzemieślników i nadzór, aż po ostatni szczegół."
+      }
+    },
+    "showcase": {
+      "title": "Silna marka, osobiste podejście",
+      "description": "Logo PJ Group gwarantuje profesjonalne zaplecze. Pavel osobiście poprowadzi Cię od pierwszej konsultacji aż po finalne wystylizowanie wnętrza.",
+      "badge": "Wnętrza sygnowane przez Pavla Jaroša",
+      "alt": "Pavel Jaroš, projektant wnętrz"
+    },
+    "cta": {
+      "title": "Znalazłeś styl, który do Ciebie przemawia?",
+      "text": "Dostosujmy go tak, aby idealnie pasował do Twojego domu.",
+      "button": "Umów konsultację"
+    },
+    "styles": {
+      "rustic": {
+        "name": "Rustykalny",
+        "description": "Lite drewno, naturalny kamień i przytulna atmosfera wiejskiej rezydencji."
+      },
+      "artdeco": {
+        "name": "Art Deco",
+        "description": "Elegancja, geometryczne kształty, lśniące metale i luksusowy aksamit."
+      },
+      "boho": {
+        "name": "Boho",
+        "description": "Swoboda, naturalne materiały, etniczne wzory i mnóstwo zieleni."
+      },
+      "glamour": {
+        "name": "Glamour",
+        "description": "Blask, szlachetne materiały, powierzchnie lustrzane i dramatyczne akcenty."
+      },
+      "industrial": {
+        "name": "Industrialny",
+        "description": "Odsłonięta cegła, beton, metal i surowe piękno hal fabrycznych."
+      },
+      "minimalism": {
+        "name": "Minimalizm",
+        "description": "\"Mniej znaczy więcej.\" Proste linie, neutralne kolory i funkcjonalność bez zbędnych dodatków."
+      },
+      "provencal": {
+        "name": "Prowansalski",
+        "description": "Zapach lawendy, postarzone drewno i romantyka francuskiej prowincji."
+      },
+      "scandinavian": {
+        "name": "Skandynawski",
+        "description": "Jasne drewno, prostota, funkcjonalność i skandynawska koncepcja hygge."
+      },
+      "country": {
+        "name": "Country",
+        "description": "Tradycyjne wzory, domowe ciepło i naturalne materiały."
+      },
+      "vintage": {
+        "name": "Vintage",
+        "description": "Nostalgia, przedmioty z historią i ponadczasowa elegancja we współczesnym wydaniu."
+      }
+    }
   }
 }

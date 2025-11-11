@@ -145,5 +145,79 @@
     "ethics": "Etický kódex",
     "consumer": "Poučenie pre spotrebiteľov",
     "whistleblow": "Vnútorný oznamovací systém"
+  },
+  "discoverStyle": {
+    "back": "Späť na hlavnú stránku",
+    "title": "Nájdite inšpiráciu pre svoj domov",
+    "subtitle": "Každý štýl má svoje čaro. Nahoďte kurzor (alebo ťuknite v mobile) a sledujte, ako sa priestor okamžite zmení.",
+    "hint": "Vyberte štýl pre zobrazenie popisu alebo sa vráťte k východiskovej inšpirácii.",
+    "reset": "Zobraziť východiskovú inšpiráciu",
+    "highlights": {
+      "personal": {
+        "title": "Štýl šitý na mieru vašej osobnosti",
+        "description": "Každý návrh vzniká po osobnom stretnutí, aby interiér odrážal váš životný štýl."
+      },
+      "visual": {
+        "title": "Fotorealistické vizualizácie",
+        "description": "Skôr než začneme realizáciu, uvidíte svoj budúci domov v realistickom zobrazení vrátane svetla, textúr a materiálov."
+      },
+      "execution": {
+        "title": "Bezchybná realizácia",
+        "description": "Spolu s PJ-Rekonstrukce zabezpečíme materiály, koordináciu remesiel aj autorský dozor do posledného detailu."
+      }
+    },
+    "showcase": {
+      "title": "Silná značka, osobný prístup",
+      "description": "Logo PJ Group je garanciou profesionálneho zázemia. Pavel vás osobne prevedie od prvej konzultácie až po finálne doladenie interiéru.",
+      "badge": "Interiéry s podpisom Pavla Jaroša",
+      "alt": "Pavel Jaroš, interiérový dizajnér"
+    },
+    "cta": {
+      "title": "Našli ste štýl, ktorý s vami rezonuje?",
+      "text": "Prispôsobme ho tak, aby dokonale sedel vášmu domovu.",
+      "button": "Dohodnúť konzultáciu"
+    },
+    "styles": {
+      "rustic": {
+        "name": "Rustikálny",
+        "description": "Masívne drevo, prírodný kameň a útulná atmosféra vidieckeho sídla."
+      },
+      "artdeco": {
+        "name": "Art Deco",
+        "description": "Elegancia, geometrické tvary, lesklé kovy a luxusný zamat."
+      },
+      "boho": {
+        "name": "Boho",
+        "description": "Nespútanosť, prírodné materiály, etnické vzory a veľa zelene."
+      },
+      "glamour": {
+        "name": "Glamour",
+        "description": "Lesk, prémiové materiály, zrkadlové plochy a dramatické prvky."
+      },
+      "industrial": {
+        "name": "Industriálny",
+        "description": "Priznaná tehla, betón, kov a surová krása továrenských hál."
+      },
+      "minimalism": {
+        "name": "Minimalizmus",
+        "description": "\"Menej je viac.\" Čisté línie, neutrálne farby a funkčnosť bez zbytočností."
+      },
+      "provencal": {
+        "name": "Provensálsky",
+        "description": "Vôňa levandule, patinované drevo a romantika francúzskeho vidieka."
+      },
+      "scandinavian": {
+        "name": "Škandinávsky",
+        "description": "Svetlé drevo, jednoduchosť, funkčnosť a severský koncept hygge."
+      },
+      "country": {
+        "name": "Vidiecky",
+        "description": "Tradičné vzory, domáca pohoda a poctivé materiály."
+      },
+      "vintage": {
+        "name": "Vintage",
+        "description": "Nostalgia, kúsky s príbehom a nadčasová elegancia v modernom poňatí."
+      }
+    }
   }
 }
