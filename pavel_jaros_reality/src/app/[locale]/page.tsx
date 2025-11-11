@@ -499,7 +499,7 @@ export default function Home() {
             <div className="relative lg:order-last">
               <div className="relative aspect-[3/4] max-w-md mx-auto lg:max-w-none">
                 <Image
-                  src="~./public/images/PavelFotka.png"
+                  src="/images/PavelFotka.png"
                   alt="Pavel Jaroš"
                   fill
                   className="object-cover rounded-lg shadow-xl"

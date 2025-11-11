@@ -10,48 +10,53 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 142 71% 45%;
+    --primary: 0 72% 45%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 142 20% 90%;
-    --secondary-foreground: 142 71% 20%;
-    --muted: 142 10% 95%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 72% 35%;
+    --muted: 0 0% 97.5%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 142 30% 85%;
-    --accent-foreground: 142 71% 20%;
+    --accent: 0 62% 92%;
+    --accent-foreground: 0 72% 35%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 142 20% 85%;
-    --input: 142 20% 85%;
-    --ring: 142 71% 45%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 72% 45%;
     --radius: 0.5rem;
-    --chart-1: 142 71% 45%;
+    --chart-1: 0 72% 45%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --brand-primary: #b91c1c;
+    --brand-primary-dark: #991b1b;
+    --brand-primary-darker: #7f1d1d;
+    --brand-primary-light: #fecaca;
+    --brand-primary-lighter: #ffe4e6;
   }
 
   .dark {
-    --background: 142 20% 5%;
+    --background: 0 63% 8%;
     --foreground: 0 0% 98%;
-    --card: 142 20% 8%;
+    --card: 0 63% 10%;
     --card-foreground: 0 0% 98%;
-    --popover: 142 20% 8%;
+    --popover: 0 63% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 142 60% 55%;
-    --primary-foreground: 142 71% 10%;
-    --secondary: 142 30% 15%;
+    --primary: 0 78% 56%;
+    --primary-foreground: 0 72% 12%;
+    --secondary: 0 50% 18%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 142 30% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 142 40% 20%;
+    --muted: 0 50% 18%;
+    --muted-foreground: 0 0% 88%;
+    --accent: 0 50% 22%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 142 30% 20%;
-    --input: 142 30% 20%;
-    --ring: 142 60% 55%;
-    --chart-1: 142 71% 45%;
+    --border: 0 50% 18%;
+    --input: 0 50% 18%;
+    --ring: 0 78% 56%;
+    --chart-1: 0 72% 45%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
@@ -70,5 +75,63 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-green-700 {
+    color: var(--brand-primary) !important;
+  }
+
+  .hover\:text-green-700:hover {
+    color: var(--brand-primary) !important;
+  }
+
+  .text-green-200 {
+    color: var(--brand-primary-light) !important;
+  }
+
+  .hover\:text-green-200:hover {
+    color: var(--brand-primary-light) !important;
+  }
+
+  .text-green-100 {
+    color: var(--brand-primary-lighter) !important;
+  }
+
+  .bg-green-700 {
+    background-color: var(--brand-primary) !important;
+  }
+
+  .bg-green-800 {
+    background-color: var(--brand-primary-dark) !important;
+  }
+
+  .hover\:bg-green-800:hover {
+    background-color: var(--brand-primary-dark) !important;
+  }
+
+  .bg-green-900\/50 {
+    background-color: rgba(127, 29, 29, 0.5) !important;
+  }
+
+  .border-green-700 {
+    border-color: var(--brand-primary) !important;
+  }
+
+  .border-green-500 {
+    border-color: #fca5a5 !important;
+  }
+
+  .bg-green-900\/30 {
+    background-color: rgba(127, 29, 29, 0.3) !important;
+  }
+
+  .bg-green-900\/20 {
+    background-color: rgba(127, 29, 29, 0.2) !important;
+  }
+
+  .hover\:border-green-700:hover {
+    border-color: var(--brand-primary) !important;
   }
 }

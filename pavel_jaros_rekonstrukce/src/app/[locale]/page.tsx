@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Facebook, Instagram, Linkedin, Menu, Phone, MapPin, Mail, Home as HomeIcon, Building2, Hammer, PaintBucket, Wrench, Shield, Clock, FileCheck, Users, Check, Globe, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Menu, Phone, MapPin, Mail, Home as HomeIcon, Building2, Hammer, Wrench, Shield, Clock, FileCheck, Users, Globe, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, usePathname } from '../../../i18n/routing';
 import { useState } from 'react';
@@ -38,6 +39,80 @@ export default function Home() {
     { code: 'sk', name: 'Slovenčina', flag: '🇸🇰' },
     { code: 'ru', name: 'Русский', flag: '🇷🇺' },
   ];
+
+  type Highlight = {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+  };
+
+  type PromiseItem = {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+  };
+
+  const heroHighlightContent: Record<string, Highlight[]> = {
+    cs: [
+      {
+        icon: FileCheck,
+        title: 'Pevný rozpočet bez překvapení',
+        description: 'Transparentní nabídka a smlouva s garancí termínů i ceny.',
+      },
+      {
+        icon: Shield,
+        title: 'Garance kvality provedení',
+        description: 'Materiály s certifikací a vlastní dohled nad každou etapou.',
+      },
+      {
+        icon: Clock,
+        title: 'Denní komunikace a dohled',
+        description: 'Pravidelné kontrolní dny, fotodokumentace a jasné předávání informací.',
+      },
+    ],
+    en: [
+      {
+        icon: FileCheck,
+        title: 'Fixed budget with no surprises',
+        description: 'Transparent proposal and contract with guaranteed deadlines and pricing.',
+      },
+      {
+        icon: Shield,
+        title: 'Quality guaranteed',
+        description: 'Certified materials and in-house supervision of every construction phase.',
+      },
+      {
+        icon: Clock,
+        title: 'Daily updates and oversight',
+        description: 'Regular site checks, photo reports and crystal-clear communication.',
+      },
+    ],
+  };
+
+  const promises: PromiseItem[] = [
+    {
+      icon: Hammer,
+      title: t('why.one.title'),
+      description: t('why.one.text'),
+    },
+    {
+      icon: Clock,
+      title: t('why.two.title'),
+      description: t('why.two.text'),
+    },
+    {
+      icon: Shield,
+      title: t('why.three.title'),
+      description: t('why.three.text'),
+    },
+    {
+      icon: Users,
+      title: t('why.four.title'),
+      description: t('why.four.text'),
+    },
+  ];
+
+  const heroHighlights = heroHighlightContent[locale] ?? heroHighlightContent.en;
 
   const handleLanguageChange = (newLocale: string) => {
     router.push(pathname, { locale: newLocale });
@@ -109,7 +184,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b fixed top-[65px] left-0 right-0 z-40">
+      <header className="bg-white/95 backdrop-blur shadow-sm border-b fixed top-[65px] left-0 right-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -138,6 +213,13 @@ export default function Home() {
               <div className="hidden lg:flex items-center text-blue-600">
                 <Phone className="h-4 w-4 mr-2" />
                 <span className="text-sm font-semibold">{t('contact.phone')}</span>
+              </div>
+
+              {/* Social */}
+              <div className="hidden lg:flex items-center space-x-3 text-gray-400">
+                <Facebook className="h-5 w-5 hover:text-blue-600 transition-colors" />
+                <Instagram className="h-5 w-5 hover:text-blue-600 transition-colors" />
+                <Linkedin className="h-5 w-5 hover:text-blue-600 transition-colors" />
               </div>
 
               {/* Language Switcher */}
@@ -189,30 +271,41 @@ export default function Home() {
             fill
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              {t('hero.title')}
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-              {t('hero.subtitle')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 font-semibold"
-                onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                {t('hero.ctaPrimary')}
-              </Button>
-              <Button
-                variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-6 font-semibold"
-                onClick={() => document.getElementById('realizace')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                {t('hero.ctaSecondary')}
-              </Button>
+          <div className="max-w-4xl">
+            <div className="space-y-6 md:space-y-8">
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight md:leading-[1.1] text-balance">
+                {t('hero.title')}
+              </h1>
+              <p className="text-lg md:text-2xl text-white/85 leading-relaxed md:max-w-3xl">
+                {t('hero.subtitle')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 font-semibold"
+                  onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  {t('hero.ctaPrimary')}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-6 font-semibold"
+                  onClick={() => document.getElementById('realizace')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  {t('hero.ctaSecondary')}
+                </Button>
+              </div>
+            </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {heroHighlights.map(({ icon: Icon, title, description }) => (
+                <div key={title} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex flex-col gap-3">
+                  <Icon className="h-8 w-8" />
+                  <h3 className="text-lg font-semibold">{title}</h3>
+                  <p className="text-sm text-white/80 leading-relaxed">{description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -269,37 +362,13 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Check className="h-8 w-8" />
+            {promises.map(({ icon: Icon, title, description }) => (
+              <div key={title} className="rounded-xl border border-blue-600/20 bg-white p-8 text-left shadow-sm transition-transform hover:-translate-y-1 hover:shadow-xl">
+                <Icon className="h-10 w-10 mb-6 text-blue-600" />
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{title}</h3>
+                <p className="text-gray-600 leading-relaxed">{description}</p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('why.one.title')}</h3>
-              <p className="text-gray-600">{t('why.one.text')}</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Clock className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('why.two.title')}</h3>
-              <p className="text-gray-600">{t('why.two.text')}</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Shield className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('why.three.title')}</h3>
-              <p className="text-gray-600">{t('why.three.text')}</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('why.four.title')}</h3>
-              <p className="text-gray-600">{t('why.four.text')}</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

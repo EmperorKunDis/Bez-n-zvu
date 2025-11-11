@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import type { LucideIcon } from "lucide-react";
 import { Facebook, Instagram, Linkedin, Menu, Phone, MapPin, Mail, Home as HomeIcon, Building2, Clock, TrendingUp, Shield, Wrench, FileCheck, Check, Globe, AlertCircle, CheckCircle2, Loader2, ChevronDown } from "lucide-react";
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, usePathname } from '../../../i18n/routing';
@@ -39,6 +40,160 @@ export default function Home() {
     { code: 'sk', name: 'Slovenčina', flag: '🇸🇰' },
     { code: 'ru', name: 'Русский', flag: '🇷🇺' },
   ];
+
+  type Highlight = {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+  };
+
+  type Tariff = {
+    id: string;
+    name: string;
+    price: string;
+    description: string;
+    features: string[];
+    cta: string;
+    badge?: string;
+    highlight?: boolean;
+  };
+
+  const heroHighlightContent: Record<string, Highlight[]> = {
+    cs: [
+      {
+        icon: Shield,
+        title: "Kompletní správa nájmu",
+        description: "Od prověření nájemníků po pravidelné kontroly řešíme celý proces za vás.",
+      },
+      {
+        icon: FileCheck,
+        title: "Transparentní smlouvy",
+        description: "Jasná pravidla, žádné hvězdičky – smlouvy, kterým budete rozumět.",
+      },
+      {
+        icon: Clock,
+        title: "Reakce do 24 hodin",
+        description: "Řešíme komunikaci s nájemníky i servisní zásahy bez zbytečných prodlev.",
+      },
+    ],
+    en: [
+      {
+        icon: Shield,
+        title: "Complete rental management",
+        description: "We cover everything from tenant screening to ongoing inspections.",
+      },
+      {
+        icon: FileCheck,
+        title: "Transparent contracts",
+        description: "Clear agreements with no hidden clauses or unpleasant surprises.",
+      },
+      {
+        icon: Clock,
+        title: "Response within 24h",
+        description: "Tenant communication and maintenance handled without delays.",
+      },
+    ],
+  };
+
+  const tariffContent: Record<string, Tariff[]> = {
+    cs: [
+      {
+        id: 'start',
+        name: 'Tarif START',
+        price: '12 % z nájemného',
+        description: 'Profesionalizujte pronájem a administrativu bez zbytečných starostí.',
+        features: [
+          'Kompletní správa nájmu',
+          'Výběr a prověření nájemníků',
+          'Zajištění smluv',
+          'Předání bytu',
+          'Komunikace',
+        ],
+        cta: 'Zvolit tarif START',
+      },
+      {
+        id: 'plus',
+        name: 'Tarif PLUS',
+        price: '15 % z nájemného',
+        description: 'Rozšířená péče, která přidává garanci příjmů a dohled nad nemovitostí.',
+        features: [
+          'Kompletní správa nájmu',
+          'Výběr a prověření nájemníků',
+          'Zajištění smluv',
+          'Předání bytu',
+          'Komunikace',
+          'Garance 50% nájmu',
+        ],
+        cta: 'Zvolit tarif PLUS',
+      },
+      {
+        id: 'premium',
+        name: 'Tarif PREMIUM',
+        price: '20 % z nájemného',
+        description: 'Maximální jistota, prioritní péče a garance příjmů i při neobsazenosti bytu.',
+        features: [
+          'Vše z tarifu PLUS',
+          'Kompletní servis',
+          'Prioritní péče',
+          'Pravidelné kontroly, vyšší jistota',
+          '100% garance nájmu při neobsazenosti bytu',
+        ],
+        cta: 'Zvolit tarif PREMIUM',
+        badge: 'Doporučujeme',
+        highlight: true,
+      },
+    ],
+    en: [
+      {
+        id: 'start',
+        name: 'START Plan',
+        price: '12% of monthly rent',
+        description: 'Professional administration of your rental without unnecessary hassle.',
+        features: [
+          'Complete rental management',
+          'Tenant selection and screening',
+          'Legal paperwork and contracts',
+          'Handover of the property',
+          'Tenant communication',
+        ],
+        cta: 'Choose START Plan',
+      },
+      {
+        id: 'plus',
+        name: 'PLUS Plan',
+        price: '15% of monthly rent',
+        description: 'Enhanced service with income protection and proactive care.',
+        features: [
+          'Complete rental management',
+          'Tenant selection and screening',
+          'Contract preparation and signing',
+          'Property handover',
+          'Ongoing communication',
+          '50% rent guarantee in case of tenant default',
+        ],
+        cta: 'Choose PLUS Plan',
+      },
+      {
+        id: 'premium',
+        name: 'PREMIUM Plan',
+        price: '20% of monthly rent',
+        description: 'Maximum certainty with priority care and full income guarantee.',
+        features: [
+          'Everything from PLUS',
+          'Full service management',
+          'Priority care',
+          'Scheduled inspections for higher security',
+          '100% rent guarantee if the property is vacant',
+        ],
+        cta: 'Choose PREMIUM Plan',
+        badge: 'Recommended',
+        highlight: true,
+      },
+    ],
+  };
+
+  const heroHighlights = heroHighlightContent[locale] ?? heroHighlightContent.en;
+  const tariffs = tariffContent[locale] ?? tariffContent.en;
 
   const handleLanguageChange = (newLocale: string) => {
     router.push(pathname, { locale: newLocale });
@@ -110,7 +265,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b fixed top-[65px] left-0 right-0 z-40">
+      <header className="bg-white/95 backdrop-blur shadow-sm border-b fixed top-[65px] left-0 right-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -140,6 +295,13 @@ export default function Home() {
               <div className="hidden lg:flex items-center text-green-700">
                 <Phone className="h-4 w-4 mr-2" />
                 <span className="text-sm font-semibold">+420 777 558 730</span>
+              </div>
+
+              {/* Social */}
+              <div className="hidden lg:flex items-center space-x-3 text-gray-400">
+                <Facebook className="h-5 w-5 hover:text-green-700 transition-colors" />
+                <Instagram className="h-5 w-5 hover:text-green-700 transition-colors" />
+                <Linkedin className="h-5 w-5 hover:text-green-700 transition-colors" />
               </div>
 
               {/* Language Switcher */}
@@ -191,22 +353,42 @@ export default function Home() {
             fill
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              {t('hero.title')}
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
-              {t('hero.subtitle')}
-            </p>
-            <Button
-              className="bg-green-700 hover:bg-green-800 text-white text-lg px-8 py-6 font-semibold"
-              onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              {t('hero.cta')}
-            </Button>
+          <div className="max-w-4xl">
+            <div className="space-y-6 md:space-y-8">
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight md:leading-[1.1] text-balance">
+                {t('hero.title')}
+              </h1>
+              <p className="text-lg md:text-2xl text-white/80 leading-relaxed md:max-w-3xl">
+                {t('hero.subtitle')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  className="bg-green-700 hover:bg-green-800 text-white text-lg px-8 py-6 font-semibold"
+                  onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  {t('hero.cta')}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-white/60 text-white hover:bg-white hover:text-green-700 text-lg px-8 py-6 font-semibold"
+                  onClick={() => document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  {t('nav.pricing')}
+                </Button>
+              </div>
+            </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {heroHighlights.map(({ icon: Icon, title, description }) => (
+                <div key={title} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 flex flex-col gap-3">
+                  <Icon className="h-8 w-8" />
+                  <h3 className="text-lg font-semibold">{title}</h3>
+                  <p className="text-sm text-white/80 leading-relaxed">{description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -256,29 +438,17 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-green-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">1</div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('process.step1.title')}</h3>
-              <p className="text-gray-600">{t('process.step1.text')}</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-green-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">2</div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('process.step2.title')}</h3>
-              <p className="text-gray-600">{t('process.step2.text')}</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-green-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">3</div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('process.step3.title')}</h3>
-              <p className="text-gray-600">{t('process.step3.text')}</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-green-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">4</div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">{t('process.step4.title')}</h3>
-              <p className="text-gray-600">{t('process.step4.text')}</p>
-            </div>
+            {[1, 2, 3, 4].map((step) => (
+              <div key={step} className="flex flex-col items-start text-left md:items-center md:text-center space-y-4">
+                <div className="bg-green-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold md:mx-auto">
+                  {step}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">{t(`process.step${step}.title`)}</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {t(`process.step${step}.text`)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -328,67 +498,60 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section id="cenik" className="py-20 bg-white">
+      <section id="cenik" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">{t('pricing.title')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t('pricing.subtitle')}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* START Tariff */}
-            <Card className="border-2 hover:shadow-xl transition-all">
-              <CardContent className="p-8">
-                <h3 className="text-3xl font-bold mb-2 text-gray-900">{t('pricing.start.name')}</h3>
-                <div className="text-4xl font-bold text-green-700 mb-4">{t('pricing.start.price')}</div>
-                <p className="text-gray-600 mb-6">{t('pricing.start.description')}</p>
+          <div className="grid gap-8 max-w-6xl mx-auto md:grid-cols-2 lg:grid-cols-3">
+            {tariffs.map((tariff) => (
+              <Card
+                key={tariff.id}
+                className={`relative h-full border-2 transition-all ${
+                  tariff.highlight
+                    ? 'border-green-700 shadow-xl bg-white'
+                    : 'border-white hover:border-green-700 hover:shadow-lg'
+                }`}
+              >
+                {tariff.badge && (
+                  <div className="absolute top-4 right-4 bg-green-700 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    {tariff.badge}
+                  </div>
+                )}
+                <CardContent className="p-8 flex flex-col h-full">
+                  <div className="space-y-2">
+                    <h3 className="text-3xl font-bold text-gray-900">{tariff.name}</h3>
+                    <div className="text-4xl font-bold text-green-700">{tariff.price}</div>
+                    <p className="text-gray-600 leading-relaxed">{tariff.description}</p>
+                  </div>
 
-                <div className="space-y-3 mb-8">
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="flex items-start">
-                      <Check className="h-5 w-5 text-green-700 mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{t(`pricing.start.features.${i}`)}</span>
-                    </div>
-                  ))}
-                </div>
+                  <div className="space-y-3 my-8">
+                    {tariff.features.map((feature, index) => (
+                      <div key={`${tariff.id}-feature-${index}`} className="flex items-start gap-3">
+                        <Check className="h-5 w-5 text-green-700 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700 leading-relaxed">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
 
-                <Button
-                  variant="outline"
-                  className="w-full border-green-700 text-green-700 hover:bg-green-700 hover:text-white"
-                  onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  {t('pricing.start.cta')}
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* PREMIUM Tariff */}
-            <Card className="border-2 border-green-700 shadow-xl relative">
-              <div className="absolute top-4 right-4 bg-green-700 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                {t('pricing.premium.badge')}
-              </div>
-              <CardContent className="p-8">
-                <h3 className="text-3xl font-bold mb-2 text-gray-900">{t('pricing.premium.name')}</h3>
-                <div className="text-4xl font-bold text-green-700 mb-4">{t('pricing.premium.price')}</div>
-                <p className="text-gray-600 mb-6">{t('pricing.premium.description')}</p>
-
-                <div className="space-y-3 mb-8">
-                  {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="flex items-start">
-                      <Check className="h-5 w-5 text-green-700 mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700 font-semibold">{t(`pricing.premium.features.${i}`)}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <Button
-                  className="w-full bg-green-700 hover:bg-green-800 text-white"
-                  onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  {t('pricing.premium.cta')}
-                </Button>
-              </CardContent>
-            </Card>
+                  <Button
+                    variant={tariff.highlight ? 'default' : 'outline'}
+                    className={`mt-auto w-full font-semibold ${
+                      tariff.highlight
+                        ? 'bg-green-700 hover:bg-green-800 text-white'
+                        : 'border-green-700 text-green-700 hover:bg-green-700 hover:text-white'
+                    }`}
+                    onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    {tariff.cta}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
