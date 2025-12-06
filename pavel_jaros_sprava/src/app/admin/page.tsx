@@ -1,69 +1,24 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { AdminLayout, websiteData, type SiteKey } from '@/components/admin/AdminLayout';
+import { useState } from 'react';
+import { AdminLayout, siteData, adminTheme } from '@/components/admin/AdminLayout';
 import { Dashboard } from '@/components/admin/Dashboard';
 import { ContentEditor } from '@/components/admin/ContentEditor';
 import { TranslationEditor } from '@/components/admin/TranslationEditor';
 import { ImageManager } from '@/components/admin/ImageManager';
 import { ThemeSettings } from '@/components/admin/ThemeSettings';
 import { VisualEditor } from '@/components/admin/VisualEditor';
-import {
-  FileText,
-  Image as ImageIcon,
-  Globe,
-  Eye,
-  Edit,
-  Layers,
-  ArrowUpRight,
-  Sparkles,
-  Clock,
-  Activity,
-  Zap,
-  Home,
-  Briefcase,
-  User,
-  Phone,
-  Star,
-  Building2,
-  Palette,
-  Hammer,
-  KeyRound,
-  Users,
-  MessageSquare,
-  DollarSign,
-  Shield,
-  HelpCircle,
-  Search
-} from 'lucide-react';
+import { Search } from 'lucide-react';
 
 // ═══════════════════════════════════════════════════════════════════════════
-// ADMIN PAGE - PJ Sprava (Default Site: sprava)
+// PJ SPRAVA ADMIN - Standalone Admin Panel
 // ═══════════════════════════════════════════════════════════════════════════
 
-const DEFAULT_SITE: SiteKey = 'sprava';
+const SITE_COLOR = '#10B981';
 
-const colors = {
-  primary: '#10B981',
-  primaryDark: '#059669',
-  secondary: '#64748B',
-  success: '#22C55E',
-  warning: '#F59E0B',
-  danger: '#EF4444',
-  dark: '#1E293B',
-  background: '#F8FAFC',
-  surface: '#FFFFFF',
-  border: '#E2E8F0',
-  textPrimary: '#1E293B',
-  textSecondary: '#64748B',
-  textMuted: '#94A3B8',
-};
-
-// Content sections based on current site
-const getContentSections = (currentSite: SiteKey) => {
-  const siteData = websiteData[currentSite];
-  const sections = siteData?.sections || {};
-
+// Content sections for Sprava
+const getContentSections = () => {
+  const sections = siteData.sections;
   const result: {
     id: string;
     title: string;
@@ -71,191 +26,143 @@ const getContentSections = (currentSite: SiteKey) => {
     fields: { key: string; label: string; type: 'text' | 'textarea' | 'image'; value: string }[];
   }[] = [];
 
-  // Hero Section - universal
-  if (sections.hero) {
-    result.push({
-      id: 'hero',
-      title: 'Hero sekce',
-      description: 'Hlavní banner na úvodní stránce',
-      fields: [
-        { key: 'hero.title', label: 'Hlavní nadpis', type: 'text', value: sections.hero.title || '' },
-        { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea', value: sections.hero.subtitle || '' },
-        { key: 'hero.cta', label: 'CTA tlačítko', type: 'text', value: sections.hero.cta || sections.hero.ctaPrimary || '' },
-      ]
-    });
-  }
+  // Hero Section
+  result.push({
+    id: 'hero',
+    title: 'Hero sekce',
+    description: 'Hlavní banner na úvodní stránce',
+    fields: [
+      { key: 'hero.title', label: 'Hlavní nadpis', type: 'text', value: sections.hero.title },
+      { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea', value: sections.hero.subtitle },
+      { key: 'hero.cta', label: 'CTA tlačítko', type: 'text', value: sections.hero.cta },
+    ]
+  });
 
-  // Services
-  if (sections.services && Array.isArray(sections.services)) {
-    const serviceFields = sections.services.flatMap((service: { id: string; title: string; description: string }, index: number) => [
-      { key: `services.${index}.title`, label: `Služba ${index + 1} - Název`, type: 'text' as const, value: service.title },
-      { key: `services.${index}.description`, label: `Služba ${index + 1} - Popis`, type: 'textarea' as const, value: service.description },
-    ]);
-    result.push({
-      id: 'services',
-      title: 'Služby',
-      description: 'Nabízené služby',
-      fields: serviceFields,
-    });
-  }
+  // Target audience
+  const targetFields = sections.target.flatMap((item, index) => [
+    { key: `target.${index}.title`, label: `Skupina ${index + 1} - Název`, type: 'text' as const, value: item.title },
+    { key: `target.${index}.text`, label: `Skupina ${index + 1} - Popis`, type: 'textarea' as const, value: item.text },
+  ]);
+  result.push({
+    id: 'target',
+    title: 'Cílová skupina',
+    description: 'Pro koho je služba určena',
+    fields: targetFields,
+  });
 
-  // Site-specific sections
-  if (currentSite === 'design') {
-    if (sections.portfolio) {
-      result.push({
-        id: 'portfolio',
-        title: 'Portfolio',
-        description: 'Ukázky realizací',
-        fields: sections.portfolio.map((item: { name: string; location: string }, index: number) => ({
-          key: `portfolio.${index}.name`,
-          label: `Projekt ${index + 1}`,
-          type: 'text' as const,
-          value: `${item.name} - ${item.location}`,
-        })),
-      });
-    }
-    if (sections.philosophy) {
-      result.push({
-        id: 'philosophy',
-        title: 'Filozofie',
-        description: 'Designová filozofie',
-        fields: [
-          { key: 'philosophy.title', label: 'Nadpis', type: 'text' as const, value: sections.philosophy.title },
-          { key: 'philosophy.text', label: 'Text', type: 'textarea' as const, value: sections.philosophy.text },
-        ],
-      });
-    }
-  }
+  // Pricing
+  const pricingFields = sections.pricing.flatMap((tarif, index) => [
+    { key: `pricing.${index}.name`, label: `${tarif.name}`, type: 'text' as const, value: tarif.name },
+    { key: `pricing.${index}.price`, label: `Cena tarifu ${tarif.name}`, type: 'text' as const, value: tarif.price },
+    { key: `pricing.${index}.description`, label: `Popis tarifu ${tarif.name}`, type: 'textarea' as const, value: tarif.description },
+  ]);
+  result.push({
+    id: 'pricing',
+    title: 'Ceník',
+    description: 'Tarify a ceny',
+    fields: pricingFields,
+  });
 
-  if (currentSite === 'reality') {
-    if (sections.properties) {
-      result.push({
-        id: 'properties',
-        title: 'Nemovitosti',
-        description: 'Nabízené nemovitosti',
-        fields: sections.properties.map((prop: { title: string; price: string }, index: number) => ({
-          key: `properties.${index}`,
-          label: prop.title,
-          type: 'text' as const,
-          value: prop.price,
-        })),
-      });
-    }
-  }
+  // Benefits
+  const benefitFields = sections.benefits.map((benefit, index) => ({
+    key: `benefits.${index}`,
+    label: benefit.title,
+    type: 'textarea' as const,
+    value: benefit.text,
+  }));
+  result.push({
+    id: 'benefits',
+    title: 'Výhody',
+    description: 'Proč si vybrat naše služby',
+    fields: benefitFields,
+  });
 
-  if (currentSite === 'rekonstrukce') {
-    if (sections.projects) {
-      result.push({
-        id: 'projects',
-        title: 'Realizace',
-        description: 'Dokončené projekty',
-        fields: sections.projects.map((proj: { name: string; location: string }, index: number) => ({
-          key: `projects.${index}`,
-          label: proj.name,
-          type: 'text' as const,
-          value: proj.location,
-        })),
-      });
-    }
-  }
+  // Process
+  const processFields = sections.process.map((step) => ({
+    key: `process.${step.step}`,
+    label: `Krok ${step.step}: ${step.title}`,
+    type: 'textarea' as const,
+    value: step.text,
+  }));
+  result.push({
+    id: 'process',
+    title: 'Proces',
+    description: 'Jak to funguje',
+    fields: processFields,
+  });
 
-  if (currentSite === 'sprava') {
-    if (sections.pricing) {
-      result.push({
-        id: 'pricing',
-        title: 'Ceník',
-        description: 'Tarify a ceny',
-        fields: sections.pricing.map((tarif: { name: string; price: string; description: string }) => ({
-          key: `pricing.${tarif.id}`,
-          label: tarif.name,
-          type: 'text' as const,
-          value: `${tarif.price} - ${tarif.description}`,
-        })),
-      });
-    }
-  }
+  // References
+  const refFields = sections.references.flatMap((ref, index) => [
+    { key: `references.${index}.name`, label: `Reference ${index + 1} - Jméno`, type: 'text' as const, value: ref.name },
+    { key: `references.${index}.text`, label: `Reference ${index + 1} - Text`, type: 'textarea' as const, value: ref.text },
+  ]);
+  result.push({
+    id: 'references',
+    title: 'Reference',
+    description: 'Reference klientů',
+    fields: refFields,
+  });
 
-  // Contact - universal
-  if (sections.contact) {
-    result.push({
-      id: 'contact',
-      title: 'Kontakt',
-      description: 'Kontaktní informace',
-      fields: [
-        { key: 'contact.phone', label: 'Telefon', type: 'text' as const, value: sections.contact.phone || '' },
-        { key: 'contact.email', label: 'E-mail', type: 'text' as const, value: sections.contact.email || '' },
-        { key: 'contact.address', label: 'Adresa', type: 'text' as const, value: sections.contact.address || '' },
-      ],
-    });
-  }
+  // FAQ
+  const faqFields = sections.faq.flatMap((item, index) => [
+    { key: `faq.${index}.question`, label: `Otázka ${index + 1}`, type: 'text' as const, value: item.question },
+    { key: `faq.${index}.answer`, label: `Odpověď ${index + 1}`, type: 'textarea' as const, value: item.answer },
+  ]);
+  result.push({
+    id: 'faq',
+    title: 'FAQ',
+    description: 'Často kladené otázky',
+    fields: faqFields,
+  });
+
+  // About
+  result.push({
+    id: 'about',
+    title: 'O nás',
+    description: 'Informace o Pavlu Jarošovi',
+    fields: [
+      { key: 'about.name', label: 'Jméno', type: 'text', value: sections.about.name },
+      { key: 'about.intro', label: 'Úvod', type: 'textarea', value: sections.about.intro },
+    ]
+  });
+
+  // Contact
+  result.push({
+    id: 'contact',
+    title: 'Kontakt',
+    description: 'Kontaktní informace',
+    fields: [
+      { key: 'contact.phone', label: 'Telefon', type: 'text', value: sections.contact.phone },
+      { key: 'contact.email', label: 'E-mail', type: 'text', value: sections.contact.email },
+      { key: 'contact.address', label: 'Adresa', type: 'text', value: sections.contact.address },
+    ],
+  });
 
   return result;
 };
 
-// Sample translations (from messages/*.json)
+// Translations
 const csTranslations = {
   nav: {
     home: "Domů",
     services: "Služby",
-    portfolio: "Portfolio",
-    about: "O mně",
+    pricing: "Ceník",
+    about: "O nás",
     contact: "Kontakt",
-    cta: "Domluvit si konzultaci"
   },
   hero: {
-    title: "Vytváříme interiéry s duší a příběhem.",
-    subtitle: "Od prvního nápadu po poslední polštář.",
-    ctaPrimary: "Prohlédnout portfolio",
-    ctaSecondary: "Domluvit si konzultaci"
-  },
-  services: {
-    title: "Cesta za vaším vysněným domovem",
-    design: {
-      title: "Návrh interiéru",
-      text: "Kompletní designový koncept včetně 3D vizualizací."
-    },
-    turnkey: {
-      title: "Realizace na klíč",
-      text: "Od stavebních úprav až po finální dekorace."
-    },
-    consultation: {
-      title: "Osobní konzultace",
-      text: "Poradíme s barvami, dispozicí nebo výběrem doplňků."
-    }
+    title: "Nepřetržitý příjem z pronájmu bez starostí.",
+    subtitle: "Svěřte nám svou nemovitost a my zařídíme vše ostatní.",
+    cta: "Chci pronajímat bez starostí",
   },
   contact: {
-    title: "Pojďme společně vytvořit váš vysněný prostor",
     phone: "+420 777 558 730",
-    email: "pavel.jaros@kwcz.cz"
+    email: "pavel.jaros@kwcz.cz",
   }
-};
-
-// Sample images
-const getSampleImages = (currentSite: SiteKey) => {
-  const siteData = websiteData[currentSite];
-  return siteData?.images?.map(path => ({
-    path,
-    name: path.split('/').pop() || 'Unknown',
-    type: 'local' as const,
-    category: path.includes('logo') ? 'logo' : 'images'
-  })) || [];
 };
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [currentSite, setCurrentSite] = useState<SiteKey>(DEFAULT_SITE);
-  const [themeColor, setThemeColor] = useState(colors.primary);
-
-  useEffect(() => {
-    const savedColor = localStorage.getItem('admin-theme-color');
-    if (savedColor) {
-      setThemeColor(savedColor);
-    }
-  }, []);
-
-  const handleThemeColorChange = (color: string) => {
-    setThemeColor(color);
-  };
 
   const handleSaveContent = async (sections: ReturnType<typeof getContentSections>) => {
     console.log('Saving content:', sections);
@@ -267,45 +174,30 @@ export default function AdminPage() {
     await new Promise(resolve => setTimeout(resolve, 1000));
   };
 
-  const contentSections = getContentSections(currentSite);
-  const sampleImages = getSampleImages(currentSite);
-  const siteData = websiteData[currentSite];
-  const siteColor = siteData?.color || colors.primary;
+  const contentSections = getContentSections();
 
   const renderContent = () => {
     switch (activeSection) {
       case 'dashboard':
-        return (
-          <Dashboard
-            onNavigate={setActiveSection}
-            currentSite={currentSite}
-            onSiteChange={setCurrentSite}
-          />
-        );
+        return <Dashboard onNavigate={setActiveSection} />;
 
       case 'visual-editor':
         return (
           <VisualEditor
-            themeColor={siteColor}
+            themeColor={SITE_COLOR}
             onSave={(elements) => console.log('Saving elements:', elements)}
           />
         );
 
       case 'hero':
-      case 'services':
-      case 'portfolio':
-      case 'philosophy':
-      case 'process':
-      case 'about':
-      case 'contact':
-      case 'properties':
-      case 'projects':
-      case 'references':
-      case 'why':
       case 'target':
       case 'pricing':
       case 'benefits':
+      case 'process':
+      case 'references':
       case 'faq':
+      case 'about':
+      case 'contact':
         return (
           <div
             className="rounded-xl p-6"
@@ -317,7 +209,7 @@ export default function AdminPage() {
             <ContentEditor
               sections={contentSections.filter(s => s.id === activeSection)}
               onSave={handleSaveContent}
-              themeColor={siteColor}
+              themeColor={SITE_COLOR}
             />
           </div>
         );
@@ -325,7 +217,7 @@ export default function AdminPage() {
       case 'translations':
         return (
           <TranslationEditor
-            themeColor={siteColor}
+            themeColor={SITE_COLOR}
             translations={{ cs: csTranslations }}
             onSave={handleSaveTranslations}
           />
@@ -341,8 +233,8 @@ export default function AdminPage() {
             }}
           >
             <ImageManager
-              images={sampleImages}
-              themeColor={siteColor}
+              images={siteData.images}
+              themeColor={SITE_COLOR}
             />
           </div>
         );
@@ -357,7 +249,7 @@ export default function AdminPage() {
             }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <Search className="w-6 h-6" style={{ color: siteColor }} />
+              <Search className="w-6 h-6" style={{ color: SITE_COLOR }} />
               <h2 className="text-xl font-bold text-white">SEO & Meta nastavení</h2>
             </div>
             <div className="space-y-4">
@@ -365,7 +257,7 @@ export default function AdminPage() {
                 <label className="block text-sm font-medium text-gray-400 mb-2">Meta Title</label>
                 <input
                   type="text"
-                  defaultValue={siteData?.name || ''}
+                  defaultValue="PJ Správa - Nepřetržitý příjem z pronájmu bez starostí"
                   className="w-full h-12 px-4 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30"
                 />
               </div>
@@ -373,21 +265,13 @@ export default function AdminPage() {
                 <label className="block text-sm font-medium text-gray-400 mb-2">Meta Description</label>
                 <textarea
                   rows={3}
-                  defaultValue="Profesionální služby od PJ Group"
+                  defaultValue="Profesionální správa nemovitostí v Karlovarském kraji. Svěřte nám svou nemovitost a my zařídíme vše ostatní."
                   className="w-full px-4 py-3 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30 resize-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Keywords</label>
-                <input
-                  type="text"
-                  defaultValue="reality, design, rekonstrukce, správa nemovitostí"
-                  className="w-full h-12 px-4 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30"
                 />
               </div>
               <button
                 className="px-6 py-3 rounded-lg text-white font-medium"
-                style={{ background: siteColor }}
+                style={{ background: SITE_COLOR }}
               >
                 Uložit SEO nastavení
               </button>
@@ -405,8 +289,8 @@ export default function AdminPage() {
             }}
           >
             <ThemeSettings
-              currentColor={siteColor}
-              onColorChange={handleThemeColorChange}
+              currentColor={SITE_COLOR}
+              onColorChange={(color) => console.log('Theme color changed:', color)}
             />
           </div>
         );
@@ -420,9 +304,6 @@ export default function AdminPage() {
     <AdminLayout
       activeSection={activeSection}
       onSectionChange={setActiveSection}
-      siteName={siteData?.name || 'PJ Design'}
-      currentSite={currentSite}
-      onSiteChange={setCurrentSite}
     >
       {renderContent()}
     </AdminLayout>
