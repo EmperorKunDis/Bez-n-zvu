@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { AdminLayout } from '@/components/admin/AdminLayout';
+import { AdminLayout, websiteData, type SiteKey } from '@/components/admin/AdminLayout';
+import { Dashboard } from '@/components/admin/Dashboard';
 import { ContentEditor } from '@/components/admin/ContentEditor';
 import { TranslationEditor } from '@/components/admin/TranslationEditor';
 import { ImageManager } from '@/components/admin/ImageManager';
@@ -13,19 +14,38 @@ import {
   Globe,
   Eye,
   Edit,
-  Hammer,
   Layers,
   ArrowUpRight,
   Sparkles,
   Clock,
   Activity,
-  Zap
+  Zap,
+  Home,
+  Briefcase,
+  User,
+  Phone,
+  Star,
+  Building2,
+  Palette,
+  Hammer,
+  KeyRound,
+  Users,
+  MessageSquare,
+  DollarSign,
+  Shield,
+  HelpCircle,
+  Search
 } from 'lucide-react';
 
-// Design System Colors (matching AdminLayout)
+// ═══════════════════════════════════════════════════════════════════════════
+// ADMIN PAGE - PJ Reality (Default Site: reality)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const DEFAULT_SITE: SiteKey = 'reality';
+
 const colors = {
-  primary: '#2563EB',
-  primaryDark: '#1D4ED8',
+  primary: '#DC2626',
+  primaryDark: '#B91C1C',
   secondary: '#64748B',
   success: '#22C55E',
   warning: '#F59E0B',
@@ -39,87 +59,192 @@ const colors = {
   textMuted: '#94A3B8',
 };
 
+// Content sections based on current site
+const getContentSections = (currentSite: SiteKey) => {
+  const siteData = websiteData[currentSite];
+  const sections = siteData?.sections || {};
+
+  const result: {
+    id: string;
+    title: string;
+    description: string;
+    fields: { key: string; label: string; type: 'text' | 'textarea' | 'image'; value: string }[];
+  }[] = [];
+
+  // Hero Section - universal
+  if (sections.hero) {
+    result.push({
+      id: 'hero',
+      title: 'Hero sekce',
+      description: 'Hlavní banner na úvodní stránce',
+      fields: [
+        { key: 'hero.title', label: 'Hlavní nadpis', type: 'text', value: sections.hero.title || '' },
+        { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea', value: sections.hero.subtitle || '' },
+        { key: 'hero.cta', label: 'CTA tlačítko', type: 'text', value: sections.hero.cta || sections.hero.ctaPrimary || '' },
+      ]
+    });
+  }
+
+  // Services
+  if (sections.services && Array.isArray(sections.services)) {
+    const serviceFields = sections.services.flatMap((service: { id: string; title: string; description: string }, index: number) => [
+      { key: `services.${index}.title`, label: `Služba ${index + 1} - Název`, type: 'text' as const, value: service.title },
+      { key: `services.${index}.description`, label: `Služba ${index + 1} - Popis`, type: 'textarea' as const, value: service.description },
+    ]);
+    result.push({
+      id: 'services',
+      title: 'Služby',
+      description: 'Nabízené služby',
+      fields: serviceFields,
+    });
+  }
+
+  // Site-specific sections
+  if (currentSite === 'design') {
+    if (sections.portfolio) {
+      result.push({
+        id: 'portfolio',
+        title: 'Portfolio',
+        description: 'Ukázky realizací',
+        fields: sections.portfolio.map((item: { name: string; location: string }, index: number) => ({
+          key: `portfolio.${index}.name`,
+          label: `Projekt ${index + 1}`,
+          type: 'text' as const,
+          value: `${item.name} - ${item.location}`,
+        })),
+      });
+    }
+    if (sections.philosophy) {
+      result.push({
+        id: 'philosophy',
+        title: 'Filozofie',
+        description: 'Designová filozofie',
+        fields: [
+          { key: 'philosophy.title', label: 'Nadpis', type: 'text' as const, value: sections.philosophy.title },
+          { key: 'philosophy.text', label: 'Text', type: 'textarea' as const, value: sections.philosophy.text },
+        ],
+      });
+    }
+  }
+
+  if (currentSite === 'reality') {
+    if (sections.properties) {
+      result.push({
+        id: 'properties',
+        title: 'Nemovitosti',
+        description: 'Nabízené nemovitosti',
+        fields: sections.properties.map((prop: { title: string; price: string }, index: number) => ({
+          key: `properties.${index}`,
+          label: prop.title,
+          type: 'text' as const,
+          value: prop.price,
+        })),
+      });
+    }
+  }
+
+  if (currentSite === 'rekonstrukce') {
+    if (sections.projects) {
+      result.push({
+        id: 'projects',
+        title: 'Realizace',
+        description: 'Dokončené projekty',
+        fields: sections.projects.map((proj: { name: string; location: string }, index: number) => ({
+          key: `projects.${index}`,
+          label: proj.name,
+          type: 'text' as const,
+          value: proj.location,
+        })),
+      });
+    }
+  }
+
+  if (currentSite === 'sprava') {
+    if (sections.pricing) {
+      result.push({
+        id: 'pricing',
+        title: 'Ceník',
+        description: 'Tarify a ceny',
+        fields: sections.pricing.map((tarif: { name: string; price: string; description: string }) => ({
+          key: `pricing.${tarif.id}`,
+          label: tarif.name,
+          type: 'text' as const,
+          value: `${tarif.price} - ${tarif.description}`,
+        })),
+      });
+    }
+  }
+
+  // Contact - universal
+  if (sections.contact) {
+    result.push({
+      id: 'contact',
+      title: 'Kontakt',
+      description: 'Kontaktní informace',
+      fields: [
+        { key: 'contact.phone', label: 'Telefon', type: 'text' as const, value: sections.contact.phone || '' },
+        { key: 'contact.email', label: 'E-mail', type: 'text' as const, value: sections.contact.email || '' },
+        { key: 'contact.address', label: 'Adresa', type: 'text' as const, value: sections.contact.address || '' },
+      ],
+    });
+  }
+
+  return result;
+};
+
+// Sample translations (from messages/*.json)
 const csTranslations = {
   nav: {
     home: "Domů",
     services: "Služby",
-    projects: "Realizace",
-    about: "O nás",
+    portfolio: "Portfolio",
+    about: "O mně",
     contact: "Kontakt",
-    cta: "Nezávazná konzultace"
+    cta: "Domluvit si konzultaci"
   },
   hero: {
-    title: "Rekonstrukce bytů a domů na klíč",
-    subtitle: "Profesionální rekonstrukce s garancí termínů a ceny.",
-    ctaPrimary: "Nezávazná poptávka",
-    ctaSecondary: "Naše realizace"
+    title: "Vytváříme interiéry s duší a příběhem.",
+    subtitle: "Od prvního nápadu po poslední polštář.",
+    ctaPrimary: "Prohlédnout portfolio",
+    ctaSecondary: "Domluvit si konzultaci"
   },
   services: {
-    title: "Naše služby",
-    cores: {
-      title: "Rekonstrukce jader",
-      text: "Kompletní rekonstrukce bytových jader včetně rozvodů."
+    title: "Cesta za vaším vysněným domovem",
+    design: {
+      title: "Návrh interiéru",
+      text: "Kompletní designový koncept včetně 3D vizualizací."
     },
-    apartments: {
-      title: "Rekonstrukce bytů",
-      text: "Celková rekonstrukce bytů od návrhu po realizaci."
+    turnkey: {
+      title: "Realizace na klíč",
+      text: "Od stavebních úprav až po finální dekorace."
+    },
+    consultation: {
+      title: "Osobní konzultace",
+      text: "Poradíme s barvami, dispozicí nebo výběrem doplňků."
     }
+  },
+  contact: {
+    title: "Pojďme společně vytvořit váš vysněný prostor",
+    phone: "+420 777 558 730",
+    email: "pavel.jaros@kwcz.cz"
   }
 };
 
-const sampleImages = [
-  { path: '/logo/PJ_Group_logo.svg', name: 'PJ Group Logo', type: 'local' as const, category: 'logo' },
-  { path: '/logo/PJ_Group_symbol.svg', name: 'PJ Group Symbol', type: 'local' as const, category: 'logo' },
-  { path: '/images/PavelRekonstrukceBezPozadi.png', name: 'Pavel Rekonstrukce', type: 'local' as const, category: 'images' },
-];
-
-const contentSections = [
-  {
-    id: 'hero',
-    title: 'Hero sekce',
-    description: 'Hlavní banner na úvodní stránce',
-    fields: [
-      { key: 'hero.title', label: 'Hlavní nadpis', type: 'text' as const, value: 'Rekonstrukce bytů a domů na klíč' },
-      { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea' as const, value: 'Profesionální rekonstrukce s garancí termínů a ceny.' },
-      { key: 'hero.ctaPrimary', label: 'Primární tlačítko', type: 'text' as const, value: 'Nezávazná poptávka' },
-    ]
-  },
-  {
-    id: 'services',
-    title: 'Služby',
-    description: 'Nabízené služby rekonstrukcí',
-    fields: [
-      { key: 'services.title', label: 'Nadpis sekce', type: 'text' as const, value: 'Naše služby' },
-      { key: 'services.cores.title', label: 'Jádra - nadpis', type: 'text' as const, value: 'Rekonstrukce jader' },
-      { key: 'services.cores.text', label: 'Jádra - popis', type: 'textarea' as const, value: 'Kompletní rekonstrukce bytových jader včetně rozvodů.' },
-    ]
-  },
-  {
-    id: 'about',
-    title: 'O nás',
-    description: 'Informace o firmě',
-    fields: [
-      { key: 'about.title', label: 'Nadpis', type: 'text' as const, value: 'O naší firmě' },
-      { key: 'about.text', label: 'Text', type: 'textarea' as const, value: 'Jsme zkušený tým profesionálů...' },
-    ]
-  },
-  {
-    id: 'contact',
-    title: 'Kontakt',
-    description: 'Kontaktní informace',
-    fields: [
-      { key: 'contact.phone', label: 'Telefon', type: 'text' as const, value: '+420 777 558 730' },
-      { key: 'contact.email', label: 'E-mail', type: 'text' as const, value: 'rekonstrukce@pj-group.cz' },
-      { key: 'contact.address', label: 'Adresa', type: 'text' as const, value: 'Karlovy Vary, Česká republika' },
-    ]
-  },
-];
-
-const DEFAULT_THEME_COLOR = '#2563EB';
+// Sample images
+const getSampleImages = (currentSite: SiteKey) => {
+  const siteData = websiteData[currentSite];
+  return siteData?.images?.map(path => ({
+    path,
+    name: path.split('/').pop() || 'Unknown',
+    type: 'local' as const,
+    category: path.includes('logo') ? 'logo' : 'images'
+  })) || [];
+};
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [themeColor, setThemeColor] = useState(DEFAULT_THEME_COLOR);
+  const [currentSite, setCurrentSite] = useState<SiteKey>(DEFAULT_SITE);
+  const [themeColor, setThemeColor] = useState(colors.primary);
 
   useEffect(() => {
     const savedColor = localStorage.getItem('admin-theme-color');
@@ -132,7 +257,7 @@ export default function AdminPage() {
     setThemeColor(color);
   };
 
-  const handleSaveContent = async (sections: typeof contentSections) => {
+  const handleSaveContent = async (sections: ReturnType<typeof getContentSections>) => {
     console.log('Saving content:', sections);
     await new Promise(resolve => setTimeout(resolve, 1000));
   };
@@ -142,221 +267,57 @@ export default function AdminPage() {
     await new Promise(resolve => setTimeout(resolve, 1000));
   };
 
+  const contentSections = getContentSections(currentSite);
+  const sampleImages = getSampleImages(currentSite);
+  const siteData = websiteData[currentSite];
+  const siteColor = siteData?.color || colors.primary;
+
   const renderContent = () => {
     switch (activeSection) {
       case 'dashboard':
         return (
-          <div className="space-y-6">
-            {/* Welcome Banner */}
-            <div
-              className="relative overflow-hidden rounded-xl p-8"
-              style={{
-                background: `linear-gradient(135deg, ${colors.primary}15 0%, ${colors.primary}05 100%)`,
-                border: `1px solid ${colors.primary}30`
-              }}
-            >
-              <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
-                <Sparkles className="w-full h-full" style={{ color: colors.primary }} />
-              </div>
-              <div className="relative z-10">
-                <h2 className="text-2xl font-bold mb-2" style={{ color: colors.dark }}>
-                  Vítejte v editoru
-                </h2>
-                <p className="max-w-xl" style={{ color: colors.textSecondary }}>
-                  Spravujte obsah svého webu pomocí intuitivního rozhraní. Upravujte texty, obrázky a nastavení v reálném čase.
-                </p>
-                <button
-                  onClick={() => setActiveSection('visual-editor')}
-                  className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-medium transition-all hover:opacity-90"
-                  style={{ backgroundColor: colors.primary }}
-                >
-                  <Layers className="w-4 h-4" />
-                  Spustit vizuální editor
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { label: 'Celkem sekcí', value: '6', icon: FileText, color: '#EF4444', change: '+2' },
-                { label: 'Projekty', value: '24', icon: Hammer, color: '#F59E0B', change: '+8' },
-                { label: 'Obrázky', value: sampleImages.length.toString(), icon: ImageIcon, color: '#3B82F6', change: '+5' },
-                { label: 'Aktivita', value: 'Online', icon: Activity, color: '#A855F7', change: 'Live' },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="rounded-xl p-5 transition-all hover:shadow-md group"
-                  style={{
-                    backgroundColor: colors.surface,
-                    border: `1px solid ${colors.border}`
-                  }}
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-sm mb-1" style={{ color: colors.textMuted }}>{stat.label}</p>
-                      <p className="text-3xl font-bold" style={{ color: colors.dark }}>{stat.value}</p>
-                    </div>
-                    <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: `${stat.color}15` }}
-                    >
-                      <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
-                    </div>
-                  </div>
-                  <div className="mt-3 flex items-center gap-2">
-                    <span
-                      className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ backgroundColor: `${stat.color}15`, color: stat.color }}
-                    >
-                      {stat.change}
-                    </span>
-                    <span className="text-xs" style={{ color: colors.textMuted }}>tento měsíc</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Quick Actions */}
-            <div
-              className="rounded-xl overflow-hidden"
-              style={{
-                backgroundColor: colors.surface,
-                border: `1px solid ${colors.border}`
-              }}
-            >
-              <div className="p-5" style={{ borderBottom: `1px solid ${colors.border}` }}>
-                <h3 className="text-lg font-semibold" style={{ color: colors.dark }}>Rychlé akce</h3>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4">
-                {[
-                  { label: 'Upravit Hero', desc: 'Změnit hlavní banner', icon: Edit, section: 'hero', color: colors.primary },
-                  { label: 'Překlady', desc: 'Upravit texty', icon: Globe, section: 'translations', color: '#3B82F6' },
-                  { label: 'Obrázky', desc: 'Správa médií', icon: ImageIcon, section: 'images', color: '#22C55E' },
-                  { label: 'Zobrazit web', desc: 'Otevřít v novém okně', icon: Eye, section: 'external', color: '#A855F7' },
-                ].map((action, i) => (
-                  <button
-                    key={i}
-                    onClick={() => action.section === 'external' ? window.open('/', '_blank') : setActiveSection(action.section)}
-                    className="p-5 text-left transition-colors group"
-                    style={{
-                      borderRight: i < 3 ? `1px solid ${colors.border}` : undefined,
-                      borderBottom: `1px solid ${colors.border}`
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.background}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: `${action.color}15` }}
-                    >
-                      <action.icon className="w-5 h-5" style={{ color: action.color }} />
-                    </div>
-                    <p className="font-medium text-sm" style={{ color: colors.dark }}>{action.label}</p>
-                    <p className="text-xs mt-0.5" style={{ color: colors.textMuted }}>{action.desc}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Recent Activity & Info */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div
-                className="rounded-xl overflow-hidden"
-                style={{
-                  backgroundColor: colors.surface,
-                  border: `1px solid ${colors.border}`
-                }}
-              >
-                <div
-                  className="p-5 flex items-center justify-between"
-                  style={{ borderBottom: `1px solid ${colors.border}` }}
-                >
-                  <h3 className="text-lg font-semibold" style={{ color: colors.dark }}>Nedávná aktivita</h3>
-                  <Clock className="w-4 h-4" style={{ color: colors.textMuted }} />
-                </div>
-                <div>
-                  {[
-                    { action: 'Nová realizace přidána', time: 'Před 1 hodinou' },
-                    { action: 'Aktualizace ceníku služeb', time: 'Před 3 hodinami' },
-                    { action: 'Nahrání fotek z projektu', time: 'Včera' },
-                    { action: 'Změna kontaktních údajů', time: 'Před 2 dny' },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="px-5 py-3 flex items-center justify-between transition-colors"
-                      style={{ borderBottom: i < 3 ? `1px solid ${colors.border}` : undefined }}
-                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.background}
-                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                    >
-                      <p className="text-sm" style={{ color: colors.dark }}>{item.action}</p>
-                      <p className="text-xs" style={{ color: colors.textMuted }}>{item.time}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div
-                className="rounded-xl overflow-hidden"
-                style={{
-                  backgroundColor: colors.surface,
-                  border: `1px solid ${colors.border}`
-                }}
-              >
-                <div
-                  className="p-5 flex items-center justify-between"
-                  style={{ borderBottom: `1px solid ${colors.border}` }}
-                >
-                  <h3 className="text-lg font-semibold" style={{ color: colors.dark }}>Informace o webu</h3>
-                  <Zap className="w-4 h-4" style={{ color: colors.primary }} />
-                </div>
-                <div>
-                  {[
-                    { label: 'Web', value: 'Pavel Jaroš Reality' },
-                    { label: 'Framework', value: 'Next.js 15' },
-                    { label: 'Internacionalizace', value: 'next-intl (6 jazyků)' },
-                    { label: 'Stylování', value: 'Tailwind CSS' },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="px-5 py-3 flex items-center justify-between"
-                      style={{ borderBottom: i < 3 ? `1px solid ${colors.border}` : undefined }}
-                    >
-                      <p className="text-sm" style={{ color: colors.textMuted }}>{item.label}</p>
-                      <p className="text-sm font-medium" style={{ color: colors.dark }}>{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <Dashboard
+            onNavigate={setActiveSection}
+            currentSite={currentSite}
+            onSiteChange={setCurrentSite}
+          />
         );
 
       case 'visual-editor':
         return (
           <VisualEditor
-            themeColor={themeColor}
+            themeColor={siteColor}
             onSave={(elements) => console.log('Saving elements:', elements)}
           />
         );
 
       case 'hero':
       case 'services':
+      case 'portfolio':
+      case 'philosophy':
+      case 'process':
       case 'about':
       case 'contact':
+      case 'properties':
+      case 'projects':
+      case 'references':
+      case 'why':
+      case 'target':
+      case 'pricing':
+      case 'benefits':
+      case 'faq':
         return (
           <div
             className="rounded-xl p-6"
             style={{
-              backgroundColor: colors.surface,
-              border: `1px solid ${colors.border}`
+              backgroundColor: '#1A1A1F',
+              border: '1px solid rgba(255,255,255,0.1)'
             }}
           >
             <ContentEditor
               sections={contentSections.filter(s => s.id === activeSection)}
               onSave={handleSaveContent}
-              themeColor={themeColor}
+              themeColor={siteColor}
             />
           </div>
         );
@@ -364,7 +325,7 @@ export default function AdminPage() {
       case 'translations':
         return (
           <TranslationEditor
-            themeColor={themeColor}
+            themeColor={siteColor}
             translations={{ cs: csTranslations }}
             onSave={handleSaveTranslations}
           />
@@ -375,14 +336,62 @@ export default function AdminPage() {
           <div
             className="rounded-xl p-6"
             style={{
-              backgroundColor: colors.surface,
-              border: `1px solid ${colors.border}`
+              backgroundColor: '#1A1A1F',
+              border: '1px solid rgba(255,255,255,0.1)'
             }}
           >
             <ImageManager
               images={sampleImages}
-              themeColor={themeColor}
+              themeColor={siteColor}
             />
+          </div>
+        );
+
+      case 'seo':
+        return (
+          <div
+            className="rounded-xl p-6"
+            style={{
+              backgroundColor: '#1A1A1F',
+              border: '1px solid rgba(255,255,255,0.1)'
+            }}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <Search className="w-6 h-6" style={{ color: siteColor }} />
+              <h2 className="text-xl font-bold text-white">SEO & Meta nastavení</h2>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Meta Title</label>
+                <input
+                  type="text"
+                  defaultValue={siteData?.name || ''}
+                  className="w-full h-12 px-4 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Meta Description</label>
+                <textarea
+                  rows={3}
+                  defaultValue="Profesionální služby od PJ Group"
+                  className="w-full px-4 py-3 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30 resize-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Keywords</label>
+                <input
+                  type="text"
+                  defaultValue="reality, design, rekonstrukce, správa nemovitostí"
+                  className="w-full h-12 px-4 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30"
+                />
+              </div>
+              <button
+                className="px-6 py-3 rounded-lg text-white font-medium"
+                style={{ background: siteColor }}
+              >
+                Uložit SEO nastavení
+              </button>
+            </div>
           </div>
         );
 
@@ -391,12 +400,12 @@ export default function AdminPage() {
           <div
             className="rounded-xl p-6"
             style={{
-              backgroundColor: colors.surface,
-              border: `1px solid ${colors.border}`
+              backgroundColor: '#1A1A1F',
+              border: '1px solid rgba(255,255,255,0.1)'
             }}
           >
             <ThemeSettings
-              currentColor={themeColor}
+              currentColor={siteColor}
               onColorChange={handleThemeColorChange}
             />
           </div>
@@ -411,8 +420,9 @@ export default function AdminPage() {
     <AdminLayout
       activeSection={activeSection}
       onSectionChange={setActiveSection}
-      siteName="PJ Reality"
-      themeColor={themeColor}
+      siteName={siteData?.name || 'PJ Design'}
+      currentSite={currentSite}
+      onSiteChange={setCurrentSite}
     >
       {renderContent()}
     </AdminLayout>
