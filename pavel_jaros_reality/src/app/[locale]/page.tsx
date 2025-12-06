@@ -96,21 +96,21 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Cookie Banner */}
-      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg p-3 z-50 border-b">
-        <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-3">
-          <p className="text-xs text-gray-600 flex-1 min-w-0">
+      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg p-4 z-50 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-4">
+          <p className="text-sm text-gray-700 flex-1 min-w-0 leading-relaxed">
             {t('cookie.message')}
           </p>
-          <div className="flex gap-2 flex-shrink-0">
-            <Button variant="outline" size="sm" className="text-xs">{t('cookie.reject')}</Button>
-            <Button className="bg-red-700 hover:bg-red-800 text-white text-xs" size="sm">{t('cookie.accept')}</Button>
-            <Button variant="outline" size="sm" className="text-xs">{t('cookie.preferences')}</Button>
+          <div className="flex gap-3 flex-shrink-0">
+            <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.reject')}</Button>
+            <Button className="bg-red-700 hover:bg-red-800 text-white shadow-sm" size="sm">{t('cookie.accept')}</Button>
+            <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.preferences')}</Button>
           </div>
         </div>
       </div>
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b" style={{ marginTop: "65px" }}>
+      <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 fixed top-[72px] left-0 right-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -120,7 +120,8 @@ export default function Home() {
                 alt="Pavel Jaroš Reality"
                 width={150}
                 height={50}
-                className="h-12 w-auto"
+                className="h-10 w-auto"
+                priority
               />
             </div>
 
@@ -179,22 +180,23 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center">
+      <section className="relative min-h-screen flex items-center pt-[140px]">
         <div className="absolute inset-0">
           <Image
             src="https://ext.same-assets.com/2530056946/4049786394.png"
             alt="Pavel Jaroš"
             fill
             className="object-cover object-center"
+            priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/20"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight drop-shadow-lg">
               {t('hero.title')}
             </h1>
-            <Button className="bg-red-700 hover:bg-red-800 text-white text-lg px-8 py-4 font-semibold">
+            <Button className="bg-red-700 hover:bg-red-800 text-white text-lg px-8 py-4 font-semibold shadow-lg hover:shadow-xl transition-all">
               {t('hero.cta')}
             </Button>
           </div>

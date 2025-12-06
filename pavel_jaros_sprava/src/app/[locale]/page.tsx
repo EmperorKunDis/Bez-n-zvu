@@ -251,15 +251,15 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Cookie Banner */}
-      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg p-3 z-50 border-b">
-        <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-3">
-          <p className="text-xs text-gray-600 flex-1 min-w-0">
+      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg border-b border-gray-200 p-4 z-50">
+        <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-4">
+          <p className="text-sm text-gray-700 flex-1 min-w-0 leading-relaxed">
             {t('cookie.message')}
           </p>
-          <div className="flex gap-2 flex-shrink-0">
-            <Button variant="outline" size="sm" className="text-xs">{t('cookie.reject')}</Button>
-            <Button className="bg-green-700 hover:bg-green-800 text-white text-xs" size="sm">{t('cookie.accept')}</Button>
-            <Button variant="outline" size="sm" className="text-xs">{t('cookie.preferences')}</Button>
+          <div className="flex gap-3 flex-shrink-0">
+            <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.reject')}</Button>
+            <Button className="bg-green-700 hover:bg-green-800 text-white shadow-sm" size="sm">{t('cookie.accept')}</Button>
+            <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.preferences')}</Button>
           </div>
         </div>
       </div>
