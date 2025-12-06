@@ -1,10 +1,22 @@
 "use client";
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Save, RefreshCw, ChevronDown, ChevronRight, Image as ImageIcon, Type, Link, Hash, ToggleLeft } from 'lucide-react';
+import { Save, RefreshCw, ChevronDown, ChevronRight, Image as ImageIcon, Type, Link, Hash, ToggleLeft, Check } from 'lucide-react';
+
+// Design System Colors
+const colors = {
+  primary: '#2563EB',
+  primaryDark: '#1D4ED8',
+  success: '#22C55E',
+  danger: '#EF4444',
+  dark: '#1E293B',
+  background: '#F8FAFC',
+  surface: '#FFFFFF',
+  border: '#E2E8F0',
+  textPrimary: '#1E293B',
+  textSecondary: '#64748B',
+  textMuted: '#94A3B8',
+};
 
 interface ContentField {
   key: string;
@@ -83,27 +95,32 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
     }
   };
 
-  const renderField = (sectionId: string, field: ContentField) => {
-    const baseInputClass = "bg-[#0a0a0a] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 focus:ring-0";
+  const inputStyle = {
+    backgroundColor: colors.background,
+    border: `1px solid ${colors.border}`,
+    color: colors.dark,
+  };
 
+  const renderField = (sectionId: string, field: ContentField) => {
     switch (field.type) {
       case 'textarea':
         return (
           <div key={field.key} className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
-              <label className="text-sm font-medium text-gray-300">
+              <span style={{ color: colors.textMuted }}>{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium" style={{ color: colors.dark }}>
                 {field.label}
               </label>
             </div>
             {field.description && (
-              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
+              <p className="text-xs ml-6" style={{ color: colors.textMuted }}>{field.description}</p>
             )}
-            <Textarea
+            <textarea
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
               rows={4}
-              className={`${baseInputClass} w-full resize-y ml-6`}
+              className="w-full px-4 py-3 rounded-lg text-sm resize-y ml-6 focus:outline-none focus:ring-2"
+              style={inputStyle}
             />
           </div>
         );
@@ -112,23 +129,28 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
         return (
           <div key={field.key} className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
-              <label className="text-sm font-medium text-gray-300">
+              <span style={{ color: colors.textMuted }}>{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium" style={{ color: colors.dark }}>
                 {field.label}
               </label>
             </div>
             {field.description && (
-              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
+              <p className="text-xs ml-6" style={{ color: colors.textMuted }}>{field.description}</p>
             )}
             <div className="flex gap-3 ml-6">
-              <Input
+              <input
+                type="text"
                 value={field.value}
                 onChange={(e) => updateField(sectionId, field.key, e.target.value)}
                 placeholder="URL obrázku..."
-                className={`${baseInputClass} flex-1`}
+                className="flex-1 h-11 px-4 rounded-lg text-sm focus:outline-none focus:ring-2"
+                style={inputStyle}
               />
               {field.value && (
-                <div className="w-20 h-10 rounded-lg border border-white/10 overflow-hidden flex-shrink-0 bg-[#0a0a0a]">
+                <div
+                  className="w-20 h-11 rounded-lg overflow-hidden flex-shrink-0"
+                  style={{ border: `1px solid ${colors.border}` }}
+                >
                   <img
                     src={field.value}
                     alt=""
@@ -147,20 +169,21 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
         return (
           <div key={field.key} className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
-              <label className="text-sm font-medium text-gray-300">
+              <span style={{ color: colors.textMuted }}>{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium" style={{ color: colors.dark }}>
                 {field.label}
               </label>
             </div>
             {field.description && (
-              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
+              <p className="text-xs ml-6" style={{ color: colors.textMuted }}>{field.description}</p>
             )}
-            <Input
+            <input
               type="url"
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
               placeholder="https://..."
-              className={`${baseInputClass} w-full ml-6`}
+              className="w-full h-11 px-4 rounded-lg text-sm ml-6 focus:outline-none focus:ring-2"
+              style={inputStyle}
             />
           </div>
         );
@@ -169,19 +192,20 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
         return (
           <div key={field.key} className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
-              <label className="text-sm font-medium text-gray-300">
+              <span style={{ color: colors.textMuted }}>{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium" style={{ color: colors.dark }}>
                 {field.label}
               </label>
             </div>
             {field.description && (
-              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
+              <p className="text-xs ml-6" style={{ color: colors.textMuted }}>{field.description}</p>
             )}
-            <Input
+            <input
               type="number"
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
-              className={`${baseInputClass} w-full ml-6`}
+              className="w-full h-11 px-4 rounded-lg text-sm ml-6 focus:outline-none focus:ring-2"
+              style={inputStyle}
             />
           </div>
         );
@@ -193,15 +217,15 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
               type="checkbox"
               checked={field.value === 'true'}
               onChange={(e) => updateField(sectionId, field.key, e.target.checked ? 'true' : 'false')}
-              className="w-5 h-5 rounded border-white/20 bg-[#0a0a0a]"
-              style={{ accentColor: themeColor }}
+              className="w-5 h-5 rounded"
+              style={{ accentColor: colors.primary }}
             />
             <div>
-              <label className="text-sm font-medium text-gray-300">
+              <label className="text-sm font-medium" style={{ color: colors.dark }}>
                 {field.label}
               </label>
               {field.description && (
-                <p className="text-xs text-gray-500">{field.description}</p>
+                <p className="text-xs" style={{ color: colors.textMuted }}>{field.description}</p>
               )}
             </div>
           </div>
@@ -211,18 +235,20 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
         return (
           <div key={field.key} className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
-              <label className="text-sm font-medium text-gray-300">
+              <span style={{ color: colors.textMuted }}>{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium" style={{ color: colors.dark }}>
                 {field.label}
               </label>
             </div>
             {field.description && (
-              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
+              <p className="text-xs ml-6" style={{ color: colors.textMuted }}>{field.description}</p>
             )}
-            <Input
+            <input
+              type="text"
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
-              className={`${baseInputClass} w-full ml-6`}
+              className="w-full h-11 px-4 rounded-lg text-sm ml-6 focus:outline-none focus:ring-2"
+              style={inputStyle}
             />
           </div>
         );
@@ -234,46 +260,53 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-white">Úprava obsahu</h2>
-          <p className="text-sm text-gray-500">
+          <h2 className="text-lg font-semibold" style={{ color: colors.dark }}>Úprava obsahu</h2>
+          <p className="text-sm" style={{ color: colors.textSecondary }}>
             Upravte obsah jednotlivých sekcí webu
           </p>
         </div>
-        <Button
+        <button
           onClick={handleSave}
           disabled={saving}
-          className="text-white"
-          style={{ backgroundColor: themeColor }}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-medium transition-all hover:opacity-90 disabled:opacity-50"
+          style={{ backgroundColor: saved ? colors.success : colors.primary }}
         >
           {saving ? (
             <>
-              <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+              <RefreshCw className="h-4 w-4 animate-spin" />
               Ukládám...
             </>
           ) : saved ? (
             <>
-              <Save className="h-4 w-4 mr-2" />
+              <Check className="h-4 w-4" />
               Uloženo!
             </>
           ) : (
             <>
-              <Save className="h-4 w-4 mr-2" />
+              <Save className="h-4 w-4" />
               Uložit změny
             </>
           )}
-        </Button>
+        </button>
       </div>
 
       {/* Sections */}
       <div className="space-y-4">
         {sections.map((section) => (
-          <div key={section.id} className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
+          <div
+            key={section.id}
+            className="rounded-xl overflow-hidden"
+            style={{
+              backgroundColor: colors.surface,
+              border: `1px solid ${colors.border}`
+            }}
+          >
             <button
               onClick={() => toggleSection(section.id)}
-              className="w-full px-5 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between transition-colors hover:bg-gray-50"
             >
               <div className="flex items-center gap-3">
-                <span className="text-gray-400">
+                <span style={{ color: colors.textSecondary }}>
                   {expandedSections.has(section.id) ? (
                     <ChevronDown className="h-5 w-5" />
                   ) : (
@@ -281,22 +314,28 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
                   )}
                 </span>
                 <div className="text-left">
-                  <h3 className="font-semibold text-white">{section.title}</h3>
+                  <h3 className="font-semibold" style={{ color: colors.dark }}>{section.title}</h3>
                   {section.description && (
-                    <p className="text-sm text-gray-500">{section.description}</p>
+                    <p className="text-sm" style={{ color: colors.textMuted }}>{section.description}</p>
                   )}
                 </div>
               </div>
               <span
-                className="text-xs px-2 py-1 rounded-full"
-                style={{ backgroundColor: `${themeColor}20`, color: themeColor }}
+                className="text-xs px-2.5 py-1 rounded-full font-medium"
+                style={{ backgroundColor: `${colors.primary}10`, color: colors.primary }}
               >
                 {section.fields.length} polí
               </span>
             </button>
 
             {expandedSections.has(section.id) && (
-              <div className="border-t border-white/10 p-5 space-y-5 bg-[#0a0a0a]/50">
+              <div
+                className="p-5 space-y-5"
+                style={{
+                  borderTop: `1px solid ${colors.border}`,
+                  backgroundColor: colors.background
+                }}
+              >
                 {section.fields.map((field) => renderField(section.id, field))}
               </div>
             )}

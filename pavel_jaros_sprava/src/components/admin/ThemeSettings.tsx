@@ -1,8 +1,22 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { Check, Save, RefreshCw, Palette, Sparkles } from 'lucide-react';
+
+// Design System Colors
+const colors = {
+  primary: '#2563EB',
+  primaryDark: '#1D4ED8',
+  success: '#22C55E',
+  danger: '#EF4444',
+  dark: '#1E293B',
+  background: '#F8FAFC',
+  surface: '#FFFFFF',
+  border: '#E2E8F0',
+  textPrimary: '#1E293B',
+  textSecondary: '#64748B',
+  textMuted: '#94A3B8',
+};
 
 interface ThemeSettingsProps {
   currentColor: string;
@@ -10,8 +24,8 @@ interface ThemeSettingsProps {
 }
 
 const PRESET_COLORS = [
-  { name: 'Červená', value: '#b91c1c', tailwind: 'red-700' },
   { name: 'Modrá', value: '#2563eb', tailwind: 'blue-600' },
+  { name: 'Červená', value: '#b91c1c', tailwind: 'red-700' },
   { name: 'Zelená', value: '#15803d', tailwind: 'green-700' },
   { name: 'Fialová', value: '#7c3aed', tailwind: 'violet-600' },
   { name: 'Oranžová', value: '#ea580c', tailwind: 'orange-600' },
@@ -27,7 +41,6 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    // Load saved color from localStorage
     const savedColor = localStorage.getItem('admin-theme-color');
     if (savedColor) {
       setSelectedColor(savedColor);
@@ -58,20 +71,26 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+        <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: colors.dark }}>
           <Palette className="w-5 h-5" style={{ color: selectedColor }} />
           Nastavení motivu
         </h2>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm" style={{ color: colors.textSecondary }}>
           Přizpůsobte si barvy administračního panelu
         </p>
       </div>
 
       {/* Color Section */}
-      <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-6">
+      <div
+        className="rounded-xl p-6"
+        style={{
+          backgroundColor: colors.surface,
+          border: `1px solid ${colors.border}`
+        }}
+      >
         <div className="flex items-center gap-3 mb-6">
           <Sparkles className="h-5 w-5" style={{ color: selectedColor }} />
-          <h3 className="font-medium text-white">Barva motivu</h3>
+          <h3 className="font-medium" style={{ color: colors.dark }}>Barva motivu</h3>
         </div>
 
         {/* Preset Colors Grid */}
@@ -81,9 +100,12 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
               key={color.value}
               onClick={() => handleColorSelect(color.value)}
               className={`relative w-full aspect-square rounded-xl transition-all hover:scale-105 ${
-                selectedColor === color.value ? 'ring-2 ring-offset-2 ring-offset-[#0a0a0a] ring-white' : ''
+                selectedColor === color.value ? 'ring-2 ring-offset-2 ring-offset-white' : ''
               }`}
-              style={{ backgroundColor: color.value }}
+              style={{
+                backgroundColor: color.value,
+                ringColor: color.value
+              }}
               title={color.name}
             >
               {selectedColor === color.value && (
@@ -99,15 +121,12 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
             <button
               key={color.value}
               onClick={() => handleColorSelect(color.value)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                selectedColor === color.value
-                  ? 'text-white'
-                  : 'text-gray-400 bg-white/5 hover:bg-white/10'
-              }`}
-              style={selectedColor === color.value ? {
-                backgroundColor: color.value,
-                boxShadow: `0 0 20px ${color.value}40`
-              } : {}}
+              className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+              style={{
+                backgroundColor: selectedColor === color.value ? color.value : colors.background,
+                color: selectedColor === color.value ? 'white' : colors.textSecondary,
+                border: `1px solid ${selectedColor === color.value ? color.value : colors.border}`
+              }}
             >
               {color.name}
             </button>
@@ -115,8 +134,11 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
         </div>
 
         {/* Custom Color Picker */}
-        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
-          <label className="text-sm font-medium text-gray-400">
+        <div
+          className="flex items-center gap-4 p-4 rounded-xl"
+          style={{ backgroundColor: colors.background }}
+        >
+          <label className="text-sm font-medium" style={{ color: colors.textSecondary }}>
             Vlastní barva:
           </label>
           <div className="flex items-center gap-3">
@@ -138,29 +160,42 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
                   setSelectedColor(e.target.value);
                 }
               }}
-              placeholder="#b91c1c"
-              className="w-28 px-3 py-2 bg-[#141414] border border-white/10 rounded-lg text-sm font-mono text-white focus:outline-none focus:border-white/30"
+              placeholder="#2563eb"
+              className="w-28 px-3 py-2 rounded-lg text-sm font-mono focus:outline-none focus:ring-2"
+              style={{
+                backgroundColor: colors.surface,
+                border: `1px solid ${colors.border}`,
+                color: colors.dark
+              }}
             />
           </div>
         </div>
       </div>
 
       {/* Preview */}
-      <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-6">
-        <p className="text-sm text-gray-400 mb-4">Náhled komponent:</p>
+      <div
+        className="rounded-xl p-6"
+        style={{
+          backgroundColor: colors.surface,
+          border: `1px solid ${colors.border}`
+        }}
+      >
+        <p className="text-sm mb-4" style={{ color: colors.textSecondary }}>Náhled komponent:</p>
         <div className="flex flex-wrap items-center gap-4">
           <button
-            className="px-5 py-2.5 rounded-xl text-white font-medium transition-all hover:opacity-90"
-            style={{
-              backgroundColor: selectedColor,
-              boxShadow: `0 0 20px ${selectedColor}30`
-            }}
+            className="px-5 py-2.5 rounded-lg text-white font-medium transition-all hover:opacity-90"
+            style={{ backgroundColor: selectedColor }}
           >
             Primární tlačítko
           </button>
           <button
-            className="px-5 py-2.5 rounded-xl font-medium border-2 bg-transparent transition-all hover:bg-white/5"
-            style={{ borderColor: selectedColor, color: selectedColor }}
+            className="px-5 py-2.5 rounded-lg font-medium border-2 bg-transparent transition-all"
+            style={{
+              borderColor: selectedColor,
+              color: selectedColor
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = `${selectedColor}10`}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           >
             Sekundární tlačítko
           </button>
@@ -172,7 +207,7 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
           </span>
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: `${selectedColor}20` }}
+            style={{ backgroundColor: `${selectedColor}15` }}
           >
             <Sparkles className="w-5 h-5" style={{ color: selectedColor }} />
           </div>
@@ -180,37 +215,40 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
       </div>
 
       {/* Save Button */}
-      <Button
+      <button
         onClick={handleSave}
         disabled={saving}
-        className="text-white w-full sm:w-auto"
-        style={{
-          backgroundColor: selectedColor,
-          boxShadow: `0 0 30px ${selectedColor}30`
-        }}
+        className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-white font-medium transition-all hover:opacity-90 disabled:opacity-50"
+        style={{ backgroundColor: saved ? colors.success : selectedColor }}
       >
         {saving ? (
           <>
-            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+            <RefreshCw className="h-4 w-4 animate-spin" />
             Ukládám...
           </>
         ) : saved ? (
           <>
-            <Check className="h-4 w-4 mr-2" />
+            <Check className="h-4 w-4" />
             Uloženo!
           </>
         ) : (
           <>
-            <Save className="h-4 w-4 mr-2" />
+            <Save className="h-4 w-4" />
             Uložit změny
           </>
         )}
-      </Button>
+      </button>
 
       {/* Info Note */}
-      <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-4">
-        <p className="text-sm text-gray-400">
-          <span className="font-medium text-white">Poznámka:</span> Změna barvy se projeví okamžitě v administračním panelu.
+      <div
+        className="rounded-xl p-4"
+        style={{
+          backgroundColor: `${colors.primary}08`,
+          border: `1px solid ${colors.primary}20`
+        }}
+      >
+        <p className="text-sm" style={{ color: colors.textSecondary }}>
+          <span className="font-medium" style={{ color: colors.dark }}>Poznámka:</span> Změna barvy se projeví okamžitě v administračním panelu.
           Pro změnu barvy na produkčním webu je potřeba upravit CSS proměnné nebo Tailwind třídy v komponentách.
         </p>
       </div>
