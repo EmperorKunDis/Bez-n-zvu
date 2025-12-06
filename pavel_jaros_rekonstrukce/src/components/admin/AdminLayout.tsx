@@ -1,45 +1,64 @@
 "use client";
 
 import { useState, useEffect, type ReactNode } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   LayoutDashboard,
-  FileText,
   Image as ImageIcon,
   Settings,
   LogOut,
   Menu,
   X,
   Home,
-  Building2,
-  Users,
-  MessageSquare,
-  Globe,
+  Briefcase,
   User,
+  Phone,
+  Globe,
   Lock,
-  Palette,
   Eye,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
   Layers,
-  Zap,
-  ExternalLink
+  ExternalLink,
+  FolderOpen,
+  Palette,
+  HelpCircle,
+  Bell,
+  Search,
+  ChevronDown
 } from 'lucide-react';
+
+// ═══════════════════════════════════════════════════════════════════
+// DESIGN SYSTEM TOKENS (from UI/UX Document)
+// ═══════════════════════════════════════════════════════════════════
+
+const colors = {
+  primary: '#2563EB',       // Main actions, links, active states
+  primaryDark: '#1D4ED8',   // Hover states
+  secondary: '#64748B',     // Secondary text, icons
+  success: '#22C55E',       // Success messages
+  warning: '#F59E0B',       // Warnings
+  danger: '#EF4444',        // Errors, delete actions
+  dark: '#1E293B',          // Headings, primary text
+  background: '#F8FAFC',    // Page background
+  surface: '#FFFFFF',       // Cards, panels
+  border: '#E2E8F0',        // Borders, dividers
+  textPrimary: '#1E293B',
+  textSecondary: '#64748B',
+  textMuted: '#94A3B8',
+};
 
 interface AdminLayoutProps {
   children: ReactNode;
   activeSection: string;
   onSectionChange: (section: string) => void;
   siteName: string;
-  themeColor: string;
+  themeColor?: string; // Optional - we'll use blue by default
 }
 
 const ADMIN_USERNAME = 'Admin';
 const ADMIN_PASSWORD = 'H3sl0Pr4utJ3d3';
 
-export function AdminLayout({ children, activeSection, onSectionChange, siteName, themeColor }: AdminLayoutProps) {
+export function AdminLayout({ children, activeSection, onSectionChange, siteName }: AdminLayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -70,104 +89,168 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
     sessionStorage.removeItem('admin-auth');
   };
 
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, description: 'Přehled webu' },
-    { id: 'visual-editor', label: 'Vizuální editor', icon: Layers, description: 'Upravit stránku' },
-    { id: 'hero', label: 'Hero sekce', icon: Home, description: 'Hlavní banner' },
-    { id: 'services', label: 'Služby', icon: Building2, description: 'Nabídka služeb' },
-    { id: 'about', label: 'O mně', icon: Users, description: 'Osobní profil' },
-    { id: 'contact', label: 'Kontakt', icon: MessageSquare, description: 'Kontaktní údaje' },
-    { id: 'translations', label: 'Překlady', icon: Globe, description: 'Jazykové verze' },
-    { id: 'images', label: 'Média', icon: ImageIcon, description: 'Správa obrázků' },
-    { id: 'settings', label: 'Nastavení', icon: Settings, description: 'Konfigurace' },
+  // Grouped Navigation Structure (as per document)
+  const navGroups = [
+    {
+      label: 'Správa obsahu',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+        { id: 'visual-editor', label: 'Vizuální editor', icon: Layers, badge: 'Nový' },
+      ]
+    },
+    {
+      label: 'Sekce webu',
+      items: [
+        { id: 'hero', label: 'Hero sekce', icon: Home },
+        { id: 'services', label: 'Služby', icon: Briefcase },
+        { id: 'about', label: 'O mně', icon: User },
+        { id: 'contact', label: 'Kontakt', icon: Phone },
+      ]
+    },
+    {
+      label: 'Lokalizace',
+      items: [
+        { id: 'translations', label: 'Překlady', icon: Globe },
+      ]
+    },
+    {
+      label: 'Soubory',
+      items: [
+        { id: 'images', label: 'Knihovna médií', icon: FolderOpen },
+      ]
+    },
+    {
+      label: 'Systém',
+      items: [
+        { id: 'settings', label: 'Nastavení', icon: Settings },
+      ]
+    },
   ];
 
-  // Login Screen with modern dark design
+  // ═══════════════════════════════════════════════════════════════════
+  // LOGIN SCREEN - Clean, professional design
+  // ═══════════════════════════════════════════════════════════════════
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] relative overflow-hidden">
-        {/* Background effects */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute top-1/4 -left-1/4 w-96 h-96 rounded-full blur-[120px] opacity-20"
-            style={{ backgroundColor: themeColor }}
-          />
-          <div
-            className="absolute bottom-1/4 -right-1/4 w-96 h-96 rounded-full blur-[120px] opacity-10"
-            style={{ backgroundColor: themeColor }}
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
-        </div>
-
-        <div className="relative z-10 w-full max-w-md mx-4">
-          {/* Logo */}
+      <div
+        className="min-h-screen flex items-center justify-center p-4"
+        style={{ backgroundColor: colors.background }}
+      >
+        <div className="w-full max-w-md">
+          {/* Logo & Title */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10">
-              <Zap className="w-8 h-8 text-white" style={{ filter: `drop-shadow(0 0 8px ${themeColor})` }} />
+            <div
+              className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4"
+              style={{ backgroundColor: colors.primary }}
+            >
+              <Layers className="w-7 h-7 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white mb-1">Vítejte zpět</h1>
-            <p className="text-gray-500">{siteName} Editor</p>
+            <h1 className="text-2xl font-bold" style={{ color: colors.dark }}>
+              Přihlášení do administrace
+            </h1>
+            <p className="mt-2" style={{ color: colors.secondary }}>
+              {siteName}
+            </p>
           </div>
 
-          {/* Login Form */}
-          <div className="bg-[#141414]/80 backdrop-blur-xl rounded-2xl border border-white/10 p-8 shadow-2xl">
+          {/* Login Card */}
+          <div
+            className="rounded-xl p-8 shadow-sm"
+            style={{
+              backgroundColor: colors.surface,
+              border: `1px solid ${colors.border}`
+            }}
+          >
             <form onSubmit={handleLogin} className="space-y-5">
+              {/* Username Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: colors.dark }}
+                >
                   Uživatelské jméno
                 </label>
-                <div className="relative group">
-                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500 group-focus-within:text-white transition-colors" />
+                <div className="relative">
+                  <User
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5"
+                    style={{ color: colors.secondary }}
+                  />
                   <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Zadejte uživatelské jméno"
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
+                    className="w-full h-11 pl-11 pr-4 rounded-lg text-sm transition-all focus:outline-none focus:ring-2"
+                    style={{
+                      backgroundColor: colors.background,
+                      border: `1px solid ${colors.border}`,
+                      color: colors.dark,
+                    }}
                   />
                 </div>
               </div>
 
+              {/* Password Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  className="block text-sm font-medium mb-2"
+                  style={{ color: colors.dark }}
+                >
                   Heslo
                 </label>
-                <div className="relative group">
-                  <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500 group-focus-within:text-white transition-colors" />
+                <div className="relative">
+                  <Lock
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5"
+                    style={{ color: colors.secondary }}
+                  />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Zadejte heslo"
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-600 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
+                    className="w-full h-11 pl-11 pr-4 rounded-lg text-sm transition-all focus:outline-none focus:ring-2"
+                    style={{
+                      backgroundColor: colors.background,
+                      border: `1px solid ${colors.border}`,
+                      color: colors.dark,
+                    }}
                   />
                 </div>
               </div>
 
+              {/* Error Message */}
               {error && (
-                <div className="flex items-center gap-2 text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
-                  <X className="w-4 h-4" />
+                <div
+                  className="flex items-center gap-2 text-sm px-4 py-3 rounded-lg"
+                  style={{
+                    backgroundColor: `${colors.danger}10`,
+                    color: colors.danger,
+                    border: `1px solid ${colors.danger}30`
+                  }}
+                >
+                  <X className="w-4 h-4 flex-shrink-0" />
                   {error}
                 </div>
               )}
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 rounded-xl text-white font-semibold transition-all duration-300 hover:opacity-90 hover:shadow-lg flex items-center justify-center gap-2"
-                style={{
-                  backgroundColor: themeColor,
-                  boxShadow: `0 0 30px ${themeColor}40`
-                }}
+                className="w-full h-11 rounded-lg text-white font-medium transition-all hover:opacity-90"
+                style={{ backgroundColor: colors.primary }}
               >
-                <Sparkles className="w-5 h-5" />
                 Přihlásit se
               </button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <p className="text-center text-xs text-gray-600">
-                Přístup pouze pro autorizované uživatele
-              </p>
+            <div
+              className="mt-6 pt-6 text-center text-sm"
+              style={{
+                borderTop: `1px solid ${colors.border}`,
+                color: colors.textMuted
+              }}
+            >
+              Přístup pouze pro autorizované uživatele
             </div>
           </div>
         </div>
@@ -175,99 +258,139 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
     );
   }
 
-  // Main Admin Interface
+  // ═══════════════════════════════════════════════════════════════════
+  // MAIN ADMIN INTERFACE
+  // ═══════════════════════════════════════════════════════════════════
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex">
-      {/* Sidebar */}
+    <div className="min-h-screen flex" style={{ backgroundColor: colors.background }}>
+
+      {/* ─────────────────────────────────────────────────────────────────
+          SIDEBAR (240px, collapsible to 72px)
+      ───────────────────────────────────────────────────────────────── */}
       <aside
-        className={`fixed lg:relative inset-y-0 left-0 z-50 flex flex-col bg-[#141414] border-r border-white/10 transition-all duration-300 ${
-          sidebarCollapsed ? 'w-20' : 'w-64'
+        className={`fixed lg:relative inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ${
+          sidebarCollapsed ? 'w-[72px]' : 'w-60'
         } ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        style={{
+          backgroundColor: colors.surface,
+          borderRight: `1px solid ${colors.border}`
+        }}
       >
-        {/* Sidebar Header */}
-        <div className="p-4 border-b border-white/10">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: `${themeColor}20` }}
-              >
-                <Zap className="w-5 h-5" style={{ color: themeColor }} />
-              </div>
-              {!sidebarCollapsed && (
-                <div className="overflow-hidden">
-                  <h2 className="font-bold text-white text-sm truncate">{siteName}</h2>
-                  <p className="text-xs text-gray-500">Editor</p>
-                </div>
-              )}
+        {/* Sidebar Header - Logo Area (64px height) */}
+        <div
+          className="h-16 flex items-center justify-between px-4"
+          style={{ borderBottom: `1px solid ${colors.border}` }}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: colors.primary }}
+            >
+              <span className="text-white font-bold text-sm">PJ</span>
             </div>
-            <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="hidden lg:flex p-1.5 text-gray-500 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-            >
-              {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="lg:hidden p-1.5 text-gray-500 hover:text-white"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            {!sidebarCollapsed && (
+              <div className="min-w-0">
+                <h2
+                  className="font-semibold text-sm truncate"
+                  style={{ color: colors.dark }}
+                >
+                  {siteName}
+                </h2>
+                <p className="text-xs" style={{ color: colors.textMuted }}>
+                  Administrace
+                </p>
+              </div>
+            )}
           </div>
+
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="hidden lg:flex p-1.5 rounded-md transition-colors hover:bg-gray-100"
+            style={{ color: colors.secondary }}
+          >
+            {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          </button>
+
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="lg:hidden p-1.5"
+            style={{ color: colors.secondary }}
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => { onSectionChange(item.id); setMobileMenuOpen(false); }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 group ${
-                  isActive
-                    ? 'text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
-                }`}
-                style={isActive ? {
-                  backgroundColor: `${themeColor}20`,
-                  boxShadow: `inset 0 0 0 1px ${themeColor}40`
-                } : {}}
-                title={sidebarCollapsed ? item.label : undefined}
-              >
-                <item.icon
-                  className="w-5 h-5 flex-shrink-0 transition-colors"
-                  style={isActive ? { color: themeColor } : {}}
-                />
-                {!sidebarCollapsed && (
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.label}</p>
-                    {!isActive && (
-                      <p className="text-xs text-gray-600 truncate opacity-0 group-hover:opacity-100 transition-opacity">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
-                )}
-                {!sidebarCollapsed && item.id === 'visual-editor' && (
-                  <span
-                    className="px-1.5 py-0.5 text-[10px] font-semibold rounded-md text-white"
-                    style={{ backgroundColor: themeColor }}
-                  >
-                    NEW
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* Navigation Groups */}
+        <nav className="flex-1 overflow-y-auto py-4">
+          {navGroups.map((group, groupIndex) => (
+            <div key={groupIndex} className="mb-6">
+              {/* Group Label */}
+              {!sidebarCollapsed && (
+                <div
+                  className="px-4 mb-2 text-xs font-semibold uppercase tracking-wider"
+                  style={{ color: colors.textMuted }}
+                >
+                  {group.label}
+                </div>
+              )}
+
+              {/* Group Items */}
+              <div className="px-3 space-y-1">
+                {group.items.map((item) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => { onSectionChange(item.id); setMobileMenuOpen(false); }}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all ${
+                        sidebarCollapsed ? 'justify-center' : ''
+                      }`}
+                      style={{
+                        backgroundColor: isActive ? `${colors.primary}10` : 'transparent',
+                        color: isActive ? colors.primary : colors.textSecondary,
+                        borderLeft: isActive ? `3px solid ${colors.primary}` : '3px solid transparent',
+                      }}
+                      title={sidebarCollapsed ? item.label : undefined}
+                    >
+                      <item.icon className="w-5 h-5 flex-shrink-0" />
+                      {!sidebarCollapsed && (
+                        <>
+                          <span
+                            className="flex-1 text-sm font-medium"
+                            style={{ color: isActive ? colors.primary : colors.dark }}
+                          >
+                            {item.label}
+                          </span>
+                          {item.badge && (
+                            <span
+                              className="px-2 py-0.5 text-xs font-medium rounded-full text-white"
+                              style={{ backgroundColor: colors.primary }}
+                            >
+                              {item.badge}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-3 border-t border-white/10 space-y-1">
+        <div
+          className="p-3 space-y-1"
+          style={{ borderTop: `1px solid ${colors.border}` }}
+        >
           <a
             href="/"
             target="_blank"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors hover:bg-gray-100 ${
+              sidebarCollapsed ? 'justify-center' : ''
+            }`}
+            style={{ color: colors.textSecondary }}
             title={sidebarCollapsed ? 'Zobrazit web' : undefined}
           >
             <ExternalLink className="w-5 h-5 flex-shrink-0" />
@@ -275,7 +398,10 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
           </a>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors hover:bg-red-50 ${
+              sidebarCollapsed ? 'justify-center' : ''
+            }`}
+            style={{ color: colors.danger }}
             title={sidebarCollapsed ? 'Odhlásit se' : undefined}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
@@ -284,68 +410,140 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
         </div>
       </aside>
 
-      {/* Main Content Area */}
+      {/* ─────────────────────────────────────────────────────────────────
+          MAIN CONTENT AREA
+      ───────────────────────────────────────────────────────────────── */}
       <main className="flex-1 flex flex-col min-h-screen overflow-hidden">
-        {/* Top Bar */}
-        <header className="bg-[#141414]/80 backdrop-blur-xl border-b border-white/10 px-4 lg:px-6 py-3 flex items-center justify-between sticky top-0 z-40">
+
+        {/* Top Header Bar */}
+        <header
+          className="h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-40"
+          style={{
+            backgroundColor: colors.surface,
+            borderBottom: `1px solid ${colors.border}`
+          }}
+        >
+          {/* Left: Mobile menu + Page title */}
           <div className="flex items-center gap-4">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+              style={{ color: colors.secondary }}
             >
               <Menu className="w-5 h-5" />
             </button>
 
             <div>
-              <h1 className="text-lg font-bold text-white">
-                {navItems.find(item => item.id === activeSection)?.label || 'Dashboard'}
+              <h1
+                className="text-lg font-semibold"
+                style={{ color: colors.dark }}
+              >
+                {navGroups.flatMap(g => g.items).find(item => item.id === activeSection)?.label || 'Dashboard'}
               </h1>
-              <p className="text-xs text-gray-500 hidden sm:block">
-                {navItems.find(item => item.id === activeSection)?.description}
-              </p>
             </div>
           </div>
 
+          {/* Right: Search, Actions, User */}
           <div className="flex items-center gap-3">
+            {/* Search (desktop only) */}
+            <div className="hidden md:flex items-center relative">
+              <Search
+                className="absolute left-3 w-4 h-4"
+                style={{ color: colors.textMuted }}
+              />
+              <input
+                type="text"
+                placeholder="Hledat..."
+                className="h-9 pl-10 pr-4 rounded-lg text-sm w-48 focus:outline-none focus:ring-2"
+                style={{
+                  backgroundColor: colors.background,
+                  border: `1px solid ${colors.border}`,
+                  color: colors.dark
+                }}
+              />
+            </div>
+
             {/* Quick Actions */}
-            <div className="hidden md:flex items-center gap-2 bg-white/5 rounded-lg p-1">
-              <button className="p-2 text-gray-400 hover:text-white transition-colors" title="Náhled">
-                <Eye className="w-4 h-4" />
+            <div className="flex items-center gap-1">
+              <button
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                style={{ color: colors.secondary }}
+                title="Náhled webu"
+              >
+                <Eye className="w-5 h-5" />
               </button>
-              <button className="p-2 text-gray-400 hover:text-white transition-colors" title="Nastavení">
-                <Settings className="w-4 h-4" />
+              <button
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative"
+                style={{ color: colors.secondary }}
+                title="Oznámení"
+              >
+                <Bell className="w-5 h-5" />
+                <span
+                  className="absolute top-1 right-1 w-2 h-2 rounded-full"
+                  style={{ backgroundColor: colors.danger }}
+                />
+              </button>
+              <button
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                style={{ color: colors.secondary }}
+                title="Nápověda"
+              >
+                <HelpCircle className="w-5 h-5" />
               </button>
             </div>
 
+            {/* Divider */}
+            <div
+              className="h-8 w-px mx-2"
+              style={{ backgroundColor: colors.border }}
+            />
+
             {/* User Menu */}
-            <div className="flex items-center gap-3 pl-3 border-l border-white/10">
-              <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-white">Admin</p>
-                <p className="text-xs text-gray-500">Administrátor</p>
-              </div>
+            <button className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                style={{ backgroundColor: themeColor }}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white font-medium text-sm"
+                style={{ backgroundColor: colors.primary }}
               >
                 A
               </div>
-            </div>
+              <div className="hidden sm:block text-left">
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: colors.dark }}
+                >
+                  Admin
+                </p>
+              </div>
+              <ChevronDown
+                className="w-4 h-4 hidden sm:block"
+                style={{ color: colors.textMuted }}
+              />
+            </button>
           </div>
         </header>
 
         {/* Page Content */}
-        <div className="flex-1 p-4 lg:p-6 overflow-auto">
-          {children}
+        <div
+          className="flex-1 p-6 lg:p-8 overflow-auto"
+          style={{ backgroundColor: colors.background }}
+        >
+          {/* Content Container - max 1200px centered */}
+          <div className="max-w-6xl mx-auto">
+            {children}
+          </div>
         </div>
       </main>
 
       {/* Mobile Overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/30 z-40 lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
     </div>
   );
 }
+
+// Export design tokens for use in other components
+export { colors as adminColors };
