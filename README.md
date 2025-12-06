@@ -13,11 +13,11 @@ Tento projekt obsahuje 4 samostatné Next.js aplikace, které jsou automaticky d
 
 Po úspěšném nasazení budou weby dostupné na:
 
-- **Hlavní stránka**: https://emperoorkudis.github.io/Bez-n-zvu/
-- **Design**: https://emperoorkudis.github.io/Bez-n-zvu/design
-- **Rekonstrukce**: https://emperoorkudis.github.io/Bez-n-zvu/rekonstrukce
-- **Reality**: https://emperoorkudis.github.io/Bez-n-zvu/reality
-- **Správa**: https://emperoorkudis.github.io/Bez-n-zvu/sprava
+- **Hlavní stránka**: https://emperorkundis.github.io/Bez-n-zvu/
+- **Design**: https://emperorkundis.github.io/Bez-n-zvu/design
+- **Rekonstrukce**: https://emperorkundis.github.io/Bez-n-zvu/rekonstrukce
+- **Reality**: https://emperorkundis.github.io/Bez-n-zvu/reality
+- **Správa**: https://emperorkundis.github.io/Bez-n-zvu/sprava
 
 ## Lokální vývoj
 
