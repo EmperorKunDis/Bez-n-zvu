@@ -6,59 +6,54 @@ import { ContentEditor } from '@/components/admin/ContentEditor';
 import { TranslationEditor } from '@/components/admin/TranslationEditor';
 import { ImageManager } from '@/components/admin/ImageManager';
 import { ThemeSettings } from '@/components/admin/ThemeSettings';
-import { Card, CardContent } from '@/components/ui/card';
+import { VisualEditor } from '@/components/admin/VisualEditor';
 import {
   FileText,
   Image as ImageIcon,
   Globe,
   Eye,
   Edit,
-  Building2,
-  DollarSign
+  Building,
+  Layers,
+  ArrowUpRight,
+  Sparkles,
+  Clock,
+  Activity,
+  Zap
 } from 'lucide-react';
 
 const csTranslations = {
   nav: {
+    home: "Domů",
     services: "Služby",
-    pricing: "Ceník",
-    howItWorks: "Jak to funguje",
+    properties: "Nemovitosti",
     about: "O nás",
-    references: "Reference",
     contact: "Kontakt",
     cta: "Nezávazná konzultace"
   },
   hero: {
     title: "Profesionální správa nemovitostí",
-    subtitle: "Kompletní správa vašeho nájmu bez starostí.",
-    cta: "Nezávazná konzultace"
+    subtitle: "Komplexní správa bytových domů a komerčních objektů.",
+    ctaPrimary: "Kontaktujte nás",
+    ctaSecondary: "Naše služby"
   },
-  target: {
-    title: "Pro koho je naše služba",
-    subtitle: "Pomáháme majitelům nemovitostí maximalizovat výnosy a minimalizovat starosti.",
-    investor: {
-      title: "Investoři",
-      text: "Vlastníte více nemovitostí a chcete profesionální správu?"
+  services: {
+    title: "Naše služby",
+    technical: {
+      title: "Technická správa",
+      text: "Údržba a opravy společných prostor a technických zařízení."
     },
-    remote: {
-      title: "Vzdálení majitelé",
-      text: "Žijete v zahraničí nebo daleko od své nemovitosti?"
-    },
-    time: {
-      title: "Zaneprázdnění majitelé",
-      text: "Nemáte čas řešit problémy s nájemníky?"
+    economic: {
+      title: "Ekonomická správa",
+      text: "Vedení účetnictví, rozpočty a vyúčtování služeb."
     }
-  },
-  pricing: {
-    title: "Ceník služeb",
-    subtitle: "Vyberte si tarif, který vám vyhovuje."
   }
 };
 
 const sampleImages = [
-  { path: '/logo/PJ_Sprava_logo.svg', name: 'PJ Sprava Logo', type: 'local' as const, category: 'logo' },
-  { path: '/logo/PJ_Sprava_symbol.svg', name: 'PJ Sprava Symbol', type: 'local' as const, category: 'logo' },
-  { path: '/images/PajaSpravaBezPozadi.png', name: 'Pavel Sprava', type: 'local' as const, category: 'images' },
-  { path: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073', name: 'Hero Background', type: 'external' as const, category: 'hero' },
+  { path: '/logo/PJ_Group_logo.svg', name: 'PJ Group Logo', type: 'local' as const, category: 'logo' },
+  { path: '/logo/PJ_Group_symbol.svg', name: 'PJ Group Symbol', type: 'local' as const, category: 'logo' },
+  { path: '/images/PavelSpravaBezPozadi.png', name: 'Pavel Správa', type: 'local' as const, category: 'images' },
 ];
 
 const contentSections = [
@@ -68,8 +63,8 @@ const contentSections = [
     description: 'Hlavní banner na úvodní stránce',
     fields: [
       { key: 'hero.title', label: 'Hlavní nadpis', type: 'text' as const, value: 'Profesionální správa nemovitostí' },
-      { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea' as const, value: 'Kompletní správa vašeho nájmu bez starostí.' },
-      { key: 'hero.cta', label: 'Text tlačítka', type: 'text' as const, value: 'Nezávazná konzultace' },
+      { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea' as const, value: 'Komplexní správa bytových domů a komerčních objektů.' },
+      { key: 'hero.ctaPrimary', label: 'Primární tlačítko', type: 'text' as const, value: 'Kontaktujte nás' },
     ]
   },
   {
@@ -77,10 +72,9 @@ const contentSections = [
     title: 'Služby',
     description: 'Nabízené služby správy',
     fields: [
-      { key: 'target.title', label: 'Nadpis sekce', type: 'text' as const, value: 'Pro koho je naše služba' },
-      { key: 'target.subtitle', label: 'Podnadpis', type: 'textarea' as const, value: 'Pomáháme majitelům nemovitostí maximalizovat výnosy.' },
-      { key: 'target.investor.title', label: 'Investoři - nadpis', type: 'text' as const, value: 'Investoři' },
-      { key: 'target.investor.text', label: 'Investoři - popis', type: 'textarea' as const, value: 'Vlastníte více nemovitostí a chcete profesionální správu?' },
+      { key: 'services.title', label: 'Nadpis sekce', type: 'text' as const, value: 'Naše služby' },
+      { key: 'services.technical.title', label: 'Technická - nadpis', type: 'text' as const, value: 'Technická správa' },
+      { key: 'services.technical.text', label: 'Technická - popis', type: 'textarea' as const, value: 'Údržba a opravy společných prostor a technických zařízení.' },
     ]
   },
   {
@@ -88,8 +82,8 @@ const contentSections = [
     title: 'O nás',
     description: 'Informace o firmě',
     fields: [
-      { key: 'about.title', label: 'Nadpis', type: 'text' as const, value: 'O nás' },
-      { key: 'about.intro', label: 'Úvod', type: 'textarea' as const, value: 'Jsem Pavel Jaroš a pomáhám majitelům nemovitostí s profesionální správou.' },
+      { key: 'about.title', label: 'Nadpis', type: 'text' as const, value: 'O naší společnosti' },
+      { key: 'about.text', label: 'Text', type: 'textarea' as const, value: 'Jsme profesionální tým správců nemovitostí...' },
     ]
   },
   {
@@ -99,12 +93,12 @@ const contentSections = [
     fields: [
       { key: 'contact.phone', label: 'Telefon', type: 'text' as const, value: '+420 777 558 730' },
       { key: 'contact.email', label: 'E-mail', type: 'text' as const, value: 'sprava@pj-group.cz' },
-      { key: 'contact.address', label: 'Působnost', type: 'text' as const, value: 'Karlovarský kraj i celá ČR' },
+      { key: 'contact.address', label: 'Adresa', type: 'text' as const, value: 'Karlovy Vary, Česká republika' },
     ]
   },
 ];
 
-const DEFAULT_THEME_COLOR = '#b91c1c'; // red-700
+const DEFAULT_THEME_COLOR = '#b91c1c';
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -136,131 +130,152 @@ export default function AdminPage() {
       case 'dashboard':
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">Celkem sekcí</p>
-                      <p className="text-3xl font-bold text-gray-900">9</p>
-                    </div>
-                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                      <FileText className="h-6 w-6 text-green-700" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">Tarify</p>
-                      <p className="text-3xl font-bold text-gray-900">3</p>
-                    </div>
-                    <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <DollarSign className="h-6 w-6 text-yellow-600" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">Obrázky</p>
-                      <p className="text-3xl font-bold text-gray-900">{sampleImages.length}</p>
-                    </div>
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <ImageIcon className="h-6 w-6 text-blue-700" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">Jazyky</p>
-                      <p className="text-3xl font-bold text-gray-900">6</p>
-                    </div>
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <Globe className="h-6 w-6 text-purple-700" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Welcome Banner */}
+            <div
+              className="relative overflow-hidden rounded-2xl p-8"
+              style={{
+                background: `linear-gradient(135deg, ${themeColor}20 0%, ${themeColor}05 100%)`,
+                border: `1px solid ${themeColor}30`
+              }}
+            >
+              <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
+                <Sparkles className="w-full h-full" style={{ color: themeColor }} />
+              </div>
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold text-white mb-2">Vítejte v editoru</h2>
+                <p className="text-gray-400 max-w-xl">
+                  Spravujte obsah svého webu pomocí intuitivního rozhraní. Upravujte texty, obrázky a nastavení v reálném čase.
+                </p>
+                <button
+                  onClick={() => setActiveSection('visual-editor')}
+                  className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-medium transition-all hover:opacity-90"
+                  style={{ backgroundColor: themeColor }}
+                >
+                  <Layers className="w-4 h-4" />
+                  Spustit vizuální editor
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Rychlé akce</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <button
-                    onClick={() => setActiveSection('hero')}
-                    className="p-4 border rounded-lg hover:bg-gray-50 transition-colors text-left"
-                  >
-                    <Edit className="h-6 w-6 text-green-700 mb-2" />
-                    <p className="font-medium text-gray-900">Upravit Hero</p>
-                    <p className="text-sm text-gray-500">Změnit hlavní banner</p>
-                  </button>
-
-                  <button
-                    onClick={() => setActiveSection('translations')}
-                    className="p-4 border rounded-lg hover:bg-gray-50 transition-colors text-left"
-                  >
-                    <Globe className="h-6 w-6 text-purple-700 mb-2" />
-                    <p className="font-medium text-gray-900">Překlady</p>
-                    <p className="text-sm text-gray-500">Upravit texty</p>
-                  </button>
-
-                  <button
-                    onClick={() => setActiveSection('images')}
-                    className="p-4 border rounded-lg hover:bg-gray-50 transition-colors text-left"
-                  >
-                    <ImageIcon className="h-6 w-6 text-blue-700 mb-2" />
-                    <p className="font-medium text-gray-900">Obrázky</p>
-                    <p className="text-sm text-gray-500">Správa médií</p>
-                  </button>
-
-                  <a
-                    href="/"
-                    target="_blank"
-                    className="p-4 border rounded-lg hover:bg-gray-50 transition-colors text-left"
-                  >
-                    <Eye className="h-6 w-6 text-yellow-600 mb-2" />
-                    <p className="font-medium text-gray-900">Zobrazit web</p>
-                    <p className="text-sm text-gray-500">Otevřít v novém okně</p>
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Informace o webu</h2>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Web</span>
-                    <span className="font-medium">Pavel Jaroš Správa</span>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { label: 'Celkem sekcí', value: '6', icon: FileText, color: '#ef4444', change: '+2' },
+                { label: 'Spravované objekty', value: '45', icon: Building, color: '#22c55e', change: '+12' },
+                { label: 'Obrázky', value: sampleImages.length.toString(), icon: ImageIcon, color: '#3b82f6', change: '+5' },
+                { label: 'Aktivita', value: 'Online', icon: Activity, color: '#a855f7', change: 'Live' },
+              ].map((stat, i) => (
+                <div
+                  key={i}
+                  className="bg-[#141414] rounded-xl p-5 border border-white/10 hover:border-white/20 transition-colors group"
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">{stat.label}</p>
+                      <p className="text-3xl font-bold text-white">{stat.value}</p>
+                    </div>
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
+                      style={{ backgroundColor: `${stat.color}20` }}
+                    >
+                      <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Téma</span>
-                    <span className="font-medium">Správa nemovitostí</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Barva</span>
-                    <span className="inline-flex items-center gap-2">
-                      <span className="w-4 h-4 rounded bg-green-700"></span>
-                      <span className="font-medium">Zelená</span>
+                  <div className="mt-3 flex items-center gap-2">
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{ backgroundColor: `${stat.color}20`, color: stat.color }}
+                    >
+                      {stat.change}
                     </span>
+                    <span className="text-xs text-gray-600">tento měsíc</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              ))}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-[#141414] rounded-xl border border-white/10 overflow-hidden">
+              <div className="p-5 border-b border-white/10">
+                <h3 className="text-lg font-semibold text-white">Rychlé akce</h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4">
+                {[
+                  { label: 'Upravit Hero', desc: 'Změnit hlavní banner', icon: Edit, section: 'hero', color: themeColor },
+                  { label: 'Překlady', desc: 'Upravit texty', icon: Globe, section: 'translations', color: '#3b82f6' },
+                  { label: 'Obrázky', desc: 'Správa médií', icon: ImageIcon, section: 'images', color: '#22c55e' },
+                  { label: 'Zobrazit web', desc: 'Otevřít v novém okně', icon: Eye, section: 'external', color: '#a855f7' },
+                ].map((action, i) => (
+                  <button
+                    key={i}
+                    onClick={() => action.section === 'external' ? window.open('/', '_blank') : setActiveSection(action.section)}
+                    className="p-5 text-left hover:bg-white/5 transition-colors border-r border-b border-white/5 last:border-r-0 group"
+                  >
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110"
+                      style={{ backgroundColor: `${action.color}20` }}
+                    >
+                      <action.icon className="w-5 h-5" style={{ color: action.color }} />
+                    </div>
+                    <p className="font-medium text-white text-sm">{action.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{action.desc}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Recent Activity & Info */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="bg-[#141414] rounded-xl border border-white/10 overflow-hidden">
+                <div className="p-5 border-b border-white/10 flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-white">Nedávná aktivita</h3>
+                  <Clock className="w-4 h-4 text-gray-500" />
+                </div>
+                <div className="divide-y divide-white/5">
+                  {[
+                    { action: 'Aktualizace seznamu objektů', time: 'Před 1 hodinou' },
+                    { action: 'Změna kontaktních údajů', time: 'Před 4 hodinami' },
+                    { action: 'Nahrání nové fotografie', time: 'Včera' },
+                    { action: 'Úprava služeb', time: 'Před 3 dny' },
+                  ].map((item, i) => (
+                    <div key={i} className="px-5 py-3 flex items-center justify-between hover:bg-white/5 transition-colors">
+                      <p className="text-sm text-gray-300">{item.action}</p>
+                      <p className="text-xs text-gray-600">{item.time}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-[#141414] rounded-xl border border-white/10 overflow-hidden">
+                <div className="p-5 border-b border-white/10 flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-white">Informace o webu</h3>
+                  <Zap className="w-4 h-4" style={{ color: themeColor }} />
+                </div>
+                <div className="divide-y divide-white/5">
+                  {[
+                    { label: 'Web', value: 'Pavel Jaroš Správa' },
+                    { label: 'Framework', value: 'Next.js 15' },
+                    { label: 'Internacionalizace', value: 'next-intl (6 jazyků)' },
+                    { label: 'Stylování', value: 'Tailwind CSS' },
+                  ].map((item, i) => (
+                    <div key={i} className="px-5 py-3 flex items-center justify-between">
+                      <p className="text-sm text-gray-500">{item.label}</p>
+                      <p className="text-sm font-medium text-white">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
+        );
+
+      case 'visual-editor':
+        return (
+          <VisualEditor
+            themeColor={themeColor}
+            onSave={(elements) => console.log('Saving elements:', elements)}
+          />
         );
 
       case 'hero':
@@ -268,36 +283,44 @@ export default function AdminPage() {
       case 'about':
       case 'contact':
         return (
-          <ContentEditor
-            sections={contentSections.filter(s => s.id === activeSection)}
-            onSave={handleSaveContent}
-            themeColor={themeColor}
-          />
+          <div className="bg-[#141414] rounded-xl border border-white/10 p-6">
+            <ContentEditor
+              sections={contentSections.filter(s => s.id === activeSection)}
+              onSave={handleSaveContent}
+              themeColor={themeColor}
+            />
+          </div>
         );
 
       case 'translations':
         return (
-          <TranslationEditor
-            themeColor={themeColor}
-            translations={{ cs: csTranslations }}
-            onSave={handleSaveTranslations}
-          />
+          <div className="bg-[#141414] rounded-xl border border-white/10 p-6">
+            <TranslationEditor
+              themeColor={themeColor}
+              translations={{ cs: csTranslations }}
+              onSave={handleSaveTranslations}
+            />
+          </div>
         );
 
       case 'images':
         return (
-          <ImageManager
-            images={sampleImages}
-            themeColor={themeColor}
-          />
+          <div className="bg-[#141414] rounded-xl border border-white/10 p-6">
+            <ImageManager
+              images={sampleImages}
+              themeColor={themeColor}
+            />
+          </div>
         );
 
       case 'settings':
         return (
-          <ThemeSettings
-            currentColor={themeColor}
-            onColorChange={handleThemeColorChange}
-          />
+          <div className="bg-[#141414] rounded-xl border border-white/10 p-6">
+            <ThemeSettings
+              currentColor={themeColor}
+              onColorChange={handleThemeColorChange}
+            />
+          </div>
         );
 
       default:

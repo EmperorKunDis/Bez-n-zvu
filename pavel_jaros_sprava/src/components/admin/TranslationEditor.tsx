@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent } from '@/components/ui/card';
-import { Save, RefreshCw, Search, ChevronDown, ChevronRight, Globe, Copy, Check } from 'lucide-react';
+import { Save, RefreshCw, Search, ChevronDown, ChevronRight, Globe, Copy, Check, Languages } from 'lucide-react';
 
 interface TranslationEditorProps {
   themeColor: string;
@@ -21,8 +20,6 @@ const LOCALES = [
   { code: 'sk', name: 'Slovenčina', flag: '🇸🇰' },
   { code: 'ru', name: 'Русский', flag: '🇷🇺' },
 ];
-
-type TranslationValue = string | Record<string, unknown>;
 
 function flattenObject(obj: Record<string, unknown>, prefix = ''): Record<string, string> {
   const result: Record<string, string> = {};
@@ -82,7 +79,7 @@ export function TranslationEditor({ themeColor, translations, onSave }: Translat
   const [activeLocale, setActiveLocale] = useState('cs');
   const [flatTranslations, setFlatTranslations] = useState<Record<string, string>>({});
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['nav', 'hero']));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -139,22 +136,14 @@ export function TranslationEditor({ themeColor, translations, onSave }: Translat
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex items-center gap-2 flex-wrap">
-          {LOCALES.map((locale) => (
-            <button
-              key={locale.code}
-              onClick={() => setActiveLocale(locale.code)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                activeLocale === locale.code
-                  ? 'text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
-              style={activeLocale === locale.code ? { backgroundColor: themeColor } : {}}
-            >
-              <span className="text-lg">{locale.flag}</span>
-              <span className="hidden sm:inline">{locale.name}</span>
-            </button>
-          ))}
+        <div>
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <Languages className="w-5 h-5" style={{ color: themeColor }} />
+            Editor překladů
+          </h2>
+          <p className="text-sm text-gray-500">
+            Upravte texty pro jednotlivé jazykové verze
+          </p>
         </div>
 
         <Button
@@ -182,86 +171,108 @@ export function TranslationEditor({ themeColor, translations, onSave }: Translat
         </Button>
       </div>
 
+      {/* Language Tabs */}
+      <div className="flex items-center gap-2 flex-wrap">
+        {LOCALES.map((locale) => (
+          <button
+            key={locale.code}
+            onClick={() => setActiveLocale(locale.code)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              activeLocale === locale.code
+                ? 'text-white'
+                : 'text-gray-400 bg-[#0a0a0a] border border-white/10 hover:border-white/20'
+            }`}
+            style={activeLocale === locale.code ? {
+              backgroundColor: `${themeColor}20`,
+              border: `1px solid ${themeColor}40`
+            } : {}}
+          >
+            <span className="text-lg">{locale.flag}</span>
+            <span className="hidden sm:inline">{locale.name}</span>
+          </button>
+        ))}
+      </div>
+
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
         <Input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Hledat v překladech..."
-          className="pl-10"
+          className="pl-11 bg-[#0a0a0a] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 focus:ring-0"
         />
       </div>
 
       {/* Translation Groups */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {Object.entries(groupedTranslations).map(([group, items]) => (
-          <Card key={group} className="overflow-hidden">
+          <div key={group} className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
             <button
               onClick={() => toggleGroup(group)}
-              className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
             >
               <div className="flex items-center gap-3">
-                {expandedGroups.has(group) ? (
-                  <ChevronDown className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <ChevronRight className="h-5 w-5 text-gray-500" />
-                )}
+                <span className="text-gray-400">
+                  {expandedGroups.has(group) ? (
+                    <ChevronDown className="h-5 w-5" />
+                  ) : (
+                    <ChevronRight className="h-5 w-5" />
+                  )}
+                </span>
                 <div className="text-left">
-                  <h3 className="font-semibold text-gray-900 capitalize">{group}</h3>
+                  <h3 className="font-semibold text-white capitalize">{group}</h3>
                   <p className="text-sm text-gray-500">{Object.keys(items).length} překladů</p>
                 </div>
               </div>
             </button>
 
             {expandedGroups.has(group) && (
-              <CardContent className="border-t bg-gray-50 p-0">
-                <div className="divide-y">
-                  {Object.entries(items).map(([key, value]) => (
-                    <div key={key} className="p-4 space-y-2">
-                      <div className="flex items-center justify-between gap-2">
-                        <code className="text-xs text-gray-500 font-mono bg-gray-200 px-2 py-1 rounded">
-                          {key}
-                        </code>
-                        <button
-                          onClick={() => copyKey(key)}
-                          className="text-gray-400 hover:text-gray-600 transition-colors"
-                          title="Kopírovat klíč"
-                        >
-                          {copiedKey === key ? (
-                            <Check className="h-4 w-4 text-green-500" />
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </button>
-                      </div>
-                      {value.length > 100 ? (
-                        <Textarea
-                          value={value}
-                          onChange={(e) => handleChange(key, e.target.value)}
-                          rows={3}
-                          className="w-full bg-white"
-                        />
-                      ) : (
-                        <Input
-                          value={value}
-                          onChange={(e) => handleChange(key, e.target.value)}
-                          className="w-full bg-white"
-                        />
-                      )}
+              <div className="border-t border-white/10 divide-y divide-white/5">
+                {Object.entries(items).map(([key, value]) => (
+                  <div key={key} className="p-4 space-y-2 hover:bg-white/5 transition-colors">
+                    <div className="flex items-center justify-between gap-2">
+                      <code className="text-xs text-gray-500 font-mono bg-white/5 px-2 py-1 rounded">
+                        {key}
+                      </code>
+                      <button
+                        onClick={() => copyKey(key)}
+                        className="text-gray-500 hover:text-white transition-colors"
+                        title="Kopírovat klíč"
+                      >
+                        {copiedKey === key ? (
+                          <Check className="h-4 w-4 text-green-400" />
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                      </button>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
+                    {value.length > 100 ? (
+                      <Textarea
+                        value={value}
+                        onChange={(e) => handleChange(key, e.target.value)}
+                        rows={3}
+                        className="w-full bg-[#141414] border-white/10 text-white focus:border-white/30 focus:ring-0"
+                      />
+                    ) : (
+                      <Input
+                        value={value}
+                        onChange={(e) => handleChange(key, e.target.value)}
+                        className="w-full bg-[#141414] border-white/10 text-white focus:border-white/30 focus:ring-0"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             )}
-          </Card>
+          </div>
         ))}
       </div>
 
       {Object.keys(groupedTranslations).length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <Globe className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <p>Žádné překlady nenalezeny</p>
+        <div className="text-center py-12">
+          <Globe className="h-12 w-12 mx-auto mb-4 text-gray-600" />
+          <p className="text-gray-500">Žádné překlady nenalezeny</p>
         </div>
       )}
     </div>

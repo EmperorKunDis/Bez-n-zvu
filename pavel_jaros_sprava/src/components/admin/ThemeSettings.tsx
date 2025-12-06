@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Check, Save, RefreshCw, Palette } from 'lucide-react';
+import { Check, Save, RefreshCw, Palette, Sparkles } from 'lucide-react';
 
 interface ThemeSettingsProps {
   currentColor: string;
@@ -57,148 +56,164 @@ export function ThemeSettings({ currentColor, onColorChange }: ThemeSettingsProp
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <Palette className="h-6 w-6 text-gray-700" />
-            <h2 className="text-lg font-bold text-gray-900">Barva motivu</h2>
-          </div>
+      {/* Header */}
+      <div>
+        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+          <Palette className="w-5 h-5" style={{ color: selectedColor }} />
+          Nastavení motivu
+        </h2>
+        <p className="text-sm text-gray-500">
+          Přizpůsobte si barvy administračního panelu
+        </p>
+      </div>
 
-          <p className="text-gray-600 mb-6">
-            Vyberte hlavní barvu pro administrační panel a tlačítka na webu.
-          </p>
+      {/* Color Section */}
+      <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <Sparkles className="h-5 w-5" style={{ color: selectedColor }} />
+          <h3 className="font-medium text-white">Barva motivu</h3>
+        </div>
 
-          {/* Preset Colors */}
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-3 mb-6">
-            {PRESET_COLORS.map((color) => (
-              <button
-                key={color.value}
-                onClick={() => handleColorSelect(color.value)}
-                className={`relative w-full aspect-square rounded-lg transition-all hover:scale-105 ${
-                  selectedColor === color.value ? 'ring-2 ring-offset-2 ring-gray-900' : ''
-                }`}
-                style={{ backgroundColor: color.value }}
-                title={color.name}
-              >
-                {selectedColor === color.value && (
-                  <Check className="absolute inset-0 m-auto h-5 w-5 text-white drop-shadow" />
-                )}
-              </button>
-            ))}
-          </div>
+        {/* Preset Colors Grid */}
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-3 mb-6">
+          {PRESET_COLORS.map((color) => (
+            <button
+              key={color.value}
+              onClick={() => handleColorSelect(color.value)}
+              className={`relative w-full aspect-square rounded-xl transition-all hover:scale-105 ${
+                selectedColor === color.value ? 'ring-2 ring-offset-2 ring-offset-[#0a0a0a] ring-white' : ''
+              }`}
+              style={{ backgroundColor: color.value }}
+              title={color.name}
+            >
+              {selectedColor === color.value && (
+                <Check className="absolute inset-0 m-auto h-5 w-5 text-white drop-shadow-lg" />
+              )}
+            </button>
+          ))}
+        </div>
 
-          {/* Color Names */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {PRESET_COLORS.map((color) => (
-              <button
-                key={color.value}
-                onClick={() => handleColorSelect(color.value)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  selectedColor === color.value
-                    ? 'text-white'
-                    : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
-                }`}
-                style={selectedColor === color.value ? { backgroundColor: color.value } : {}}
-              >
-                {color.name}
-              </button>
-            ))}
-          </div>
+        {/* Color Pills */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {PRESET_COLORS.map((color) => (
+            <button
+              key={color.value}
+              onClick={() => handleColorSelect(color.value)}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                selectedColor === color.value
+                  ? 'text-white'
+                  : 'text-gray-400 bg-white/5 hover:bg-white/10'
+              }`}
+              style={selectedColor === color.value ? {
+                backgroundColor: color.value,
+                boxShadow: `0 0 20px ${color.value}40`
+              } : {}}
+            >
+              {color.name}
+            </button>
+          ))}
+        </div>
 
-          {/* Custom Color Picker */}
-          <div className="flex items-center gap-4 mb-6">
-            <label className="text-sm font-medium text-gray-700">
-              Vlastní barva:
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={customColor}
-                onChange={(e) => {
-                  setCustomColor(e.target.value);
+        {/* Custom Color Picker */}
+        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+          <label className="text-sm font-medium text-gray-400">
+            Vlastní barva:
+          </label>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              value={customColor}
+              onChange={(e) => {
+                setCustomColor(e.target.value);
+                setSelectedColor(e.target.value);
+              }}
+              className="w-12 h-10 rounded-lg cursor-pointer border-0 bg-transparent"
+            />
+            <input
+              type="text"
+              value={customColor}
+              onChange={(e) => {
+                setCustomColor(e.target.value);
+                if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
                   setSelectedColor(e.target.value);
-                }}
-                className="w-12 h-10 rounded cursor-pointer border-0"
-              />
-              <input
-                type="text"
-                value={customColor}
-                onChange={(e) => {
-                  setCustomColor(e.target.value);
-                  if (/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) {
-                    setSelectedColor(e.target.value);
-                  }
-                }}
-                placeholder="#b91c1c"
-                className="w-28 px-3 py-2 border rounded-lg text-sm font-mono"
-              />
-            </div>
+                }
+              }}
+              placeholder="#b91c1c"
+              className="w-28 px-3 py-2 bg-[#141414] border border-white/10 rounded-lg text-sm font-mono text-white focus:outline-none focus:border-white/30"
+            />
           </div>
+        </div>
+      </div>
 
-          {/* Preview */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <p className="text-sm text-gray-600 mb-3">Náhled:</p>
-            <div className="flex items-center gap-3">
-              <button
-                className="px-4 py-2 rounded-lg text-white font-medium"
-                style={{ backgroundColor: selectedColor }}
-              >
-                Primární tlačítko
-              </button>
-              <button
-                className="px-4 py-2 rounded-lg font-medium border-2"
-                style={{ borderColor: selectedColor, color: selectedColor }}
-              >
-                Sekundární tlačítko
-              </button>
-              <span
-                className="px-3 py-1 rounded-full text-sm font-medium text-white"
-                style={{ backgroundColor: selectedColor }}
-              >
-                Badge
-              </span>
-            </div>
-          </div>
-
-          {/* Save Button */}
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-            className="text-white"
+      {/* Preview */}
+      <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-6">
+        <p className="text-sm text-gray-400 mb-4">Náhled komponent:</p>
+        <div className="flex flex-wrap items-center gap-4">
+          <button
+            className="px-5 py-2.5 rounded-xl text-white font-medium transition-all hover:opacity-90"
+            style={{
+              backgroundColor: selectedColor,
+              boxShadow: `0 0 20px ${selectedColor}30`
+            }}
+          >
+            Primární tlačítko
+          </button>
+          <button
+            className="px-5 py-2.5 rounded-xl font-medium border-2 bg-transparent transition-all hover:bg-white/5"
+            style={{ borderColor: selectedColor, color: selectedColor }}
+          >
+            Sekundární tlačítko
+          </button>
+          <span
+            className="px-3 py-1.5 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: selectedColor }}
           >
-            {saving ? (
-              <>
-                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                Ukládám...
-              </>
-            ) : saved ? (
-              <>
-                <Check className="h-4 w-4 mr-2" />
-                Uloženo!
-              </>
-            ) : (
-              <>
-                <Save className="h-4 w-4 mr-2" />
-                Uložit barvu
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
+            Badge
+          </span>
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{ backgroundColor: `${selectedColor}20` }}
+          >
+            <Sparkles className="w-5 h-5" style={{ color: selectedColor }} />
+          </div>
+        </div>
+      </div>
 
-      {/* Info */}
-      <Card>
-        <CardContent className="p-6">
-          <h3 className="font-bold text-gray-900 mb-3">Poznámka</h3>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Změna barvy se projeví okamžitě v administračním panelu.
-            Pro změnu barvy na produkčním webu je potřeba upravit CSS proměnné
-            v souboru <code className="bg-gray-100 px-1 rounded">global.css</code> nebo
-            třídy Tailwind v komponentách.
-          </p>
-        </CardContent>
-      </Card>
+      {/* Save Button */}
+      <Button
+        onClick={handleSave}
+        disabled={saving}
+        className="text-white w-full sm:w-auto"
+        style={{
+          backgroundColor: selectedColor,
+          boxShadow: `0 0 30px ${selectedColor}30`
+        }}
+      >
+        {saving ? (
+          <>
+            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+            Ukládám...
+          </>
+        ) : saved ? (
+          <>
+            <Check className="h-4 w-4 mr-2" />
+            Uloženo!
+          </>
+        ) : (
+          <>
+            <Save className="h-4 w-4 mr-2" />
+            Uložit změny
+          </>
+        )}
+      </Button>
+
+      {/* Info Note */}
+      <div className="bg-[#0a0a0a] rounded-xl border border-white/10 p-4">
+        <p className="text-sm text-gray-400">
+          <span className="font-medium text-white">Poznámka:</span> Změna barvy se projeví okamžitě v administračním panelu.
+          Pro změnu barvy na produkčním webu je potřeba upravit CSS proměnné nebo Tailwind třídy v komponentách.
+        </p>
+      </div>
     </div>
   );
 }
