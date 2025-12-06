@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Save, RefreshCw, Eye, EyeOff, ChevronDown, ChevronRight, Plus, Trash2, GripVertical } from 'lucide-react';
+import { Save, RefreshCw, ChevronDown, ChevronRight, Image as ImageIcon, Type, Link, Hash, ToggleLeft } from 'lucide-react';
 
 interface ContentField {
   key: string;
@@ -30,7 +29,7 @@ interface ContentEditorProps {
 
 export function ContentEditor({ sections: initialSections, onSave, themeColor }: ContentEditorProps) {
   const [sections, setSections] = useState<ContentSection[]>(initialSections);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['hero']));
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(initialSections.map(s => s.id)));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -73,22 +72,38 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
     }
   };
 
+  const getFieldIcon = (type: string) => {
+    switch (type) {
+      case 'textarea': return <Type className="w-4 h-4" />;
+      case 'image': return <ImageIcon className="w-4 h-4" />;
+      case 'url': return <Link className="w-4 h-4" />;
+      case 'number': return <Hash className="w-4 h-4" />;
+      case 'boolean': return <ToggleLeft className="w-4 h-4" />;
+      default: return <Type className="w-4 h-4" />;
+    }
+  };
+
   const renderField = (sectionId: string, field: ContentField) => {
+    const baseInputClass = "bg-[#0a0a0a] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 focus:ring-0";
+
     switch (field.type) {
       case 'textarea':
         return (
           <div key={field.key} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              {field.label}
-            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium text-gray-300">
+                {field.label}
+              </label>
+            </div>
             {field.description && (
-              <p className="text-xs text-gray-500">{field.description}</p>
+              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
             )}
             <Textarea
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
               rows={4}
-              className="w-full resize-y"
+              className={`${baseInputClass} w-full resize-y ml-6`}
             />
           </div>
         );
@@ -96,21 +111,24 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
       case 'image':
         return (
           <div key={field.key} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              {field.label}
-            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium text-gray-300">
+                {field.label}
+              </label>
+            </div>
             {field.description && (
-              <p className="text-xs text-gray-500">{field.description}</p>
+              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
             )}
-            <div className="flex gap-2">
+            <div className="flex gap-3 ml-6">
               <Input
                 value={field.value}
                 onChange={(e) => updateField(sectionId, field.key, e.target.value)}
                 placeholder="URL obrázku..."
-                className="flex-1"
+                className={`${baseInputClass} flex-1`}
               />
               {field.value && (
-                <div className="w-16 h-10 rounded border overflow-hidden flex-shrink-0">
+                <div className="w-20 h-10 rounded-lg border border-white/10 overflow-hidden flex-shrink-0 bg-[#0a0a0a]">
                   <img
                     src={field.value}
                     alt=""
@@ -128,18 +146,21 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
       case 'url':
         return (
           <div key={field.key} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              {field.label}
-            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium text-gray-300">
+                {field.label}
+              </label>
+            </div>
             {field.description && (
-              <p className="text-xs text-gray-500">{field.description}</p>
+              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
             )}
             <Input
               type="url"
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
               placeholder="https://..."
-              className="w-full"
+              className={`${baseInputClass} w-full ml-6`}
             />
           </div>
         );
@@ -147,33 +168,36 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
       case 'number':
         return (
           <div key={field.key} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              {field.label}
-            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium text-gray-300">
+                {field.label}
+              </label>
+            </div>
             {field.description && (
-              <p className="text-xs text-gray-500">{field.description}</p>
+              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
             )}
             <Input
               type="number"
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
-              className="w-full"
+              className={`${baseInputClass} w-full ml-6`}
             />
           </div>
         );
 
       case 'boolean':
         return (
-          <div key={field.key} className="flex items-center gap-3">
+          <div key={field.key} className="flex items-center gap-3 py-2">
             <input
               type="checkbox"
               checked={field.value === 'true'}
               onChange={(e) => updateField(sectionId, field.key, e.target.checked ? 'true' : 'false')}
-              className="w-5 h-5 rounded border-gray-300"
+              className="w-5 h-5 rounded border-white/20 bg-[#0a0a0a]"
               style={{ accentColor: themeColor }}
             />
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-300">
                 {field.label}
               </label>
               {field.description && (
@@ -186,16 +210,19 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
       default:
         return (
           <div key={field.key} className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              {field.label}
-            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">{getFieldIcon(field.type)}</span>
+              <label className="text-sm font-medium text-gray-300">
+                {field.label}
+              </label>
+            </div>
             {field.description && (
-              <p className="text-xs text-gray-500">{field.description}</p>
+              <p className="text-xs text-gray-500 ml-6">{field.description}</p>
             )}
             <Input
               value={field.value}
               onChange={(e) => updateField(sectionId, field.key, e.target.value)}
-              className="w-full"
+              className={`${baseInputClass} w-full ml-6`}
             />
           </div>
         );
@@ -204,11 +231,14 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
 
   return (
     <div className="space-y-6">
-      {/* Save Button */}
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-600">
-          Upravte obsah jednotlivých sekcí webu
-        </p>
+        <div>
+          <h2 className="text-lg font-semibold text-white">Úprava obsahu</h2>
+          <p className="text-sm text-gray-500">
+            Upravte obsah jednotlivých sekcí webu
+          </p>
+        </div>
         <Button
           onClick={handleSave}
           disabled={saving}
@@ -237,35 +267,40 @@ export function ContentEditor({ sections: initialSections, onSave, themeColor }:
       {/* Sections */}
       <div className="space-y-4">
         {sections.map((section) => (
-          <Card key={section.id} className="overflow-hidden">
+          <div key={section.id} className="bg-[#0a0a0a] rounded-xl border border-white/10 overflow-hidden">
             <button
               onClick={() => toggleSection(section.id)}
-              className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+              className="w-full px-5 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
             >
               <div className="flex items-center gap-3">
-                {expandedSections.has(section.id) ? (
-                  <ChevronDown className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <ChevronRight className="h-5 w-5 text-gray-500" />
-                )}
+                <span className="text-gray-400">
+                  {expandedSections.has(section.id) ? (
+                    <ChevronDown className="h-5 w-5" />
+                  ) : (
+                    <ChevronRight className="h-5 w-5" />
+                  )}
+                </span>
                 <div className="text-left">
-                  <h3 className="font-semibold text-gray-900">{section.title}</h3>
+                  <h3 className="font-semibold text-white">{section.title}</h3>
                   {section.description && (
                     <p className="text-sm text-gray-500">{section.description}</p>
                   )}
                 </div>
               </div>
-              <span className="text-xs text-gray-500">
+              <span
+                className="text-xs px-2 py-1 rounded-full"
+                style={{ backgroundColor: `${themeColor}20`, color: themeColor }}
+              >
                 {section.fields.length} polí
               </span>
             </button>
 
             {expandedSections.has(section.id) && (
-              <CardContent className="border-t bg-gray-50 space-y-4 p-6">
+              <div className="border-t border-white/10 p-5 space-y-5 bg-[#0a0a0a]/50">
                 {section.fields.map((field) => renderField(section.id, field))}
-              </CardContent>
+              </div>
             )}
-          </Card>
+          </div>
         ))}
       </div>
     </div>
