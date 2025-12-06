@@ -177,7 +177,7 @@ export default function Home() {
           </p>
           <div className="flex gap-3 flex-shrink-0">
             <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.reject')}</Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm" size="sm">{t('cookie.accept')}</Button>
+            <Button className="bg-red-700 hover:bg-red-800 text-white shadow-sm" size="sm">{t('cookie.accept')}</Button>
             <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.preferences')}</Button>
           </div>
         </div>
@@ -200,26 +200,26 @@ export default function Home() {
 
             {/* Navigation */}
             <nav className="hidden md:flex space-x-6">
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">{t('nav.home')}</a>
-              <a href="#sluzby" className="text-gray-700 hover:text-blue-600 transition-colors">{t('nav.services')}</a>
-              <a href="#realizace" className="text-gray-700 hover:text-blue-600 transition-colors">{t('nav.projects')}</a>
-              <a href="#o-nas" className="text-gray-700 hover:text-blue-600 transition-colors">{t('nav.about')}</a>
-              <a href="#kontakt" className="text-gray-700 hover:text-blue-600 transition-colors">{t('nav.contact')}</a>
+              <a href="#" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.home')}</a>
+              <a href="#sluzby" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.services')}</a>
+              <a href="#realizace" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.projects')}</a>
+              <a href="#o-nas" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.about')}</a>
+              <a href="#kontakt" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.contact')}</a>
             </nav>
 
             {/* Right side */}
             <div className="flex items-center space-x-4">
               {/* Phone */}
-              <div className="hidden lg:flex items-center text-blue-600">
+              <div className="hidden lg:flex items-center text-red-700">
                 <Phone className="h-4 w-4 mr-2" />
                 <span className="text-sm font-semibold">{t('contact.phone')}</span>
               </div>
 
               {/* Social */}
               <div className="hidden lg:flex items-center space-x-3 text-gray-400">
-                <Facebook className="h-5 w-5 hover:text-blue-600 transition-colors" />
-                <Instagram className="h-5 w-5 hover:text-blue-600 transition-colors" />
-                <Linkedin className="h-5 w-5 hover:text-blue-600 transition-colors" />
+                <Facebook className="h-5 w-5 hover:text-red-700 transition-colors" />
+                <Instagram className="h-5 w-5 hover:text-red-700 transition-colors" />
+                <Linkedin className="h-5 w-5 hover:text-red-700 transition-colors" />
               </div>
 
               {/* Language Switcher */}
@@ -239,7 +239,7 @@ export default function Home() {
                         key={lang.code}
                         onClick={() => handleLanguageChange(lang.code)}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-3 ${
-                          locale === lang.code ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
+                          locale === lang.code ? 'bg-red-50 text-red-700 font-semibold' : 'text-gray-700'
                         }`}
                       >
                         <span className="text-xl">{lang.flag}</span>
@@ -251,7 +251,7 @@ export default function Home() {
               </div>
 
               <Button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+                className="bg-red-700 hover:bg-red-800 text-white font-semibold"
                 onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 {t('nav.cta')}
@@ -284,14 +284,14 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 font-semibold"
+                  className="bg-red-700 hover:bg-red-800 text-white text-lg px-8 py-6 font-semibold"
                   onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   {t('hero.ctaPrimary')}
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-6 font-semibold"
+                  className="border-2 border-white text-white hover:bg-white hover:text-red-700 text-lg px-8 py-6 font-semibold"
                   onClick={() => document.getElementById('realizace')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   {t('hero.ctaSecondary')}
@@ -319,33 +319,33 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="border-2 hover:border-blue-600 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <HomeIcon className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+                <HomeIcon className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4 text-gray-900">{t('services.cores.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('services.cores.text')}</p>
               </CardContent>
             </Card>
 
-            <Card className="border-2 hover:border-blue-600 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <Building2 className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+                <Building2 className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4 text-gray-900">{t('services.apartments.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('services.apartments.text')}</p>
               </CardContent>
             </Card>
 
-            <Card className="border-2 hover:border-blue-600 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <HomeIcon className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+                <HomeIcon className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4 text-gray-900">{t('services.houses.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('services.houses.text')}</p>
               </CardContent>
             </Card>
 
-            <Card className="border-2 hover:border-blue-600 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <Wrench className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+                <Wrench className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-4 text-gray-900">{t('services.crafts.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('services.crafts.text')}</p>
               </CardContent>
@@ -363,8 +363,8 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {promises.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="rounded-xl border border-blue-600/20 bg-white p-8 text-left shadow-sm transition-transform hover:-translate-y-1 hover:shadow-xl">
-                <Icon className="h-10 w-10 mb-6 text-blue-600" />
+              <div key={title} className="rounded-xl border border-red-700/20 bg-white p-8 text-left shadow-sm transition-transform hover:-translate-y-1 hover:shadow-xl">
+                <Icon className="h-10 w-10 mb-6 text-red-700" />
                 <h3 className="text-xl font-bold mb-3 text-gray-900">{title}</h3>
                 <p className="text-gray-600 leading-relaxed">{description}</p>
               </div>
@@ -449,7 +449,7 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-12">
-            <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 font-semibold">
+            <Button variant="outline" className="border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-8 py-3 font-semibold">
               {t('projects.viewAll')}
             </Button>
           </div>
@@ -466,7 +466,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto space-y-8">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="flex gap-6 items-start">
-                <div className="flex-shrink-0 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">
+                <div className="flex-shrink-0 bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold">
                   {i}
                 </div>
                 <div>
@@ -487,7 +487,7 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="bg-blue-600 text-white border-0 shadow-xl">
+            <Card className="bg-red-700 text-white border-0 shadow-xl">
               <CardContent className="p-8">
                 <div className="mb-4">
                   <p className="text-blue-100 italic text-lg leading-relaxed">"{t('references.client1.text')}"</p>
@@ -496,7 +496,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="bg-blue-600 text-white border-0 shadow-xl">
+            <Card className="bg-red-700 text-white border-0 shadow-xl">
               <CardContent className="p-8">
                 <div className="mb-4">
                   <p className="text-blue-100 italic text-lg leading-relaxed">"{t('references.client2.text')}"</p>
@@ -533,7 +533,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="kontakt" className="py-20 bg-blue-600 text-white">
+      <section id="kontakt" className="py-20 bg-red-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('contact.title')}</h2>
@@ -580,14 +580,14 @@ export default function Home() {
             <div>
               <form className="space-y-4" onSubmit={handleFormSubmit}>
                 {formError && (
-                  <div className="bg-blue-700 border border-blue-500 rounded-md p-4 flex items-center gap-3">
+                  <div className="bg-red-800 border border-blue-500 rounded-md p-4 flex items-center gap-3">
                     <AlertCircle className="h-5 w-5 flex-shrink-0" />
                     <p className="text-sm">{formError}</p>
                   </div>
                 )}
 
                 {formSuccess && (
-                  <div className="bg-blue-700 border border-blue-500 rounded-md p-4 flex items-center gap-3">
+                  <div className="bg-red-800 border border-blue-500 rounded-md p-4 flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
                     <p className="text-sm">{t('contact.form.success')}</p>
                   </div>
@@ -655,7 +655,7 @@ export default function Home() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 text-lg"
+                  className="w-full bg-white text-red-700 hover:bg-gray-100 font-semibold py-3 text-lg"
                   disabled={formLoading}
                 >
                   {formLoading ? (
@@ -674,7 +674,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-700 text-white py-12">
+      <footer className="bg-red-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Contact Column */}
@@ -710,7 +710,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border-t border-blue-600 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-blue-100">
+          <div className="border-t border-red-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-blue-100">
             <p>{t('footer.copyright')}</p>
             <a href="#" className="hover:text-white mt-4 md:mt-0">{t('footer.privacy')}</a>
           </div>

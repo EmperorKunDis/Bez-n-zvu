@@ -15,7 +15,9 @@ import {
   Building2,
   Users,
   MessageSquare,
-  Globe
+  Globe,
+  User,
+  Lock
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -26,10 +28,12 @@ interface AdminLayoutProps {
   themeColor: string;
 }
 
-const ADMIN_PASSWORD = 'pj-admin-2024';
+const ADMIN_USERNAME = 'Admin';
+const ADMIN_PASSWORD = 'H3sl0Pr4utJ3d3';
 
 export function AdminLayout({ children, activeSection, onSectionChange, siteName, themeColor }: AdminLayoutProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -43,12 +47,12 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
       sessionStorage.setItem('admin-auth', 'true');
       setError('');
     } else {
-      setError('Nesprávné heslo');
+      setError('Nesprávné přihlašovací údaje');
     }
   };
 
@@ -86,19 +90,38 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
+                Uživatelské jméno
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Zadejte uživatelské jméno..."
+                  className="w-full pl-10"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Heslo
               </label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Zadejte heslo..."
-                className="w-full"
-              />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Zadejte heslo..."
+                  className="w-full pl-10"
+                />
+              </div>
             </div>
 
             {error && (
-              <p className="text-red-600 text-sm">{error}</p>
+              <p className="text-red-600 text-sm text-center">{error}</p>
             )}
 
             <Button
@@ -111,7 +134,7 @@ export function AdminLayout({ children, activeSection, onSectionChange, siteName
           </form>
 
           <p className="text-center text-xs text-gray-500 mt-6">
-            Pro přístup kontaktujte administrátora
+            Přístup pouze pro administrátory
           </p>
         </div>
       </div>

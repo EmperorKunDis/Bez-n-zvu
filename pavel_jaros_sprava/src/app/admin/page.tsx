@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ContentEditor } from '@/components/admin/ContentEditor';
 import { TranslationEditor } from '@/components/admin/TranslationEditor';
 import { ImageManager } from '@/components/admin/ImageManager';
+import { ThemeSettings } from '@/components/admin/ThemeSettings';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   FileText,
@@ -103,10 +104,22 @@ const contentSections = [
   },
 ];
 
-const THEME_COLOR = '#15803d'; // green-700
+const DEFAULT_THEME_COLOR = '#b91c1c'; // red-700
 
 export default function AdminPage() {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [themeColor, setThemeColor] = useState(DEFAULT_THEME_COLOR);
+
+  useEffect(() => {
+    const savedColor = localStorage.getItem('admin-theme-color');
+    if (savedColor) {
+      setThemeColor(savedColor);
+    }
+  }, []);
+
+  const handleThemeColorChange = (color: string) => {
+    setThemeColor(color);
+  };
 
   const handleSaveContent = async (sections: typeof contentSections) => {
     console.log('Saving content:', sections);
@@ -258,14 +271,14 @@ export default function AdminPage() {
           <ContentEditor
             sections={contentSections.filter(s => s.id === activeSection)}
             onSave={handleSaveContent}
-            themeColor={THEME_COLOR}
+            themeColor={themeColor}
           />
         );
 
       case 'translations':
         return (
           <TranslationEditor
-            themeColor={THEME_COLOR}
+            themeColor={themeColor}
             translations={{ cs: csTranslations }}
             onSave={handleSaveTranslations}
           />
@@ -275,22 +288,16 @@ export default function AdminPage() {
         return (
           <ImageManager
             images={sampleImages}
-            themeColor={THEME_COLOR}
+            themeColor={themeColor}
           />
         );
 
       case 'settings':
         return (
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Nastavení</h2>
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <p className="text-yellow-800">
-                  Pro změnu nastavení webu upravte konfigurační soubory projektu.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <ThemeSettings
+            currentColor={themeColor}
+            onColorChange={handleThemeColorChange}
+          />
         );
 
       default:
@@ -303,7 +310,7 @@ export default function AdminPage() {
       activeSection={activeSection}
       onSectionChange={setActiveSection}
       siteName="PJ Správa"
-      themeColor={THEME_COLOR}
+      themeColor={themeColor}
     >
       {renderContent()}
     </AdminLayout>
