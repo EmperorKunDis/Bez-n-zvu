@@ -251,15 +251,15 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Cookie Banner */}
-      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg p-3 z-50 border-b">
-        <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-3">
-          <p className="text-xs text-gray-600 flex-1 min-w-0">
+      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg border-b border-gray-200 p-4 z-50">
+        <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-4">
+          <p className="text-sm text-gray-700 flex-1 min-w-0 leading-relaxed">
             {t('cookie.message')}
           </p>
-          <div className="flex gap-2 flex-shrink-0">
-            <Button variant="outline" size="sm" className="text-xs">{t('cookie.reject')}</Button>
-            <Button className="bg-green-700 hover:bg-green-800 text-white text-xs" size="sm">{t('cookie.accept')}</Button>
-            <Button variant="outline" size="sm" className="text-xs">{t('cookie.preferences')}</Button>
+          <div className="flex gap-3 flex-shrink-0">
+            <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.reject')}</Button>
+            <Button className="bg-red-700 hover:bg-red-800 text-white shadow-sm" size="sm">{t('cookie.accept')}</Button>
+            <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">{t('cookie.preferences')}</Button>
           </div>
         </div>
       </div>
@@ -281,27 +281,27 @@ export default function Home() {
 
             {/* Navigation */}
             <nav className="hidden md:flex space-x-6">
-              <a href="#sluzby" className="text-gray-700 hover:text-green-700 transition-colors">{t('nav.services')}</a>
-              <a href="#cenik" className="text-gray-700 hover:text-green-700 transition-colors">{t('nav.pricing')}</a>
-              <a href="#proces" className="text-gray-700 hover:text-green-700 transition-colors">{t('nav.howItWorks')}</a>
-              <a href="#o-nas" className="text-gray-700 hover:text-green-700 transition-colors">{t('nav.about')}</a>
-              <a href="#reference" className="text-gray-700 hover:text-green-700 transition-colors">{t('nav.references')}</a>
-              <a href="#kontakt" className="text-gray-700 hover:text-green-700 transition-colors">{t('nav.contact')}</a>
+              <a href="#sluzby" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.services')}</a>
+              <a href="#cenik" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.pricing')}</a>
+              <a href="#proces" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.howItWorks')}</a>
+              <a href="#o-nas" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.about')}</a>
+              <a href="#reference" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.references')}</a>
+              <a href="#kontakt" className="text-gray-700 hover:text-red-700 transition-colors">{t('nav.contact')}</a>
             </nav>
 
             {/* Right side */}
             <div className="flex items-center space-x-4">
               {/* Phone */}
-              <div className="hidden lg:flex items-center text-green-700">
+              <div className="hidden lg:flex items-center text-red-700">
                 <Phone className="h-4 w-4 mr-2" />
                 <span className="text-sm font-semibold">+420 777 558 730</span>
               </div>
 
               {/* Social */}
               <div className="hidden lg:flex items-center space-x-3 text-gray-400">
-                <Facebook className="h-5 w-5 hover:text-green-700 transition-colors" />
-                <Instagram className="h-5 w-5 hover:text-green-700 transition-colors" />
-                <Linkedin className="h-5 w-5 hover:text-green-700 transition-colors" />
+                <Facebook className="h-5 w-5 hover:text-red-700 transition-colors" />
+                <Instagram className="h-5 w-5 hover:text-red-700 transition-colors" />
+                <Linkedin className="h-5 w-5 hover:text-red-700 transition-colors" />
               </div>
 
               {/* Language Switcher */}
@@ -321,7 +321,7 @@ export default function Home() {
                         key={lang.code}
                         onClick={() => handleLanguageChange(lang.code)}
                         className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center space-x-3 ${
-                          locale === lang.code ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700'
+                          locale === lang.code ? 'bg-red-50 text-red-700 font-semibold' : 'text-gray-700'
                         }`}
                       >
                         <span className="text-xl">{lang.flag}</span>
@@ -333,7 +333,7 @@ export default function Home() {
               </div>
 
               <Button
-                className="bg-green-700 hover:bg-green-800 text-white font-semibold"
+                className="bg-red-700 hover:bg-red-800 text-white font-semibold"
                 onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 {t('nav.cta')}
@@ -366,14 +366,14 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                  className="bg-green-700 hover:bg-green-800 text-white text-lg px-8 py-6 font-semibold"
+                  className="bg-red-700 hover:bg-red-800 text-white text-lg px-8 py-6 font-semibold"
                   onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   {t('hero.cta')}
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white/60 text-white hover:bg-white hover:text-green-700 text-lg px-8 py-6 font-semibold"
+                  className="border-white/60 text-white hover:bg-white hover:text-red-700 text-lg px-8 py-6 font-semibold"
                   onClick={() => document.getElementById('cenik')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   {t('nav.pricing')}
@@ -402,25 +402,25 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-2 hover:border-green-700 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <Building2 className="h-16 w-16 text-green-700 mx-auto mb-6" />
+                <Building2 className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('target.investor.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('target.investor.text')}</p>
               </CardContent>
             </Card>
 
-            <Card className="border-2 hover:border-green-700 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <Globe className="h-16 w-16 text-green-700 mx-auto mb-6" />
+                <Globe className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('target.remote.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('target.remote.text')}</p>
               </CardContent>
             </Card>
 
-            <Card className="border-2 hover:border-green-700 transition-all hover:shadow-xl">
+            <Card className="border-2 hover:border-red-700 transition-all hover:shadow-xl">
               <CardContent className="p-8 text-center">
-                <Clock className="h-16 w-16 text-green-700 mx-auto mb-6" />
+                <Clock className="h-16 w-16 text-red-700 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('target.time.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('target.time.text')}</p>
               </CardContent>
@@ -440,7 +440,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex flex-col items-start text-left md:items-center md:text-center space-y-4">
-                <div className="bg-green-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold md:mx-auto">
+                <div className="bg-red-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold md:mx-auto">
                   {step}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">{t(`process.step${step}.title`)}</h3>
@@ -464,7 +464,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             <Card>
               <CardContent className="p-8">
-                <Shield className="h-12 w-12 text-green-700 mb-4" />
+                <Shield className="h-12 w-12 text-red-700 mb-4" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('benefits.tenants.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('benefits.tenants.text')}</p>
               </CardContent>
@@ -472,7 +472,7 @@ export default function Home() {
 
             <Card>
               <CardContent className="p-8">
-                <TrendingUp className="h-12 w-12 text-green-700 mb-4" />
+                <TrendingUp className="h-12 w-12 text-red-700 mb-4" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('benefits.guarantee.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('benefits.guarantee.text')}</p>
               </CardContent>
@@ -480,7 +480,7 @@ export default function Home() {
 
             <Card>
               <CardContent className="p-8">
-                <Wrench className="h-12 w-12 text-green-700 mb-4" />
+                <Wrench className="h-12 w-12 text-red-700 mb-4" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('benefits.management.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('benefits.management.text')}</p>
               </CardContent>
@@ -488,7 +488,7 @@ export default function Home() {
 
             <Card>
               <CardContent className="p-8">
-                <FileCheck className="h-12 w-12 text-green-700 mb-4" />
+                <FileCheck className="h-12 w-12 text-red-700 mb-4" />
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{t('benefits.legal.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">{t('benefits.legal.text')}</p>
               </CardContent>
@@ -511,26 +511,26 @@ export default function Home() {
                 key={tariff.id}
                 className={`relative h-full border-2 transition-all ${
                   tariff.highlight
-                    ? 'border-green-700 shadow-xl bg-white'
-                    : 'border-white hover:border-green-700 hover:shadow-lg'
+                    ? 'border-red-700 shadow-xl bg-white'
+                    : 'border-white hover:border-red-700 hover:shadow-lg'
                 }`}
               >
                 {tariff.badge && (
-                  <div className="absolute top-4 right-4 bg-green-700 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  <div className="absolute top-4 right-4 bg-red-700 text-white px-4 py-1 rounded-full text-sm font-semibold">
                     {tariff.badge}
                   </div>
                 )}
                 <CardContent className="p-8 flex flex-col h-full">
                   <div className="space-y-2">
                     <h3 className="text-3xl font-bold text-gray-900">{tariff.name}</h3>
-                    <div className="text-4xl font-bold text-green-700">{tariff.price}</div>
+                    <div className="text-4xl font-bold text-red-700">{tariff.price}</div>
                     <p className="text-gray-600 leading-relaxed">{tariff.description}</p>
                   </div>
 
                   <div className="space-y-3 my-8">
                     {tariff.features.map((feature, index) => (
                       <div key={`${tariff.id}-feature-${index}`} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-700 mt-0.5 flex-shrink-0" />
+                        <Check className="h-5 w-5 text-red-700 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700 leading-relaxed">
                           {feature}
                         </span>
@@ -542,8 +542,8 @@ export default function Home() {
                     variant={tariff.highlight ? 'default' : 'outline'}
                     className={`mt-auto w-full font-semibold ${
                       tariff.highlight
-                        ? 'bg-green-700 hover:bg-green-800 text-white'
-                        : 'border-green-700 text-green-700 hover:bg-green-700 hover:text-white'
+                        ? 'bg-red-700 hover:bg-red-800 text-white'
+                        : 'border-red-700 text-red-700 hover:bg-red-700 hover:text-white'
                     }`}
                     onClick={() => document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' })}
                   >
@@ -584,16 +584,16 @@ export default function Home() {
             <p className="text-lg text-gray-600 mb-8 text-center">{t('about.group.subtitle')}</p>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-700 transition-all">
-                <h4 className="text-xl font-bold mb-2 text-green-700">PJ-Reality</h4>
+              <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-red-700 transition-all">
+                <h4 className="text-xl font-bold mb-2 text-red-700">PJ-Reality</h4>
                 <p className="text-gray-600">{t('about.group.reality')}</p>
               </div>
-              <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-700 transition-all">
-                <h4 className="text-xl font-bold mb-2 text-green-700">PJ-Rekonstrukce</h4>
+              <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-red-700 transition-all">
+                <h4 className="text-xl font-bold mb-2 text-red-700">PJ-Rekonstrukce</h4>
                 <p className="text-gray-600">{t('about.group.reconstruction')}</p>
               </div>
-              <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-700 transition-all">
-                <h4 className="text-xl font-bold mb-2 text-green-700">PJ-Design</h4>
+              <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-red-700 transition-all">
+                <h4 className="text-xl font-bold mb-2 text-red-700">PJ-Design</h4>
                 <p className="text-gray-600">{t('about.group.design')}</p>
               </div>
             </div>
@@ -609,21 +609,21 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="bg-green-700 text-white border-0 shadow-xl">
+            <Card className="bg-red-700 text-white border-0 shadow-xl">
               <CardContent className="p-8">
                 <div className="mb-4">
                   <h3 className="font-bold text-xl mb-1">{t('references.client1.name')}</h3>
-                  <p className="text-green-200 text-sm">{t('references.client1.subtitle')}</p>
+                  <p className="text-red-200 text-sm">{t('references.client1.subtitle')}</p>
                 </div>
                 <p className="text-green-100 leading-relaxed italic">"{t('references.client1.text')}"</p>
               </CardContent>
             </Card>
 
-            <Card className="bg-green-700 text-white border-0 shadow-xl">
+            <Card className="bg-red-700 text-white border-0 shadow-xl">
               <CardContent className="p-8">
                 <div className="mb-4">
                   <h3 className="font-bold text-xl mb-1">{t('references.client2.name')}</h3>
-                  <p className="text-green-200 text-sm">{t('references.client2.subtitle')}</p>
+                  <p className="text-red-200 text-sm">{t('references.client2.subtitle')}</p>
                 </div>
                 <p className="text-green-100 leading-relaxed italic">"{t('references.client2.text')}"</p>
               </CardContent>
@@ -663,7 +663,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="kontakt" className="py-20 bg-green-700 text-white">
+      <section id="kontakt" className="py-20 bg-red-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">{t('contact.title')}</h2>
@@ -773,7 +773,7 @@ export default function Home() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-white text-green-700 hover:bg-gray-100 font-semibold py-3 text-lg"
+                  className="w-full bg-white text-red-700 hover:bg-gray-100 font-semibold py-3 text-lg"
                   disabled={formLoading}
                 >
                   {formLoading ? (
@@ -792,7 +792,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-green-800 text-white py-12">
+      <footer className="bg-red-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Contact Column */}
@@ -828,15 +828,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border-t border-green-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-green-100">
+          <div className="border-t border-red-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-green-100">
             <p>{t('footer.copyright')}</p>
             <a href="#" className="hover:text-white mt-4 md:mt-0">{t('footer.privacy')}</a>
           </div>
 
           <div className="flex justify-center space-x-6 mt-8">
-            <Facebook className="h-6 w-6 hover:text-green-200 cursor-pointer transition-colors" />
-            <Instagram className="h-6 w-6 hover:text-green-200 cursor-pointer transition-colors" />
-            <Linkedin className="h-6 w-6 hover:text-green-200 cursor-pointer transition-colors" />
+            <Facebook className="h-6 w-6 hover:text-red-200 cursor-pointer transition-colors" />
+            <Instagram className="h-6 w-6 hover:text-red-200 cursor-pointer transition-colors" />
+            <Linkedin className="h-6 w-6 hover:text-red-200 cursor-pointer transition-colors" />
           </div>
         </div>
       </footer>
