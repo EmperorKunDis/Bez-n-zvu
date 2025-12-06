@@ -1,306 +1,233 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AdminLayout, siteData, adminTheme } from '@/components/admin/AdminLayout';
-import { Dashboard } from '@/components/admin/Dashboard';
-import { ContentEditor } from '@/components/admin/ContentEditor';
-import { TranslationEditor } from '@/components/admin/TranslationEditor';
-import { ImageManager } from '@/components/admin/ImageManager';
-import { ThemeSettings } from '@/components/admin/ThemeSettings';
-import { VisualEditor } from '@/components/admin/VisualEditor';
-import { Search } from 'lucide-react';
+import {
+  Home, Phone, Briefcase, User, Star, Globe, Image as ImageIcon,
+  ChevronDown, ChevronUp, Check, X, Pencil, RefreshCw,
+  Hammer, Layers, Eye, ArrowUpRight, Clock, HelpCircle, AlertCircle, Users
+} from 'lucide-react';
 
 // ═══════════════════════════════════════════════════════════════════════════
-// PJ REKONSTRUKCE ADMIN - Standalone Admin Panel
+// PJ REKONSTRUKCE ADMIN - Real Translation Editor
+// Loads and saves to /messages/*.json via API
 // ═══════════════════════════════════════════════════════════════════════════
 
 const SITE_COLOR = '#F59E0B';
+const LOCALES = ['cs', 'en', 'de', 'pl', 'sk', 'ru'];
 
-// Content sections for Rekonstrukce
-const getContentSections = () => {
-  const sections = siteData.sections;
-  const result: {
-    id: string;
-    title: string;
-    description: string;
-    fields: { key: string; label: string; type: 'text' | 'textarea' | 'image'; value: string }[];
-  }[] = [];
-
-  // Hero Section
-  result.push({
-    id: 'hero',
-    title: 'Hero sekce',
-    description: 'Hlavní banner na úvodní stránce',
-    fields: [
-      { key: 'hero.title', label: 'Hlavní nadpis', type: 'text', value: sections.hero.title },
-      { key: 'hero.subtitle', label: 'Podnadpis', type: 'textarea', value: sections.hero.subtitle },
-      { key: 'hero.ctaPrimary', label: 'CTA primární', type: 'text', value: sections.hero.ctaPrimary },
-      { key: 'hero.ctaSecondary', label: 'CTA sekundární', type: 'text', value: sections.hero.ctaSecondary },
-    ]
-  });
-
-  // Services
-  const serviceFields = sections.services.flatMap((service, index) => [
-    { key: `services.${index}.title`, label: `Služba ${index + 1} - Název`, type: 'text' as const, value: service.title },
-    { key: `services.${index}.description`, label: `Služba ${index + 1} - Popis`, type: 'textarea' as const, value: service.description },
-  ]);
-  result.push({
-    id: 'services',
-    title: 'Služby',
-    description: 'Nabízené služby',
-    fields: serviceFields,
-  });
-
-  // Projects
-  const projectFields = sections.projects.map((project, index) => ({
-    key: `projects.${index}`,
-    label: `Projekt ${index + 1}`,
-    type: 'text' as const,
-    value: `${project.name} - ${project.location}`,
-  }));
-  result.push({
-    id: 'projects',
-    title: 'Realizace',
-    description: 'Dokončené projekty',
-    fields: projectFields,
-  });
-
-  // Why us
-  const whyFields = sections.why.map((item, index) => ({
-    key: `why.${index}`,
-    label: item.title,
-    type: 'textarea' as const,
-    value: item.text,
-  }));
-  result.push({
-    id: 'why',
-    title: 'Proč my',
-    description: 'Proč si vybrat nás',
-    fields: whyFields,
-  });
-
-  // Process
-  const processFields = sections.process.map((step) => ({
-    key: `process.${step.step}`,
-    label: `Krok ${step.step}: ${step.title}`,
-    type: 'textarea' as const,
-    value: step.text,
-  }));
-  result.push({
-    id: 'process',
-    title: 'Proces',
-    description: 'Jak to funguje',
-    fields: processFields,
-  });
-
-  // References
-  const refFields = sections.references.flatMap((ref, index) => [
-    { key: `references.${index}.name`, label: `Reference ${index + 1} - Jméno`, type: 'text' as const, value: ref.name },
-    { key: `references.${index}.text`, label: `Reference ${index + 1} - Text`, type: 'textarea' as const, value: ref.text },
-  ]);
-  result.push({
-    id: 'references',
-    title: 'Reference',
-    description: 'Reference klientů',
-    fields: refFields,
-  });
-
-  // Contact
-  result.push({
-    id: 'contact',
-    title: 'Kontakt',
-    description: 'Kontaktní informace',
-    fields: [
-      { key: 'contact.phone', label: 'Telefon', type: 'text', value: sections.contact.phone },
-      { key: 'contact.email', label: 'E-mail', type: 'text', value: sections.contact.email },
-      { key: 'contact.address', label: 'Adresa', type: 'text', value: sections.contact.address },
-      { key: 'contact.hours', label: 'Pracovní doba', type: 'text', value: sections.contact.hours },
-    ],
-  });
-
-  return result;
-};
-
-// Translations
-const csTranslations = {
-  nav: {
-    home: "Domů",
-    services: "Služby",
-    projects: "Realizace",
-    references: "Reference",
-    contact: "Kontakt",
-    cta: "Spočítat cenu rekonstrukce"
-  },
-  hero: {
-    title: "Proměníme vaše sny v realitu.",
-    subtitle: "Kompletní rekonstrukce bytů a domů v Karlovarském kraji.",
-    ctaPrimary: "Spočítat cenu rekonstrukce",
-    ctaSecondary: "Prohlédnout realizace"
-  },
-  services: {
-    title: "Naše služby",
-    cores: {
-      title: "Rekonstrukce bytových jader",
-      text: "Modernizujeme umakartová i zděná jádra."
-    },
-    apartments: {
-      title: "Kompletní rekonstrukce bytů",
-      text: "Od bouracích prací po finální povrchy."
-    },
-    houses: {
-      title: "Rekonstrukce rodinných domů",
-      text: "Vnitřní i vnější rekonstrukce domů."
-    }
-  },
-  contact: {
-    phone: "+420 777 558 730",
-    email: "pavel.jaros@kwcz.cz"
-  }
-};
+// Translation sections matching the EXACT structure from cs.json
+const SECTIONS = [
+  { id: 'nav', title: 'Navigace', icon: Home, keys: ['home', 'services', 'projects', 'about', 'contact', 'cta'] },
+  { id: 'hero', title: 'Hero sekce', icon: Home, keys: ['title', 'subtitle', 'ctaPrimary', 'ctaSecondary'] },
+  { id: 'services', title: 'Služby', icon: Briefcase, keys: ['title'], nested: {
+    'cores': ['title', 'text'],
+    'apartments': ['title', 'text'],
+    'houses': ['title', 'text'],
+    'crafts': ['title', 'text']
+  }},
+  { id: 'why', title: 'Proč my', icon: HelpCircle, keys: ['title'], nested: {
+    'one': ['title', 'text'],
+    'two': ['title', 'text'],
+    'three': ['title', 'text'],
+    'four': ['title', 'text']
+  }},
+  { id: 'projects', title: 'Realizace', icon: ImageIcon, keys: ['title', 'subtitle', 'viewAll', 'before', 'after'], nested: {
+    'project1': ['name', 'location'],
+    'project2': ['name', 'location'],
+    'project3': ['name', 'location']
+  }},
+  { id: 'process', title: 'Proces', icon: Clock, keys: ['title'], nested: {
+    'step1': ['title', 'text'],
+    'step2': ['title', 'text'],
+    'step3': ['title', 'text'],
+    'step4': ['title', 'text'],
+    'step5': ['title', 'text']
+  }},
+  { id: 'references', title: 'Reference', icon: Star, keys: ['title'], nested: {
+    'client1': ['name', 'location', 'text'],
+    'client2': ['name', 'location', 'text']
+  }},
+  { id: 'contact', title: 'Kontakt', icon: Phone, keys: ['title', 'subtitle', 'phone', 'email', 'address', 'hours', 'ico'], nested: {
+    'form': ['name', 'email', 'phone', 'service', 'message', 'files', 'gdpr', 'submit', 'sending', 'success', 'error']
+  }},
+  { id: 'footer', title: 'Patička', icon: Layers, keys: ['copyright', 'privacy'], nested: {
+    'contact': ['title', 'name', 'phone', 'email', 'ico', 'address'],
+    'services': ['title', 'reality', 'management', 'design'],
+    'info': ['title', 'services', 'projects', 'process']
+  }},
+  { id: 'cookie', title: 'Cookies', icon: AlertCircle, keys: ['message', 'accept', 'reject', 'preferences'] },
+];
 
 export default function AdminPage() {
-  const [activeSection, setActiveSection] = useState('dashboard');
+  const [activeLocale, setActiveLocale] = useState('cs');
+  const [translations, setTranslations] = useState<Record<string, unknown>>({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [expandedSection, setExpandedSection] = useState<string | null>('hero');
+  const [editingKey, setEditingKey] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState('');
 
-  const handleSaveContent = async (sections: ReturnType<typeof getContentSections>) => {
-    console.log('Saving content:', sections);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  useEffect(() => { loadTranslations(); }, [activeLocale]);
+
+  const loadTranslations = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/translations?locale=${activeLocale}`);
+      const data = await response.json();
+      if (data.translations) setTranslations(data.translations);
+    } catch (error) { console.error('Failed to load translations:', error); }
+    setLoading(false);
   };
 
-  const handleSaveTranslations = async (locale: string, translations: Record<string, unknown>) => {
-    console.log('Saving translations for', locale, translations);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  };
-
-  const contentSections = getContentSections();
-
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'dashboard':
-        return <Dashboard onNavigate={setActiveSection} />;
-
-      case 'visual-editor':
-        return (
-          <VisualEditor
-            themeColor={SITE_COLOR}
-            onSave={(elements) => console.log('Saving elements:', elements)}
-          />
-        );
-
-      case 'hero':
-      case 'services':
-      case 'projects':
-      case 'why':
-      case 'process':
-      case 'references':
-      case 'contact':
-        return (
-          <div
-            className="rounded-xl p-6"
-            style={{
-              backgroundColor: '#1A1A1F',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}
-          >
-            <ContentEditor
-              sections={contentSections.filter(s => s.id === activeSection)}
-              onSave={handleSaveContent}
-              themeColor={SITE_COLOR}
-            />
-          </div>
-        );
-
-      case 'translations':
-        return (
-          <TranslationEditor
-            themeColor={SITE_COLOR}
-            translations={{ cs: csTranslations }}
-            onSave={handleSaveTranslations}
-          />
-        );
-
-      case 'images':
-        return (
-          <div
-            className="rounded-xl p-6"
-            style={{
-              backgroundColor: '#1A1A1F',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}
-          >
-            <ImageManager
-              images={siteData.images}
-              themeColor={SITE_COLOR}
-            />
-          </div>
-        );
-
-      case 'seo':
-        return (
-          <div
-            className="rounded-xl p-6"
-            style={{
-              backgroundColor: '#1A1A1F',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Search className="w-6 h-6" style={{ color: SITE_COLOR }} />
-              <h2 className="text-xl font-bold text-white">SEO & Meta nastavení</h2>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Meta Title</label>
-                <input
-                  type="text"
-                  defaultValue="PJ Rekonstrukce - Proměníme vaše sny v realitu"
-                  className="w-full h-12 px-4 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Meta Description</label>
-                <textarea
-                  rows={3}
-                  defaultValue="Kompletní rekonstrukce bytů a domů v Karlovarském kraji. Bytová jádra, byty, rodinné domy - profesionální přístup a kvalitní práce."
-                  className="w-full px-4 py-3 rounded-lg bg-[#0F0F12] border border-white/10 text-white focus:outline-none focus:border-white/30 resize-none"
-                />
-              </div>
-              <button
-                className="px-6 py-3 rounded-lg text-white font-medium"
-                style={{ background: SITE_COLOR }}
-              >
-                Uložit SEO nastavení
-              </button>
-            </div>
-          </div>
-        );
-
-      case 'settings':
-        return (
-          <div
-            className="rounded-xl p-6"
-            style={{
-              backgroundColor: '#1A1A1F',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}
-          >
-            <ThemeSettings
-              currentColor={SITE_COLOR}
-              onColorChange={(color) => console.log('Theme color changed:', color)}
-            />
-          </div>
-        );
-
-      default:
-        return null;
+  const getValue = (key: string): string => {
+    const keys = key.split('.');
+    let current: unknown = translations;
+    for (const k of keys) {
+      if (current && typeof current === 'object' && k in current) {
+        current = (current as Record<string, unknown>)[k];
+      } else { return ''; }
     }
+    return typeof current === 'string' ? current : '';
+  };
+
+  const saveValue = async (key: string, value: string) => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/translations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locale: activeLocale, key, value })
+      });
+      if (response.ok) {
+        const keys = key.split('.');
+        const newTranslations = JSON.parse(JSON.stringify(translations));
+        let current: Record<string, unknown> = newTranslations;
+        for (let i = 0; i < keys.length - 1; i++) {
+          if (!current[keys[i]]) current[keys[i]] = {};
+          current = current[keys[i]] as Record<string, unknown>;
+        }
+        current[keys[keys.length - 1]] = value;
+        setTranslations(newTranslations);
+        setSaveStatus('success');
+        setTimeout(() => setSaveStatus('idle'), 2000);
+      } else { setSaveStatus('error'); }
+    } catch (error) { console.error('Failed to save:', error); setSaveStatus('error'); }
+    setSaving(false);
+    setEditingKey(null);
+  };
+
+  const renderField = (fullKey: string, label: string) => {
+    const value = getValue(fullKey);
+    const isEditing = editingKey === fullKey;
+    const isLongText = value.length > 100;
+    return (
+      <div key={fullKey} className="p-4 rounded-lg" style={{ background: adminTheme.bg.tertiary }}>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <label className="block text-xs font-medium text-gray-500 mb-1">{fullKey}</label>
+            <label className="block text-sm font-medium text-gray-400 mb-2">{label}</label>
+            {isEditing ? (
+              <div className="space-y-3">
+                {isLongText ? (
+                  <textarea value={editValue} onChange={(e) => setEditValue(e.target.value)} rows={4} className="w-full px-4 py-3 rounded-lg text-sm focus:outline-none resize-none" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />
+                ) : (
+                  <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />
+                )}
+                <div className="flex items-center gap-2">
+                  <button onClick={() => saveValue(fullKey, editValue)} disabled={saving} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-white" style={{ background: SITE_COLOR }}>
+                    {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}Uložit
+                  </button>
+                  <button onClick={() => setEditingKey(null)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium" style={{ background: adminTheme.bg.accent, color: adminTheme.text.secondary }}><X className="w-4 h-4" />Zrušit</button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-white text-sm whitespace-pre-wrap">{value || <span className="text-gray-500 italic">Prázdné</span>}</p>
+            )}
+          </div>
+          {!isEditing && (
+            <button onClick={() => { setEditingKey(fullKey); setEditValue(value); }} className="p-2 rounded-lg flex-shrink-0 hover:bg-white/10" style={{ color: adminTheme.text.muted }}><Pencil className="w-4 h-4" /></button>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderSection = (section: typeof SECTIONS[0]) => {
+    const isExpanded = expandedSection === section.id;
+    const Icon = section.icon;
+    return (
+      <div key={section.id} className="rounded-xl overflow-hidden" style={{ background: adminTheme.bg.secondary, border: `1px solid ${isExpanded ? SITE_COLOR + '50' : adminTheme.border.subtle}` }}>
+        <button onClick={() => setExpandedSection(isExpanded ? null : section.id)} className="w-full p-5 flex items-center justify-between" style={{ background: isExpanded ? `${SITE_COLOR}10` : 'transparent' }}>
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${SITE_COLOR}20` }}><Icon className="w-5 h-5" style={{ color: SITE_COLOR }} /></div>
+            <div className="text-left"><h3 className="font-semibold text-white">{section.title}</h3><p className="text-sm text-gray-400">{section.id}</p></div>
+          </div>
+          {isExpanded ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
+        </button>
+        {isExpanded && (
+          <div className="p-5 pt-0 space-y-3" style={{ borderTop: `1px solid ${adminTheme.border.subtle}` }}>
+            {section.keys.map(key => renderField(`${section.id}.${key}`, key))}
+            {section.nested && Object.entries(section.nested).map(([nestedKey, nestedFields]) => (
+              <div key={nestedKey} className="mt-4">
+                <h4 className="text-sm font-semibold text-gray-300 mb-2 pl-2">{section.id}.{nestedKey}</h4>
+                <div className="space-y-3 pl-4 border-l-2" style={{ borderColor: `${SITE_COLOR}40` }}>
+                  {nestedFields.map(field => renderField(`${section.id}.${nestedKey}.${field}`, field))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
-    <AdminLayout
-      activeSection={activeSection}
-      onSectionChange={setActiveSection}
-    >
-      {renderContent()}
+    <AdminLayout activeSection="dashboard" onSectionChange={() => {}}>
+      <div className="space-y-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: SITE_COLOR }}><Hammer className="w-6 h-6 text-white" /></div>
+            <div><h1 className="text-2xl font-bold text-white">PJ Rekonstrukce - Editor obsahu</h1><p className="text-gray-400">Upravujte překlady přímo v messages/{activeLocale}.json</p></div>
+          </div>
+          <div className="flex items-center gap-3">
+            {saveStatus === 'success' && <span className="flex items-center gap-2 text-green-400 text-sm"><Check className="w-4 h-4" /> Uloženo</span>}
+            {saveStatus === 'error' && <span className="flex items-center gap-2 text-red-400 text-sm"><X className="w-4 h-4" /> Chyba</span>}
+            <a href="/" target="_blank" className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.secondary }}><Eye className="w-4 h-4" />Náhled<ArrowUpRight className="w-4 h-4" /></a>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-4 rounded-xl" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
+          <Globe className="w-5 h-5" style={{ color: SITE_COLOR }} /><span className="text-gray-400 text-sm">Jazyk:</span>
+          <div className="flex gap-2">
+            {LOCALES.map(locale => (<button key={locale} onClick={() => setActiveLocale(locale)} className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all" style={{ background: activeLocale === locale ? SITE_COLOR : adminTheme.bg.tertiary, color: activeLocale === locale ? 'white' : adminTheme.text.secondary }}>{locale.toUpperCase()}</button>))}
+          </div>
+          <button onClick={loadTranslations} className="ml-auto p-2 rounded-lg hover:bg-white/10" style={{ color: adminTheme.text.muted }}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></button>
+        </div>
+
+        <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
+          <div className="flex items-center gap-3 mb-6"><ImageIcon className="w-6 h-6" style={{ color: SITE_COLOR }} /><div><h2 className="text-lg font-bold text-white">Obrázky webu</h2><p className="text-sm text-gray-400">Skutečné obrázky z /public</p></div></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {siteData.images.map((img, i) => (<div key={i} className="rounded-xl overflow-hidden" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}` }}><div className="aspect-video bg-black/30 flex items-center justify-center p-4"><img src={img.path} alt={img.name} className="max-h-full max-w-full object-contain" /></div><div className="p-3"><p className="text-sm font-medium text-white truncate">{img.name}</p><p className="text-xs text-gray-400">{img.path}</p></div></div>))}
+          </div>
+        </div>
+
+        {loading ? (<div className="flex items-center justify-center py-12"><RefreshCw className="w-8 h-8 animate-spin" style={{ color: SITE_COLOR }} /></div>) : (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between"><h2 className="text-lg font-bold text-white">Sekce obsahu ({activeLocale.toUpperCase()})</h2><p className="text-sm text-gray-400">Kliknutím rozbalíte sekci</p></div>
+            {SECTIONS.map(section => renderSection(section))}
+          </div>
+        )}
+
+        <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
+          <h3 className="text-lg font-semibold text-white mb-4">Jak to funguje</h3>
+          <div className="space-y-2 text-sm text-gray-400">
+            <p>1. Vyberte jazyk • 2. Rozbalte sekci • 3. Klikněte na tužku • 4. Upravte a uložte</p>
+            <p className="text-yellow-500">Po úpravě restartujte dev server pro zobrazení změn na webu.</p>
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 }
