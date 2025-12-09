@@ -4,49 +4,48 @@ import { useState, useEffect } from 'react';
 import { AdminLayout, siteData, adminTheme } from '@/components/admin/AdminLayout';
 import {
   Home, Phone, Briefcase, User, Star, Globe, Image as ImageIcon,
-  ChevronDown, ChevronUp, Check, X, Pencil, RefreshCw,
-  Hammer, Layers, Eye, ArrowUpRight, Clock, HelpCircle, AlertCircle, Users
+  ChevronDown, ChevronUp, Check, X, Pencil,
+  Hammer, Layers, Eye, ArrowUpRight, Upload, AlertCircle, HelpCircle, Clock, Key, RefreshCw, Settings
 } from 'lucide-react';
 
-// ═══════════════════════════════════════════════════════════════════════════
-// PJ REKONSTRUKCE ADMIN - Real Translation Editor
-// Loads and saves to /messages/*.json via API
-// ═══════════════════════════════════════════════════════════════════════════
+// Import translations directly
+import csTranslations from '../../../messages/cs.json';
+import enTranslations from '../../../messages/en.json';
+import deTranslations from '../../../messages/de.json';
+import plTranslations from '../../../messages/pl.json';
+import skTranslations from '../../../messages/sk.json';
+import ruTranslations from '../../../messages/ru.json';
 
 const SITE_COLOR = '#F59E0B';
-const LOCALES = ['cs', 'en', 'de', 'pl', 'sk', 'ru'];
+const LOCALES = ['cs', 'en', 'de', 'pl', 'sk', 'ru'] as const;
+const SITE_FOLDER = 'pavel_jaros_rekonstrukce';
 
-// Translation sections matching the EXACT structure from cs.json
+// Default Cloudflare Worker URL - update after deployment
+const WORKER_URL = 'https://pj-admin-github-proxy.workers.dev';
+
+const translationFiles: Record<string, Record<string, unknown>> = {
+  cs: csTranslations, en: enTranslations, de: deTranslations,
+  pl: plTranslations, sk: skTranslations, ru: ruTranslations,
+};
+
 const SECTIONS = [
   { id: 'nav', title: 'Navigace', icon: Home, keys: ['home', 'services', 'projects', 'about', 'contact', 'cta'] },
   { id: 'hero', title: 'Hero sekce', icon: Home, keys: ['title', 'subtitle', 'ctaPrimary', 'ctaSecondary'] },
   { id: 'services', title: 'Služby', icon: Briefcase, keys: ['title'], nested: {
-    'cores': ['title', 'text'],
-    'apartments': ['title', 'text'],
-    'houses': ['title', 'text'],
-    'crafts': ['title', 'text']
+    'cores': ['title', 'text'], 'apartments': ['title', 'text'], 'houses': ['title', 'text'], 'crafts': ['title', 'text']
   }},
   { id: 'why', title: 'Proč my', icon: HelpCircle, keys: ['title'], nested: {
-    'one': ['title', 'text'],
-    'two': ['title', 'text'],
-    'three': ['title', 'text'],
-    'four': ['title', 'text']
+    'one': ['title', 'text'], 'two': ['title', 'text'], 'three': ['title', 'text'], 'four': ['title', 'text']
   }},
   { id: 'projects', title: 'Realizace', icon: ImageIcon, keys: ['title', 'subtitle', 'viewAll', 'before', 'after'], nested: {
-    'project1': ['name', 'location'],
-    'project2': ['name', 'location'],
-    'project3': ['name', 'location']
+    'project1': ['name', 'location'], 'project2': ['name', 'location'], 'project3': ['name', 'location']
   }},
   { id: 'process', title: 'Proces', icon: Clock, keys: ['title'], nested: {
-    'step1': ['title', 'text'],
-    'step2': ['title', 'text'],
-    'step3': ['title', 'text'],
-    'step4': ['title', 'text'],
-    'step5': ['title', 'text']
+    'step1': ['title', 'text'], 'step2': ['title', 'text'], 'step3': ['title', 'text'],
+    'step4': ['title', 'text'], 'step5': ['title', 'text']
   }},
   { id: 'references', title: 'Reference', icon: Star, keys: ['title'], nested: {
-    'client1': ['name', 'location', 'text'],
-    'client2': ['name', 'location', 'text']
+    'client1': ['name', 'location', 'text'], 'client2': ['name', 'location', 'text']
   }},
   { id: 'contact', title: 'Kontakt', icon: Phone, keys: ['title', 'subtitle', 'phone', 'email', 'address', 'hours', 'ico'], nested: {
     'form': ['name', 'email', 'phone', 'service', 'message', 'files', 'gdpr', 'submit', 'sending', 'success', 'error']
@@ -60,25 +59,36 @@ const SECTIONS = [
 ];
 
 export default function AdminPage() {
-  const [activeLocale, setActiveLocale] = useState('cs');
+  const [activeLocale, setActiveLocale] = useState<typeof LOCALES[number]>('cs');
   const [translations, setTranslations] = useState<Record<string, unknown>>({});
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [expandedSection, setExpandedSection] = useState<string | null>('hero');
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
+  const [hasChanges, setHasChanges] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [workerUrl, setWorkerUrl] = useState(WORKER_URL);
+  const [showSettings, setShowSettings] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
-  useEffect(() => { loadTranslations(); }, [activeLocale]);
+  useEffect(() => {
+    const savedPassword = localStorage.getItem('admin_password');
+    const savedUrl = localStorage.getItem('worker_url');
+    if (savedPassword) setAdminPassword(savedPassword);
+    if (savedUrl) setWorkerUrl(savedUrl);
+  }, []);
 
-  const loadTranslations = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/translations?locale=${activeLocale}`);
-      const data = await response.json();
-      if (data.translations) setTranslations(data.translations);
-    } catch (error) { console.error('Failed to load translations:', error); }
-    setLoading(false);
+  useEffect(() => {
+    setTranslations(JSON.parse(JSON.stringify(translationFiles[activeLocale])));
+    setHasChanges(false);
+  }, [activeLocale]);
+
+  const saveSettings = () => {
+    localStorage.setItem('admin_password', adminPassword);
+    localStorage.setItem('worker_url', workerUrl);
+    setShowSettings(false);
+    setStatusMessage('Nastavení uloženo');
+    setTimeout(() => setStatusMessage(''), 2000);
   };
 
   const getValue = (key: string): string => {
@@ -92,30 +102,57 @@ export default function AdminPage() {
     return typeof current === 'string' ? current : '';
   };
 
-  const saveValue = async (key: string, value: string) => {
-    setSaving(true);
-    try {
-      const response = await fetch('/api/translations', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ locale: activeLocale, key, value })
-      });
-      if (response.ok) {
-        const keys = key.split('.');
-        const newTranslations = JSON.parse(JSON.stringify(translations));
-        let current: Record<string, unknown> = newTranslations;
-        for (let i = 0; i < keys.length - 1; i++) {
-          if (!current[keys[i]]) current[keys[i]] = {};
-          current = current[keys[i]] as Record<string, unknown>;
-        }
-        current[keys[keys.length - 1]] = value;
-        setTranslations(newTranslations);
-        setSaveStatus('success');
-        setTimeout(() => setSaveStatus('idle'), 2000);
-      } else { setSaveStatus('error'); }
-    } catch (error) { console.error('Failed to save:', error); setSaveStatus('error'); }
-    setSaving(false);
+  const setValue = (key: string, value: string) => {
+    const keys = key.split('.');
+    const newTranslations = JSON.parse(JSON.stringify(translations));
+    let current: Record<string, unknown> = newTranslations;
+    for (let i = 0; i < keys.length - 1; i++) {
+      if (!current[keys[i]]) current[keys[i]] = {};
+      current = current[keys[i]] as Record<string, unknown>;
+    }
+    current[keys[keys.length - 1]] = value;
+    setTranslations(newTranslations);
+    setHasChanges(true);
     setEditingKey(null);
+  };
+
+  const uploadToGitHub = async () => {
+    setUploadStatus('uploading');
+    setStatusMessage('Nahrávám na GitHub...');
+
+    try {
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+
+      if (adminPassword) {
+        headers['X-Admin-Password'] = adminPassword;
+      }
+
+      const response = await fetch(`${workerUrl}/api/translations`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          site: SITE_FOLDER,
+          locale: activeLocale,
+          translations: translations
+        })
+      });
+
+      if (response.ok) {
+        setUploadStatus('success');
+        setStatusMessage(`${activeLocale}.json úspěšně nahráno na GitHub!`);
+        setHasChanges(false);
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Upload failed');
+      }
+    } catch (error) {
+      setUploadStatus('error');
+      setStatusMessage(`Chyba: ${error instanceof Error ? error.message : 'Neznámá chyba'}`);
+    }
+
+    setTimeout(() => { setUploadStatus('idle'); setStatusMessage(''); }, 4000);
   };
 
   const renderField = (fullKey: string, label: string) => {
@@ -136,9 +173,7 @@ export default function AdminPage() {
                   <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />
                 )}
                 <div className="flex items-center gap-2">
-                  <button onClick={() => saveValue(fullKey, editValue)} disabled={saving} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-white" style={{ background: SITE_COLOR }}>
-                    {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}Uložit
-                  </button>
+                  <button onClick={() => setValue(fullKey, editValue)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-white" style={{ background: SITE_COLOR }}><Check className="w-4 h-4" />Použít</button>
                   <button onClick={() => setEditingKey(null)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium" style={{ background: adminTheme.bg.accent, color: adminTheme.text.secondary }}><X className="w-4 h-4" />Zrušit</button>
                 </div>
               </div>
@@ -189,43 +224,58 @@ export default function AdminPage() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: SITE_COLOR }}><Hammer className="w-6 h-6 text-white" /></div>
-            <div><h1 className="text-2xl font-bold text-white">PJ Rekonstrukce - Editor obsahu</h1><p className="text-gray-400">Upravujte překlady přímo v messages/{activeLocale}.json</p></div>
+            <div><h1 className="text-2xl font-bold text-white">PJ Rekonstrukce - Editor obsahu</h1><p className="text-gray-400">Upravujte texty a ukládejte přímo na GitHub</p></div>
           </div>
           <div className="flex items-center gap-3">
-            {saveStatus === 'success' && <span className="flex items-center gap-2 text-green-400 text-sm"><Check className="w-4 h-4" /> Uloženo</span>}
-            {saveStatus === 'error' && <span className="flex items-center gap-2 text-red-400 text-sm"><X className="w-4 h-4" /> Chyba</span>}
+            {statusMessage && (
+              <span className={`text-sm ${uploadStatus === 'success' ? 'text-green-400' : uploadStatus === 'error' ? 'text-red-400' : 'text-yellow-400'}`}>
+                {statusMessage}
+              </span>
+            )}
+            {hasChanges && !statusMessage && <span className="text-yellow-400 text-sm">Neuložené změny</span>}
+            <button onClick={() => setShowSettings(!showSettings)} className="p-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}` }}>
+              <Settings className="w-4 h-4" style={{ color: adminTheme.text.muted }} />
+            </button>
+            <button onClick={uploadToGitHub} disabled={uploadStatus === 'uploading' || !hasChanges} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-medium disabled:opacity-50" style={{ background: SITE_COLOR }}>
+              {uploadStatus === 'uploading' ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+              Uložit na GitHub
+            </button>
             <a href="/" target="_blank" className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.secondary }}><Eye className="w-4 h-4" />Náhled<ArrowUpRight className="w-4 h-4" /></a>
           </div>
         </div>
+
+        {showSettings && (
+          <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${SITE_COLOR}50` }}>
+            <div className="flex items-center gap-3 mb-4">
+              <Settings className="w-5 h-5" style={{ color: SITE_COLOR }} />
+              <h3 className="text-lg font-semibold text-white">Nastavení</h3>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Worker URL</label>
+                <input type="text" value={workerUrl} onChange={(e) => setWorkerUrl(e.target.value)} placeholder="https://pj-admin-github-proxy.workers.dev" className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.primary }} />
+                <p className="text-xs text-gray-500 mt-1">URL vašeho Cloudflare Worker</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Admin heslo (volitelné)</label>
+                <input type="password" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} placeholder="heslo" className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.primary }} />
+                <p className="text-xs text-gray-500 mt-1">Pokud je worker chráněn heslem</p>
+              </div>
+              <button onClick={saveSettings} className="px-4 py-2 rounded-lg text-white font-medium" style={{ background: SITE_COLOR }}>Uložit nastavení</button>
+            </div>
+          </div>
+        )}
 
         <div className="flex items-center gap-3 p-4 rounded-xl" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
           <Globe className="w-5 h-5" style={{ color: SITE_COLOR }} /><span className="text-gray-400 text-sm">Jazyk:</span>
           <div className="flex gap-2">
             {LOCALES.map(locale => (<button key={locale} onClick={() => setActiveLocale(locale)} className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all" style={{ background: activeLocale === locale ? SITE_COLOR : adminTheme.bg.tertiary, color: activeLocale === locale ? 'white' : adminTheme.text.secondary }}>{locale.toUpperCase()}</button>))}
           </div>
-          <button onClick={loadTranslations} className="ml-auto p-2 rounded-lg hover:bg-white/10" style={{ color: adminTheme.text.muted }}><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></button>
         </div>
 
-        <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
-          <div className="flex items-center gap-3 mb-6"><ImageIcon className="w-6 h-6" style={{ color: SITE_COLOR }} /><div><h2 className="text-lg font-bold text-white">Obrázky webu</h2><p className="text-sm text-gray-400">Skutečné obrázky z /public</p></div></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {siteData.images.map((img, i) => (<div key={i} className="rounded-xl overflow-hidden" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}` }}><div className="aspect-video bg-black/30 flex items-center justify-center p-4"><img src={img.path} alt={img.name} className="max-h-full max-w-full object-contain" /></div><div className="p-3"><p className="text-sm font-medium text-white truncate">{img.name}</p><p className="text-xs text-gray-400">{img.path}</p></div></div>))}
-          </div>
-        </div>
-
-        {loading ? (<div className="flex items-center justify-center py-12"><RefreshCw className="w-8 h-8 animate-spin" style={{ color: SITE_COLOR }} /></div>) : (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between"><h2 className="text-lg font-bold text-white">Sekce obsahu ({activeLocale.toUpperCase()})</h2><p className="text-sm text-gray-400">Kliknutím rozbalíte sekci</p></div>
-            {SECTIONS.map(section => renderSection(section))}
-          </div>
-        )}
-
-        <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
-          <h3 className="text-lg font-semibold text-white mb-4">Jak to funguje</h3>
-          <div className="space-y-2 text-sm text-gray-400">
-            <p>1. Vyberte jazyk • 2. Rozbalte sekci • 3. Klikněte na tužku • 4. Upravte a uložte</p>
-            <p className="text-yellow-500">Po úpravě restartujte dev server pro zobrazení změn na webu.</p>
-          </div>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between"><h2 className="text-lg font-bold text-white">Sekce obsahu ({activeLocale.toUpperCase()})</h2></div>
+          {SECTIONS.map(section => renderSection(section))}
         </div>
       </div>
     </AdminLayout>
