@@ -1,0 +1,13 @@
+name = "pj-admin-github-proxy"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# The GitHub token will be added as a secret:
+# wrangler secret put GITHUB_TOKEN
+
+# Optional: Add password protection
+# wrangler secret put ADMIN_PASSWORD
+
+[vars]
+GITHUB_REPO = "EmperorKunDis/Bez-n-zvu"
+ALLOWED_ORIGINS = "https://pj-reality.pages.dev,https://pj-design.pages.dev,https://pj-rekonstrukce.pages.dev,https://pj-sprava.pages.dev,http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:3003"
