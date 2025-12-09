@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { AdminLayout, siteData, adminTheme } from '@/components/admin/AdminLayout';
+import { AdminLayout, adminTheme } from '@/components/admin/AdminLayout';
 import {
   Home, Phone, Briefcase, User, Star, Globe, Image as ImageIcon,
   ChevronDown, ChevronUp, Check, X, Pencil,
-  Palette, Layers, Eye, ArrowUpRight, Upload, AlertCircle, BookOpen, Sparkles, Clock, RefreshCw, Settings
+  Palette, Layers, Eye, Upload, AlertCircle, BookOpen, Sparkles, Clock, Key, RefreshCw
 } from 'lucide-react';
 
 import csTranslations from '../../../messages/cs.json';
@@ -17,8 +17,8 @@ import ruTranslations from '../../../messages/ru.json';
 
 const SITE_COLOR = '#8B5CF6';
 const LOCALES = ['cs', 'en', 'de', 'pl', 'sk', 'ru'] as const;
+const GITHUB_REPO = 'EmperorKunDis/Bez-n-zvu';
 const SITE_FOLDER = 'pavel_jaros_design';
-const WORKER_URL = 'https://pj-admin-github-proxy.workers.dev';
 
 const translationFiles: Record<string, Record<string, unknown>> = {
   cs: csTranslations, en: enTranslations, de: deTranslations,
@@ -62,17 +62,14 @@ export default function AdminPage() {
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
   const [hasChanges, setHasChanges] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [workerUrl, setWorkerUrl] = useState(WORKER_URL);
-  const [showSettings, setShowSettings] = useState(false);
+  const [githubToken, setGithubToken] = useState('');
+  const [showTokenInput, setShowTokenInput] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
-    const savedPassword = localStorage.getItem('admin_password');
-    const savedWorkerUrl = localStorage.getItem('worker_url');
-    if (savedPassword) setAdminPassword(savedPassword);
-    if (savedWorkerUrl) setWorkerUrl(savedWorkerUrl);
+    const saved = localStorage.getItem('github_token');
+    if (saved) setGithubToken(saved);
   }, []);
 
   useEffect(() => {
@@ -80,11 +77,10 @@ export default function AdminPage() {
     setHasChanges(false);
   }, [activeLocale]);
 
-  const saveSettings = () => {
-    localStorage.setItem('admin_password', adminPassword);
-    localStorage.setItem('worker_url', workerUrl);
-    setShowSettings(false);
-    setStatusMessage('Nastavení uloženo');
+  const saveToken = () => {
+    localStorage.setItem('github_token', githubToken);
+    setShowTokenInput(false);
+    setStatusMessage('Token uložen');
     setTimeout(() => setStatusMessage(''), 2000);
   };
 
@@ -94,7 +90,7 @@ export default function AdminPage() {
     for (const k of keys) {
       if (current && typeof current === 'object' && k in current) {
         current = (current as Record<string, unknown>)[k];
-      } else { return ''; }
+      } else return '';
     }
     return typeof current === 'string' ? current : '';
   };
@@ -114,45 +110,69 @@ export default function AdminPage() {
   };
 
   const uploadToGitHub = async () => {
-    if (!workerUrl) { setShowSettings(true); setStatusMessage('Nastavte URL Cloudflare Workeru'); return; }
+    if (!githubToken) { setShowTokenInput(true); return; }
+
     setUploadStatus('uploading');
     setStatusMessage('Ukládám...');
+
     try {
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (adminPassword) headers['X-Admin-Password'] = adminPassword;
-      const response = await fetch(`${workerUrl}/api/translations`, {
-        method: 'PUT', headers,
-        body: JSON.stringify({ site: SITE_FOLDER, locale: activeLocale, translations })
+      const filePath = `${SITE_FOLDER}/messages/${activeLocale}.json`;
+      const content = JSON.stringify(translations, null, 2);
+
+      const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
+        headers: { 'Authorization': `token ${githubToken}` }
       });
-      const data = await response.json();
-      if (response.ok) { setUploadStatus('success'); setStatusMessage(`${activeLocale}.json úspěšně uloženo!`); setHasChanges(false); }
-      else { throw new Error(data.error || 'Upload failed'); }
-    } catch (error) { setUploadStatus('error'); setStatusMessage(`Chyba: ${error instanceof Error ? error.message : 'Neznámá chyba'}`); }
-    setTimeout(() => { setUploadStatus('idle'); setStatusMessage(''); }, 4000);
+      const sha = getRes.ok ? (await getRes.json()).sha : undefined;
+
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `Update ${activeLocale}.json`,
+          content: btoa(unescape(encodeURIComponent(content))),
+          sha
+        })
+      });
+
+      if (res.ok) {
+        setUploadStatus('success');
+        setStatusMessage('Uloženo!');
+        setHasChanges(false);
+      } else throw new Error((await res.json()).message);
+    } catch (e) {
+      setUploadStatus('error');
+      setStatusMessage(`Chyba: ${e instanceof Error ? e.message : 'Neznámá'}`);
+    }
+    setTimeout(() => { setUploadStatus('idle'); setStatusMessage(''); }, 3000);
   };
 
   const renderField = (fullKey: string, label: string) => {
     const value = getValue(fullKey);
     const isEditing = editingKey === fullKey;
-    const isLongText = value.length > 100;
     return (
       <div key={fullKey} className="p-4 rounded-lg" style={{ background: adminTheme.bg.tertiary }}>
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <label className="block text-xs font-medium text-gray-500 mb-1">{fullKey}</label>
-            <label className="block text-sm font-medium text-gray-400 mb-2">{label}</label>
+            <label className="block text-xs text-gray-500 mb-1">{fullKey}</label>
             {isEditing ? (
-              <div className="space-y-3">
-                {isLongText ? <textarea value={editValue} onChange={(e) => setEditValue(e.target.value)} rows={4} className="w-full px-4 py-3 rounded-lg text-sm focus:outline-none resize-none" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />
-                : <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />}
-                <div className="flex items-center gap-2">
-                  <button onClick={() => setValue(fullKey, editValue)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-white" style={{ background: SITE_COLOR }}><Check className="w-4 h-4" />Použít</button>
-                  <button onClick={() => setEditingKey(null)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium" style={{ background: adminTheme.bg.accent, color: adminTheme.text.secondary }}><X className="w-4 h-4" />Zrušit</button>
+              <div className="space-y-2">
+                {value.length > 100 ? (
+                  <textarea value={editValue} onChange={(e) => setEditValue(e.target.value)} rows={3} className="w-full px-3 py-2 rounded-lg text-sm" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />
+                ) : (
+                  <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} className="w-full h-10 px-3 rounded-lg text-sm" style={{ background: adminTheme.bg.primary, border: `2px solid ${SITE_COLOR}`, color: adminTheme.text.primary }} autoFocus />
+                )}
+                <div className="flex gap-2">
+                  <button onClick={() => setValue(fullKey, editValue)} className="flex items-center gap-1 px-3 py-1.5 rounded text-sm text-white" style={{ background: SITE_COLOR }}><Check className="w-4 h-4" />OK</button>
+                  <button onClick={() => setEditingKey(null)} className="flex items-center gap-1 px-3 py-1.5 rounded text-sm" style={{ background: adminTheme.bg.accent, color: adminTheme.text.secondary }}><X className="w-4 h-4" /></button>
                 </div>
               </div>
-            ) : <p className="text-white text-sm whitespace-pre-wrap">{value || <span className="text-gray-500 italic">Prázdné</span>}</p>}
+            ) : (
+              <p className="text-white text-sm">{value || <span className="text-gray-500 italic">prázdné</span>}</p>
+            )}
           </div>
-          {!isEditing && <button onClick={() => { setEditingKey(fullKey); setEditValue(value); }} className="p-2 rounded-lg flex-shrink-0 hover:bg-white/10" style={{ color: adminTheme.text.muted }}><Pencil className="w-4 h-4" /></button>}
+          {!isEditing && (
+            <button onClick={() => { setEditingKey(fullKey); setEditValue(value); }} className="p-2 rounded hover:bg-white/10"><Pencil className="w-4 h-4 text-gray-400" /></button>
+          )}
         </div>
       </div>
     );
@@ -163,22 +183,20 @@ export default function AdminPage() {
     const Icon = section.icon;
     return (
       <div key={section.id} className="rounded-xl overflow-hidden" style={{ background: adminTheme.bg.secondary, border: `1px solid ${isExpanded ? SITE_COLOR + '50' : adminTheme.border.subtle}` }}>
-        <button onClick={() => setExpandedSection(isExpanded ? null : section.id)} className="w-full p-5 flex items-center justify-between" style={{ background: isExpanded ? `${SITE_COLOR}10` : 'transparent' }}>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `${SITE_COLOR}20` }}><Icon className="w-5 h-5" style={{ color: SITE_COLOR }} /></div>
-            <div className="text-left"><h3 className="font-semibold text-white">{section.title}</h3><p className="text-sm text-gray-400">{section.id}</p></div>
+        <button onClick={() => setExpandedSection(isExpanded ? null : section.id)} className="w-full p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${SITE_COLOR}20` }}><Icon className="w-4 h-4" style={{ color: SITE_COLOR }} /></div>
+            <span className="font-medium text-white">{section.title}</span>
           </div>
           {isExpanded ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
         </button>
         {isExpanded && (
-          <div className="p-5 pt-0 space-y-3" style={{ borderTop: `1px solid ${adminTheme.border.subtle}` }}>
+          <div className="p-4 pt-0 space-y-2">
             {section.keys.map(key => renderField(`${section.id}.${key}`, key))}
-            {section.nested && Object.entries(section.nested).map(([nestedKey, nestedFields]) => (
-              <div key={nestedKey} className="mt-4">
-                <h4 className="text-sm font-semibold text-gray-300 mb-2 pl-2">{section.id}.{nestedKey}</h4>
-                <div className="space-y-3 pl-4 border-l-2" style={{ borderColor: `${SITE_COLOR}40` }}>
-                  {nestedFields.map(field => renderField(`${section.id}.${nestedKey}.${field}`, field))}
-                </div>
+            {section.nested && Object.entries(section.nested).map(([nk, fields]) => (
+              <div key={nk} className="mt-3 pl-3 border-l-2" style={{ borderColor: `${SITE_COLOR}40` }}>
+                <p className="text-xs text-gray-400 mb-2">{section.id}.{nk}</p>
+                {fields.map(f => renderField(`${section.id}.${nk}.${f}`, f))}
               </div>
             ))}
           </div>
@@ -189,38 +207,42 @@ export default function AdminPage() {
 
   return (
     <AdminLayout activeSection="dashboard" onSectionChange={() => {}}>
-      <div className="space-y-8">
+      <div className="space-y-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: SITE_COLOR }}><Palette className="w-6 h-6 text-white" /></div>
-            <div><h1 className="text-2xl font-bold text-white">PJ Design - Editor obsahu</h1><p className="text-gray-400">Upravujte texty a ukládejte přímo na GitHub</p></div>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: SITE_COLOR }}><Palette className="w-5 h-5 text-white" /></div>
+            <div><h1 className="text-xl font-bold text-white">PJ Design - Editor</h1></div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {statusMessage && <span className={`text-sm ${uploadStatus === 'success' ? 'text-green-400' : uploadStatus === 'error' ? 'text-red-400' : 'text-yellow-400'}`}>{statusMessage}</span>}
-            {hasChanges && !statusMessage && <span className="text-yellow-400 text-sm">Neuložené změny</span>}
-            <button onClick={() => setShowSettings(!showSettings)} className="p-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${workerUrl !== WORKER_URL || adminPassword ? '#10B981' : adminTheme.border.medium}` }}><Settings className="w-4 h-4" style={{ color: workerUrl !== WORKER_URL || adminPassword ? '#10B981' : adminTheme.text.muted }} /></button>
-            <button onClick={uploadToGitHub} disabled={uploadStatus === 'uploading' || !hasChanges} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-medium disabled:opacity-50" style={{ background: SITE_COLOR }}>{uploadStatus === 'uploading' ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}Uložit</button>
-            <a href="/" target="_blank" className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.secondary }}><Eye className="w-4 h-4" />Náhled<ArrowUpRight className="w-4 h-4" /></a>
+            {hasChanges && !statusMessage && <span className="text-yellow-400 text-sm">●</span>}
+            <button onClick={() => setShowTokenInput(!showTokenInput)} className="p-2 rounded-lg" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${githubToken ? '#10B981' : adminTheme.border.medium}` }}>
+              <Key className="w-4 h-4" style={{ color: githubToken ? '#10B981' : adminTheme.text.muted }} />
+            </button>
+            <button onClick={uploadToGitHub} disabled={uploadStatus === 'uploading' || !hasChanges} className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium disabled:opacity-50" style={{ background: SITE_COLOR }}>
+              {uploadStatus === 'uploading' ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+              Uložit
+            </button>
+            <a href="/" target="_blank" className="p-2 rounded-lg" style={{ background: adminTheme.bg.tertiary }}><Eye className="w-4 h-4 text-gray-400" /></a>
           </div>
         </div>
-        {showSettings && (
-          <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${SITE_COLOR}50` }}>
-            <div className="flex items-center gap-3 mb-4"><Settings className="w-5 h-5" style={{ color: SITE_COLOR }} /><h3 className="text-lg font-semibold text-white">Nastavení</h3></div>
-            <div className="space-y-4">
-              <div><label className="block text-sm text-gray-400 mb-2">Worker URL</label><input type="text" value={workerUrl} onChange={(e) => setWorkerUrl(e.target.value)} placeholder="https://pj-admin-github-proxy.xxx.workers.dev" className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.primary }} /></div>
-              <div><label className="block text-sm text-gray-400 mb-2">Admin heslo (volitelné)</label><input type="password" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} placeholder="Heslo pro přístup" className="w-full h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.primary }} /></div>
-              <button onClick={saveSettings} className="px-4 py-2 rounded-lg text-white font-medium" style={{ background: SITE_COLOR }}>Uložit nastavení</button>
+
+        {showTokenInput && (
+          <div className="p-4 rounded-xl" style={{ background: adminTheme.bg.secondary, border: `1px solid ${SITE_COLOR}50` }}>
+            <p className="text-sm text-gray-400 mb-2">GitHub Token <a href="https://github.com/settings/tokens/new" target="_blank" className="text-blue-400">(vytvořit)</a></p>
+            <div className="flex gap-2">
+              <input type="password" value={githubToken} onChange={(e) => setGithubToken(e.target.value)} placeholder="ghp_..." className="flex-1 h-9 px-3 rounded text-sm" style={{ background: adminTheme.bg.primary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.primary }} />
+              <button onClick={saveToken} className="px-4 py-1.5 rounded text-white text-sm" style={{ background: SITE_COLOR }}>Uložit</button>
             </div>
           </div>
         )}
-        <div className="flex items-center gap-3 p-4 rounded-xl" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
-          <Globe className="w-5 h-5" style={{ color: SITE_COLOR }} /><span className="text-gray-400 text-sm">Jazyk:</span>
-          <div className="flex gap-2">{LOCALES.map(locale => (<button key={locale} onClick={() => setActiveLocale(locale)} className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all" style={{ background: activeLocale === locale ? SITE_COLOR : adminTheme.bg.tertiary, color: activeLocale === locale ? 'white' : adminTheme.text.secondary }}>{locale.toUpperCase()}</button>))}</div>
+
+        <div className="flex items-center gap-2 p-3 rounded-xl" style={{ background: adminTheme.bg.secondary }}>
+          <Globe className="w-4 h-4" style={{ color: SITE_COLOR }} />
+          {LOCALES.map(l => (<button key={l} onClick={() => setActiveLocale(l)} className="px-3 py-1 rounded text-sm" style={{ background: activeLocale === l ? SITE_COLOR : 'transparent', color: activeLocale === l ? 'white' : adminTheme.text.secondary }}>{l.toUpperCase()}</button>))}
         </div>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between"><h2 className="text-lg font-bold text-white">Sekce obsahu ({activeLocale.toUpperCase()})</h2></div>
-          {SECTIONS.map(section => renderSection(section))}
-        </div>
+
+        <div className="space-y-3">{SECTIONS.map(s => renderSection(s))}</div>
       </div>
     </AdminLayout>
   );
