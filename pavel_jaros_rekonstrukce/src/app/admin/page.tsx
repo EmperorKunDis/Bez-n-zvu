@@ -5,7 +5,7 @@ import { AdminLayout, siteData, adminTheme } from '@/components/admin/AdminLayou
 import {
   Home, Phone, Briefcase, User, Star, Globe, Image as ImageIcon,
   ChevronDown, ChevronUp, Check, X, Pencil,
-  Hammer, Layers, Eye, ArrowUpRight, Download, AlertCircle, HelpCircle, Clock
+  Hammer, Layers, Eye, ArrowUpRight, Upload, AlertCircle, HelpCircle, Clock, Key, RefreshCw
 } from 'lucide-react';
 
 // Import translations directly
@@ -18,46 +18,32 @@ import ruTranslations from '../../../messages/ru.json';
 
 const SITE_COLOR = '#F59E0B';
 const LOCALES = ['cs', 'en', 'de', 'pl', 'sk', 'ru'] as const;
+const GITHUB_REPO = 'EmperorKunDis/Bez-n-zvu';
+const SITE_FOLDER = 'pavel_jaros_rekonstrukce';
 
 const translationFiles: Record<string, Record<string, unknown>> = {
-  cs: csTranslations,
-  en: enTranslations,
-  de: deTranslations,
-  pl: plTranslations,
-  sk: skTranslations,
-  ru: ruTranslations,
+  cs: csTranslations, en: enTranslations, de: deTranslations,
+  pl: plTranslations, sk: skTranslations, ru: ruTranslations,
 };
 
 const SECTIONS = [
   { id: 'nav', title: 'Navigace', icon: Home, keys: ['home', 'services', 'projects', 'about', 'contact', 'cta'] },
   { id: 'hero', title: 'Hero sekce', icon: Home, keys: ['title', 'subtitle', 'ctaPrimary', 'ctaSecondary'] },
   { id: 'services', title: 'Služby', icon: Briefcase, keys: ['title'], nested: {
-    'cores': ['title', 'text'],
-    'apartments': ['title', 'text'],
-    'houses': ['title', 'text'],
-    'crafts': ['title', 'text']
+    'cores': ['title', 'text'], 'apartments': ['title', 'text'], 'houses': ['title', 'text'], 'crafts': ['title', 'text']
   }},
   { id: 'why', title: 'Proč my', icon: HelpCircle, keys: ['title'], nested: {
-    'one': ['title', 'text'],
-    'two': ['title', 'text'],
-    'three': ['title', 'text'],
-    'four': ['title', 'text']
+    'one': ['title', 'text'], 'two': ['title', 'text'], 'three': ['title', 'text'], 'four': ['title', 'text']
   }},
   { id: 'projects', title: 'Realizace', icon: ImageIcon, keys: ['title', 'subtitle', 'viewAll', 'before', 'after'], nested: {
-    'project1': ['name', 'location'],
-    'project2': ['name', 'location'],
-    'project3': ['name', 'location']
+    'project1': ['name', 'location'], 'project2': ['name', 'location'], 'project3': ['name', 'location']
   }},
   { id: 'process', title: 'Proces', icon: Clock, keys: ['title'], nested: {
-    'step1': ['title', 'text'],
-    'step2': ['title', 'text'],
-    'step3': ['title', 'text'],
-    'step4': ['title', 'text'],
-    'step5': ['title', 'text']
+    'step1': ['title', 'text'], 'step2': ['title', 'text'], 'step3': ['title', 'text'],
+    'step4': ['title', 'text'], 'step5': ['title', 'text']
   }},
   { id: 'references', title: 'Reference', icon: Star, keys: ['title'], nested: {
-    'client1': ['name', 'location', 'text'],
-    'client2': ['name', 'location', 'text']
+    'client1': ['name', 'location', 'text'], 'client2': ['name', 'location', 'text']
   }},
   { id: 'contact', title: 'Kontakt', icon: Phone, keys: ['title', 'subtitle', 'phone', 'email', 'address', 'hours', 'ico'], nested: {
     'form': ['name', 'email', 'phone', 'service', 'message', 'files', 'gdpr', 'submit', 'sending', 'success', 'error']
@@ -77,11 +63,27 @@ export default function AdminPage() {
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
   const [hasChanges, setHasChanges] = useState(false);
+  const [githubToken, setGithubToken] = useState('');
+  const [showSettings, setShowSettings] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('github_token');
+    if (saved) setGithubToken(saved);
+  }, []);
 
   useEffect(() => {
     setTranslations(JSON.parse(JSON.stringify(translationFiles[activeLocale])));
     setHasChanges(false);
   }, [activeLocale]);
+
+  const saveToken = () => {
+    localStorage.setItem('github_token', githubToken);
+    setShowSettings(false);
+    setStatusMessage('Token uložen');
+    setTimeout(() => setStatusMessage(''), 2000);
+  };
 
   const getValue = (key: string): string => {
     const keys = key.split('.');
@@ -108,14 +110,60 @@ export default function AdminPage() {
     setEditingKey(null);
   };
 
-  const downloadTranslations = () => {
-    const blob = new Blob([JSON.stringify(translations, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${activeLocale}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+  const uploadToGitHub = async () => {
+    if (!githubToken) {
+      setShowSettings(true);
+      setStatusMessage('Nejprve nastavte GitHub token');
+      return;
+    }
+
+    setUploadStatus('uploading');
+    setStatusMessage('Nahrávám na GitHub...');
+
+    try {
+      const filePath = `${SITE_FOLDER}/messages/${activeLocale}.json`;
+      const content = JSON.stringify(translations, null, 2);
+      const contentBase64 = btoa(unescape(encodeURIComponent(content)));
+
+      const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
+        headers: { 'Authorization': `token ${githubToken}`, 'Accept': 'application/vnd.github.v3+json' }
+      });
+
+      let sha = '';
+      if (getResponse.ok) {
+        const data = await getResponse.json();
+        sha = data.sha;
+      }
+
+      const updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${githubToken}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: `Update ${activeLocale}.json translations via admin panel`,
+          content: contentBase64,
+          sha: sha || undefined,
+          branch: 'main'
+        })
+      });
+
+      if (updateResponse.ok) {
+        setUploadStatus('success');
+        setStatusMessage(`${activeLocale}.json úspěšně nahráno na GitHub!`);
+        setHasChanges(false);
+      } else {
+        const error = await updateResponse.json();
+        throw new Error(error.message || 'Upload failed');
+      }
+    } catch (error) {
+      setUploadStatus('error');
+      setStatusMessage(`Chyba: ${error instanceof Error ? error.message : 'Neznámá chyba'}`);
+    }
+
+    setTimeout(() => { setUploadStatus('idle'); setStatusMessage(''); }, 4000);
   };
 
   const renderField = (fullKey: string, label: string) => {
@@ -187,24 +235,48 @@ export default function AdminPage() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: SITE_COLOR }}><Hammer className="w-6 h-6 text-white" /></div>
-            <div><h1 className="text-2xl font-bold text-white">PJ Rekonstrukce - Editor obsahu</h1><p className="text-gray-400">Upravte texty a stáhněte soubor {activeLocale}.json</p></div>
+            <div><h1 className="text-2xl font-bold text-white">PJ Rekonstrukce - Editor obsahu</h1><p className="text-gray-400">Upravujte texty a ukládejte přímo na GitHub</p></div>
           </div>
           <div className="flex items-center gap-3">
-            {hasChanges && <span className="text-yellow-400 text-sm">Máte neuložené změny</span>}
-            <button onClick={downloadTranslations} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-medium" style={{ background: SITE_COLOR }}><Download className="w-4 h-4" />Stáhnout {activeLocale}.json</button>
+            {statusMessage && (
+              <span className={`text-sm ${uploadStatus === 'success' ? 'text-green-400' : uploadStatus === 'error' ? 'text-red-400' : 'text-yellow-400'}`}>
+                {statusMessage}
+              </span>
+            )}
+            {hasChanges && !statusMessage && <span className="text-yellow-400 text-sm">Neuložené změny</span>}
+            <button onClick={() => setShowSettings(!showSettings)} className="p-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${githubToken ? '#10B981' : adminTheme.border.medium}` }}>
+              <Key className="w-4 h-4" style={{ color: githubToken ? '#10B981' : adminTheme.text.muted }} />
+            </button>
+            <button onClick={uploadToGitHub} disabled={uploadStatus === 'uploading' || !hasChanges} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-medium disabled:opacity-50" style={{ background: SITE_COLOR }}>
+              {uploadStatus === 'uploading' ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+              Uložit na GitHub
+            </button>
             <a href="/" target="_blank" className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ background: adminTheme.bg.tertiary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.secondary }}><Eye className="w-4 h-4" />Náhled<ArrowUpRight className="w-4 h-4" /></a>
           </div>
         </div>
+
+        {showSettings && (
+          <div className="rounded-xl p-6" style={{ background: adminTheme.bg.secondary, border: `1px solid ${SITE_COLOR}50` }}>
+            <div className="flex items-center gap-3 mb-4">
+              <Key className="w-5 h-5" style={{ color: SITE_COLOR }} />
+              <h3 className="text-lg font-semibold text-white">GitHub Token</h3>
+            </div>
+            <p className="text-gray-400 text-sm mb-4">
+              Pro ukládání na GitHub potřebujete Personal Access Token s oprávněním &quot;repo&quot;.
+              <a href="https://github.com/settings/tokens/new" target="_blank" className="text-blue-400 ml-1 hover:underline">Vytvořit token</a>
+            </p>
+            <div className="flex gap-3">
+              <input type="password" value={githubToken} onChange={(e) => setGithubToken(e.target.value)} placeholder="ghp_xxxxxxxxxxxx" className="flex-1 h-10 px-4 rounded-lg text-sm focus:outline-none" style={{ background: adminTheme.bg.primary, border: `1px solid ${adminTheme.border.medium}`, color: adminTheme.text.primary }} />
+              <button onClick={saveToken} className="px-4 py-2 rounded-lg text-white font-medium" style={{ background: SITE_COLOR }}>Uložit</button>
+            </div>
+          </div>
+        )}
 
         <div className="flex items-center gap-3 p-4 rounded-xl" style={{ background: adminTheme.bg.secondary, border: `1px solid ${adminTheme.border.subtle}` }}>
           <Globe className="w-5 h-5" style={{ color: SITE_COLOR }} /><span className="text-gray-400 text-sm">Jazyk:</span>
           <div className="flex gap-2">
             {LOCALES.map(locale => (<button key={locale} onClick={() => setActiveLocale(locale)} className="px-3 py-1.5 rounded-lg text-sm font-medium transition-all" style={{ background: activeLocale === locale ? SITE_COLOR : adminTheme.bg.tertiary, color: activeLocale === locale ? 'white' : adminTheme.text.secondary }}>{locale.toUpperCase()}</button>))}
           </div>
-        </div>
-
-        <div className="rounded-xl p-4" style={{ background: '#1a1a2e', border: '1px solid #F59E0B40' }}>
-          <p className="text-yellow-500 text-sm"><strong>Jak uložit změny:</strong> Po úpravách klikněte na &quot;Stáhnout {activeLocale}.json&quot; a nahraďte soubor v <code className="bg-black/30 px-1 rounded">messages/{activeLocale}.json</code></p>
         </div>
 
         <div className="space-y-4">
